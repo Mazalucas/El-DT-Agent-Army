@@ -110,6 +110,29 @@ class MemoryAgent(Agent):
         """
         return await self.memory_system.search(query, tags=tags, limit=limit)
 
+    async def search_semantic(
+        self,
+        query: str,
+        limit: int = 10,
+        threshold: float = 0.7,
+        tags: Optional[list] = None,
+    ) -> list:
+        """
+        Perform semantic search.
+
+        Args:
+            query: Search query
+            limit: Maximum results
+            threshold: Similarity threshold (0.0 - 1.0)
+            tags: Optional tags
+
+        Returns:
+            List of memory items sorted by similarity
+        """
+        return await self.memory_system.search_semantic(
+            query, limit=limit, threshold=threshold, tags=tags
+        )
+
     async def _process_message(
         self, message: AgentMessage
     ) -> Optional[AgentMessage]:

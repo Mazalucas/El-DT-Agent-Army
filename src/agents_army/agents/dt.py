@@ -5,11 +5,26 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from agents_army.core.agent import Agent, AgentConfig, LLMProvider
-from agents_army.core.models import Project, Task, TaskAssignment, TaskResult
+from agents_army.core.autonomy import DTAutonomyEngine, DecisionHistory
+from agents_army.core.models import (
+    AgentConflict,
+    ActionResult,
+    ConflictResolution,
+    Decision,
+    Project,
+    Situation,
+    Task,
+    TaskAssignment,
+    TaskResult,
+)
 from agents_army.protocol.message import AgentMessage
 from agents_army.core.rules import RulesChecker, RulesLoader
 from agents_army.core.system import AgentSystem
+from agents_army.core.task_decomposer import TaskDecomposer
+from agents_army.core.task_scheduler import TaskScheduler
 from agents_army.core.task_storage import TaskStorage
+from agents_army.mcp.models import MCPServerConfig, MCPTool
+from agents_army.mcp.server import MCPServer
 from agents_army.protocol.types import AgentRole, MessageType
 
 
@@ -70,6 +85,19 @@ class DT(Agent):
         self.current_project: Optional[Project] = None
         self.rules_checker: Optional[RulesChecker] = None
         self.system: Optional[AgentSystem] = None
+        self.mcp_servers: Dict[str, MCPServer] = {}
+        
+        # Initialize autonomy engine
+        rules_loader = RulesLoader()
+        rules = rules_loader.load_all_rules(str(self.project_path))
+        self.autonomy_engine: Optional[DTAutonomyEngine] = DTAutonomyEngine(
+            rules_loader=rules_loader,
+            history=DecisionHistory(),
+        )
+        
+        # Initialize task decomposer and scheduler
+        self.task_decomposer = TaskDecomposer(llm_provider=llm_provider)
+        self.task_scheduler = TaskScheduler()
 
     def set_system(self, system: AgentSystem) -> None:
         """
@@ -402,6 +430,199 @@ Return JSON:
             "result": result,
             "sources": [],
         }
+
+    async def synthesize_results(
+        self, task_results: List[TaskResult]
+    ) -> TaskResult:
+        """
+        Synthesize results from multiple agents into a single result.
+
+        Args:
+            task_results: List of task results from different agents
+
+        Returns:
+            Synthesized task result
+        """
+        if not task_results:
+            raise ValueError("Cannot synthesize empty results list")
+
+        # Get the first task ID (all should be for the same task)
+        task_id = task_results[0].task_id
+
+        # Build synthesis prompt
+        prompt = f"""Synthesize the following results from multiple agents for task {task_id}:
+
+"""
+        for i, result in enumerate(task_results):
+            prompt += f"Agent {i+1} Result:\n"
+            prompt += f"Status: {result.status}\n"
+            prompt += f"Result: {result.result}\n"
+            if result.error:
+                prompt += f"Error: {result.error}\n"
+            if result.quality_score:
+                prompt += f"Quality Score: {result.quality_score}\n"
+            prompt += "\n"
+
+        prompt += """
+Provide a comprehensive synthesis that:
+1. Combines the best insights from all agents
+2. Resolves any contradictions
+3. Provides a unified conclusion
+4. Maintains quality and accuracy
+
+Return the synthesized result.
+"""
+
+        synthesized_text = await self.generate_response(prompt)
+
+        # Calculate average quality score
+        quality_scores = [
+            r.quality_score for r in task_results if r.quality_score
+        ]
+        avg_quality = (
+            sum(quality_scores) / len(quality_scores)
+            if quality_scores
+            else None
+        )
+
+        # Determine overall status
+        all_successful = all(r.is_successful() for r in task_results)
+        status = "completed" if all_successful else "partial"
+
+        return TaskResult(
+            task_id=task_id,
+            status=status,
+            result={"synthesized": synthesized_text, "sources": len(task_results)},
+            quality_score=avg_quality,
+            agent_id=self.id,
+        )
+
+    async def resolve_conflict(
+        self, conflict: AgentConflict
+    ) -> ConflictResolution:
+        """
+        Resolve conflicts between agents.
+
+        Args:
+            conflict: Agent conflict to resolve
+
+        Returns:
+            Conflict resolution
+        """
+        # Build conflict resolution prompt
+        prompt = f"""Resolve the following conflict between agents:
+
+Conflict Type: {conflict.conflict_type}
+Severity: {conflict.severity}
+Description: {conflict.description}
+
+Agent Opinions:
+"""
+        for agent_role, opinion in conflict.agent_opinions.items():
+            prompt += f"\n{agent_role.value}:\n"
+            prompt += f"{opinion}\n"
+
+        prompt += """
+Analyze the conflict and provide a resolution that:
+1. Considers all agent perspectives
+2. Aligns with project goals and rules
+3. Provides clear reasoning
+4. Chooses the best approach or creates a compromise
+
+Return:
+- resolution_type: "merge" | "choose_one" | "compromise" | "escalate"
+- chosen_approach: Description of the chosen approach
+- reasoning: Explanation of why this resolution was chosen
+"""
+
+        resolution_text = await self.generate_response(prompt)
+
+        # Parse resolution (simple heuristic)
+        resolution_type = "compromise"
+        if "choose" in resolution_text.lower() or "select" in resolution_text.lower():
+            resolution_type = "choose_one"
+        elif "merge" in resolution_text.lower() or "combine" in resolution_text.lower():
+            resolution_type = "merge"
+        elif "escalate" in resolution_text.lower() or "human" in resolution_text.lower():
+            resolution_type = "escalate"
+
+        return ConflictResolution(
+            conflict_id=conflict.conflict_id,
+            resolution_type=resolution_type,
+            chosen_approach={"description": resolution_text},
+            reasoning=resolution_text,
+            resolved_by=self.role,
+            success=True,
+        )
+
+    async def setup_mcp_server(
+        self, server_config: MCPServerConfig
+    ) -> MCPServer:
+        """
+        Setup an MCP server for El DT.
+
+        Args:
+            server_config: MCP server configuration
+
+        Returns:
+            Configured MCP server
+        """
+        server = MCPServer(server_config)
+        self.mcp_servers[server_config.name] = server
+        return server
+
+    async def register_mcp_tool(
+        self,
+        tool: MCPTool,
+        server_name: Optional[str] = None,
+        accessible_by: Optional[List[AgentRole]] = None,
+    ) -> None:
+        """
+        Register an MCP tool for use by agents.
+
+        Args:
+            tool: MCP tool to register
+            server_name: Optional server name (uses default if None)
+            accessible_by: Optional list of agent roles that can use this tool
+                          (None = all agents)
+        """
+        if not self.mcp_servers:
+            # Create default server if none exists
+            default_config = MCPServerConfig(name="default", server_type="local")
+            await self.setup_mcp_server(default_config)
+
+        server_name = server_name or "default"
+        if server_name not in self.mcp_servers:
+            raise ValueError(f"MCP server not found: {server_name}")
+
+        server = self.mcp_servers[server_name]
+        await server.register_tool(tool, accessible_by=accessible_by)
+
+    async def get_mcp_tools(
+        self, agent_role: AgentRole, server_name: Optional[str] = None
+    ) -> List[MCPTool]:
+        """
+        Get MCP tools available for an agent.
+
+        Args:
+            agent_role: Agent role
+            server_name: Optional server name (None = all servers)
+
+        Returns:
+            List of available MCP tools
+        """
+        all_tools = []
+        servers_to_check = (
+            [self.mcp_servers[server_name]]
+            if server_name and server_name in self.mcp_servers
+            else self.mcp_servers.values()
+        )
+
+        for server in servers_to_check:
+            tools = server.get_tools(agent_role)
+            all_tools.extend(tools)
+
+        return all_tools
 
     async def _process_message(
         self, message: AgentMessage

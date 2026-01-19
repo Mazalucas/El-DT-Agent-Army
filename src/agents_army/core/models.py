@@ -156,3 +156,103 @@ class TaskAssignment:
     agent_role: AgentRole
     assigned_at: datetime = field(default_factory=datetime.now)
     status: str = "assigned"  # assigned | in-progress | completed | failed
+
+
+# Autonomy Engine Models
+
+
+@dataclass
+class Situation:
+    """Represents a situation requiring autonomous decision."""
+
+    task: Task
+    context: Dict[str, Any] = field(default_factory=dict)
+    available_agents: List[AgentRole] = field(default_factory=list)
+    constraints: Dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
+class SituationAnalysis:
+    """Analysis of a situation."""
+
+    task_type: str
+    complexity: str  # low | medium | high
+    agents_available: List[AgentRole] = field(default_factory=list)
+    dependencies: List[str] = field(default_factory=list)
+    resources_required: Dict[str, Any] = field(default_factory=dict)
+    time_available: Optional[float] = None
+    context: Dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
+class ConfidenceScore:
+    """Confidence score for autonomous action."""
+
+    score: float  # 0.0 - 1.0
+    factors: Dict[str, float] = field(default_factory=dict)
+    explanation: str = ""
+
+
+@dataclass
+class RiskAssessment:
+    """Risk assessment for autonomous action."""
+
+    total_risk: float  # 0.0 - 1.0
+    risk_factors: Dict[str, float] = field(default_factory=dict)
+    level: str = "low"  # low | medium | high | critical
+    explanation: str = ""
+
+
+@dataclass
+class Decision:
+    """Decision made by autonomy engine."""
+
+    autonomous: bool
+    confidence: float
+    risk: float
+    action: str
+    reasoning: str = ""
+    escalation_reason: Optional[str] = None
+    level: int = 4  # 1-4, 4 = fully autonomous
+
+
+@dataclass
+class ActionResult:
+    """Result of autonomous action."""
+
+    success: bool
+    action_taken: str
+    result: Dict[str, Any] = field(default_factory=dict)
+    error: Optional[str] = None
+    escalated: bool = False
+    escalation_reason: Optional[str] = None
+
+
+# Conflict Resolution Models
+
+
+@dataclass
+class AgentConflict:
+    """Represents a conflict between agents."""
+
+    conflict_id: str
+    task_id: str
+    conflicting_agents: List[AgentRole]
+    conflict_type: str  # opinion | resource | priority | approach
+    description: str
+    agent_opinions: Dict[AgentRole, Dict[str, Any]] = field(default_factory=dict)
+    severity: str = "medium"  # low | medium | high | critical
+    created_at: datetime = field(default_factory=datetime.now)
+
+
+@dataclass
+class ConflictResolution:
+    """Resolution for an agent conflict."""
+
+    conflict_id: str
+    resolution_type: str  # merge | choose_one | compromise | escalate
+    chosen_approach: Dict[str, Any] = field(default_factory=dict)
+    reasoning: str = ""
+    resolved_by: AgentRole = AgentRole.DT
+    resolved_at: datetime = field(default_factory=datetime.now)
+    success: bool = True

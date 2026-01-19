@@ -12,13 +12,17 @@ __author__ = "Agents_Army Contributors"
 from agents_army.core import (
     Agent,
     AgentConfig,
+    AgentConflict,
     AgentRegistry,
     AgentSystem,
     ConfigLoader,
+    ConflictResolution,
     Project,
     Task,
     TaskAssignment,
+    TaskDecomposer,
     TaskResult,
+    TaskScheduler,
 )
 from agents_army.protocol import (
     AgentMessage,
@@ -32,19 +36,33 @@ from agents_army.protocol import (
 # Agent implementations
 from agents_army.agents import (
     BackendArchitect,
+    BrandGuardian,
+    ContentCreator,
     DT,
+    DevOpsAutomator,
+    FeedbackSynthesizer,
+    FrontendDeveloper,
+    GrowthHacker,
     MarketingStrategist,
+    OperationsMaintainer,
+    PitchSpecialist,
+    ProductStrategist,
     QATester,
     Researcher,
+    StorytellingSpecialist,
+    UIDesigner,
+    UXResearcher,
 )
 
 # Memory system
 from agents_army.memory import (
     InMemoryBackend,
+    InMemoryVectorBackend,
     MemoryAgent,
     MemoryBackend,
     MemorySystem,
     SQLiteBackend,
+    VectorBackend,
 )
 
 # Tools system
@@ -54,18 +72,48 @@ from agents_army.tools import (
     create_default_tools,
 )
 
+# MCP system
+from agents_army.mcp import (
+    MCPClient,
+    MCPServer,
+    MCPTool,
+)
+
+# Observability
+from agents_army.observability import (
+    MetricsCollector,
+    StructuredLogger,
+)
+
+# Security
+from agents_army.security import (
+    AuthenticationManager,
+    RateLimiter,
+)
+
+# Cost management
+from agents_army.cost import (
+    BudgetAlerts,
+    CostEstimator,
+    CostTracker,
+)
+
 __all__ = [
     "__version__",
     # Core
     "Agent",
     "AgentConfig",
+    "AgentConflict",
     "AgentRegistry",
     "AgentSystem",
     "ConfigLoader",
+    "ConflictResolution",
     "Project",
     "Task",
     "TaskAssignment",
+    "TaskDecomposer",
     "TaskResult",
+    "TaskScheduler",
     # Protocol
     "AgentMessage",
     "AgentRole",
@@ -79,14 +127,42 @@ __all__ = [
     "BackendArchitect",
     "MarketingStrategist",
     "QATester",
+    "DevOpsAutomator",
+    "FrontendDeveloper",
+    "ProductStrategist",
+    "FeedbackSynthesizer",
+    "UXResearcher",
+    "UIDesigner",
+    "BrandGuardian",
+    "ContentCreator",
+    "StorytellingSpecialist",
+    "PitchSpecialist",
+    "GrowthHacker",
+    "OperationsMaintainer",
     # Memory
     "MemorySystem",
     "MemoryBackend",
     "InMemoryBackend",
     "SQLiteBackend",
+    "VectorBackend",
+    "InMemoryVectorBackend",
     "MemoryAgent",
     # Tools
     "Tool",
     "ToolRegistry",
     "create_default_tools",
+    # MCP
+    "MCPServer",
+    "MCPClient",
+    "MCPTool",
+    # Observability
+    "StructuredLogger",
+    "MetricsCollector",
+    # Security
+    "AuthenticationManager",
+    "RateLimiter",
+    # Cost Management
+    "CostTracker",
+    "CostEstimator",
+    "BudgetAlerts",
 ]

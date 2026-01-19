@@ -117,6 +117,54 @@ class MemorySystem:
 
         return valid_results
 
+    async def search_semantic(
+        self,
+        query: str,
+        limit: int = 10,
+        threshold: float = 0.7,
+        tags: Optional[List[str]] = None,
+        memory_type: Optional[str] = None,
+    ) -> List[MemoryItem]:
+        """
+        Perform semantic search using embeddings.
+
+        Args:
+            query: Search query
+            limit: Maximum number of results
+            threshold: Similarity threshold (0.0 - 1.0)
+            tags: Optional tags to filter by
+            memory_type: Optional memory type to filter by
+
+        Returns:
+            List of matching memory items sorted by similarity
+
+        Note:
+            Requires VectorBackend. Falls back to regular search if backend
+            doesn't support semantic search.
+        """
+        # Check if backend supports semantic search
+        if hasattr(self.backend, "search_semantic"):
+            results = await self.backend.search_semantic(
+                query, limit=limit, threshold=threshold, tags=tags
+            )
+        else:
+            # Fallback to regular search
+            results = await self.search(query, tags=tags, memory_type=memory_type, limit=limit)
+
+        # Filter by memory type if specified
+        if memory_type:
+            results = [r for r in results if r.memory_type == memory_type]
+
+        # Remove expired items
+        valid_results = []
+        for item in results:
+            if item.is_expired():
+                await self.backend.delete(item.key)
+            else:
+                valid_results.append(item)
+
+        return valid_results
+
     async def delete(self, key: str) -> None:
         """
         Delete a memory item.
