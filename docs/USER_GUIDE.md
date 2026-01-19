@@ -6,33 +6,23 @@ Esta guía está dirigida a usuarios finales que quieren usar **Agents_Army** en
 
 ## Quick Start
 
+Ver **[QUICK_START.md](QUICK_START.md)** para inicio rápido.
+
+### Dos Caminos para Empezar
+
+#### 1️⃣ Ya Tienes un Proyecto
+Integra El DT en tu proyecto existente. Ver [QUICK_START.md](QUICK_START.md#camino-1-ya-tienes-un-proyecto).
+
+#### 2️⃣ Conversar con El DT para Planear
+El DT te ayuda a planear y armar tu proyecto desde cero. Ver [QUICK_START.md](QUICK_START.md#camino-2-conversar-con-el-dt-para-planear-y-armar-el-proyecto).
+
 ### Instalación
 
 ```bash
-# Instalar Agents_Army
-pip install agents-army
-
-# O desde fuente
-git clone https://github.com/tu-usuario/Agents_Army.git
-cd Agents_Army
+# Clonar e instalar
+git clone https://github.com/Mazalucas/El-DT-Agent-Army.git
+cd El-DT-Agent-Army
 pip install -e .
-```
-
-### Inicialización Rápida
-
-```python
-from agents_army import AgentSystem, DT
-
-# Inicializar El DT
-dt = DT()
-
-# Inicializar proyecto
-project = await dt.initialize_project(
-    project_name="Mi Proyecto",
-    description="Descripción del proyecto"
-)
-
-# ¡Listo para usar!
 ```
 
 ## Conceptos Básicos
