@@ -20,6 +20,7 @@ El MVP está **completo y funcional**. El framework está listo para uso en proy
 - [Quick Start](#-quick-start)
 - [Arquitectura](#-arquitectura)
 - [Documentación](#-documentación)
+- [Skills](#-skills)
 - [Ejemplos](#-ejemplos)
 - [Estado de Implementación](#-estado-de-implementación)
 - [Contribuir](#-contribuir)
@@ -29,8 +30,9 @@ El MVP está **completo y funcional**. El framework está listo para uso en proy
 ### 🎯 Core Features
 
 - **Protocolo de Comunicación Estándar**: Mensajes estructurados con validación Pydantic
-- **El DT (Director Técnico)**: Coordinador (Orchestrator) inteligente basado
-- **Agentes Especializados**: Researcher, BackendArchitect, MarketingStrategist, QATester
+- **El DT (Director Técnico)**: Coordinador (Orchestrator) inteligente basado en LLM
+- **18 Agentes Especializados**: Desde investigación hasta marketing, desarrollo, diseño y operaciones
+- **Skills System**: Workflows especializados reutilizables (ej: github-save)
 - **Sistema de Memoria**: Persistencia con múltiples backends (InMemory, SQLite)
 - **Sistema de Herramientas**: 6 herramientas básicas + extensible
 - **Configuración Declarativa**: YAML/JSON para configuración de agentes
@@ -150,7 +152,8 @@ asyncio.run(main())
 
 ```python
 from agents_army import (
-    DT, Researcher, BackendArchitect,
+    DT, Researcher, BackendArchitect, FrontendDeveloper,
+    ProductStrategist, UIDesigner, ContentCreator,
     AgentSystem, MemoryAgent, InMemoryBackend
 )
 
@@ -161,17 +164,27 @@ system = AgentSystem()
 dt = DT(llm_provider=your_llm)
 researcher = Researcher(llm_provider=your_llm)
 architect = BackendArchitect(llm_provider=your_llm)
+frontend_dev = FrontendDeveloper(llm_provider=your_llm)
+product_strategist = ProductStrategist(llm_provider=your_llm)
+ui_designer = UIDesigner(llm_provider=your_llm)
+content_creator = ContentCreator(llm_provider=your_llm)
 memory = MemoryAgent(backend=InMemoryBackend())
 
-# Registrar
+# Registrar agentes
 system.register_agent(dt)
 system.register_agent(researcher)
 system.register_agent(architect)
+system.register_agent(frontend_dev)
+system.register_agent(product_strategist)
+system.register_agent(ui_designer)
+system.register_agent(content_creator)
 system.register_agent(memory)
 
 # Usar...
 # (ver examples/complete_app_example.py)
 ```
+
+**Nota**: Hay 18 agentes especializados disponibles. Ver la lista completa en [Agentes Implementados](#agentes-implementados).
 
 ## 🏛️ Arquitectura
 
@@ -192,8 +205,10 @@ system.register_agent(memory)
     ▼
 ┌──────────────────────────────┐
 │  Agentes Especializados      │
-│  Researcher │ Architect      │
-│  Marketing  │ QA Tester      │
+│  (18 agentes disponibles)    │
+│  Research │ Development      │
+│  Design │ Marketing          │
+│  Product │ Operations        │
 └──────────────────────────────┘
     │         │         │
     ▼         ▼         ▼
@@ -230,6 +245,31 @@ system.register_agent(memory)
 
 ### Referencia
 - **[archive/](docs/archive/)** - Documentación histórica y de referencia
+
+## 🎯 Skills
+
+Las Skills son workflows y comandos especializados que pueden ser ejecutados por los agentes para realizar tareas específicas. Estas skills están documentadas en formato markdown y pueden ser utilizadas por cualquier agente del sistema.
+
+### Skills Disponibles
+
+1. **`github-save`** - Workflow completo de Git para guardar cambios, crear tags de versión y hacer push al repositorio remoto
+   - Verifica repositorio Git inicializado
+   - Valida autenticación y conexión remota
+   - Crea commits con mensajes descriptivos
+   - Genera tags de versión semántica
+   - Hace push de commits y tags
+   - Ubicación: `skills/github-save.md`
+
+### Uso de Skills
+
+Las skills pueden ser referenciadas por los agentes para ejecutar workflows complejos. Cada skill incluye:
+- Objetivo claro
+- Pre-requisitos y validaciones
+- Pasos detallados del workflow
+- Manejo de errores y advertencias
+- Mejores prácticas
+
+**Ver más**: `skills/` directory
 
 ## 💡 Ejemplos
 
@@ -271,19 +311,44 @@ python examples/complete_app_example.py
 | Protocolo de Mensajería | ✅ Completo | 22 |
 | Sistema Base de Agentes | ✅ Completo | 30 |
 | El DT | ✅ Completo | 7 |
-| Agentes Especializados | ✅ 4/17 | 14 |
+| Agentes Especializados | ✅ 17/17 | 14 |
 | Sistema de Memoria | ✅ Completo | 17 |
 | Sistema de Herramientas | ✅ 6 herramientas | 16 |
 | Tests E2E | ✅ Completo | 3 |
 
 ### Agentes Implementados
 
-1. ✅ **El DT** - Coordinador principal
-2. ✅ **Researcher** - Investigación
-3. ✅ **BackendArchitect** - Arquitectura backend
-4. ✅ **MarketingStrategist** - Estrategia de marketing
-5. ✅ **QATester** - Testing y QA
-6. ✅ **MemoryAgent** - Gestión de memoria
+#### 🎯 Agentes Core
+1. ✅ **El DT** - Coordinador principal y Director Técnico
+2. ✅ **MemoryAgent** - Gestión de memoria y persistencia
+
+#### 🔍 Agentes de Investigación y Análisis
+3. ✅ **Researcher** - Investigación y análisis de información
+4. ✅ **UXResearcher** - Investigación de experiencia de usuario
+5. ✅ **FeedbackSynthesizer** - Síntesis y análisis de feedback
+
+#### 🏗️ Agentes de Desarrollo
+6. ✅ **BackendArchitect** - Arquitectura y diseño backend
+7. ✅ **FrontendDeveloper** - Desarrollo frontend
+8. ✅ **DevOpsAutomator** - Automatización DevOps y CI/CD
+9. ✅ **QATester** - Testing y control de calidad
+
+#### 📊 Agentes de Producto y Estrategia
+10. ✅ **ProductStrategist** - Estrategia de producto
+11. ✅ **OperationsMaintainer** - Mantenimiento y operaciones
+
+#### 🎨 Agentes de Diseño y Contenido
+12. ✅ **UIDesigner** - Diseño de interfaces de usuario
+13. ✅ **ContentCreator** - Creación de contenido
+14. ✅ **StorytellingSpecialist** - Especialista en narrativa
+
+#### 📈 Agentes de Marketing y Crecimiento
+15. ✅ **MarketingStrategist** - Estrategia de marketing
+16. ✅ **GrowthHacker** - Crecimiento y adquisición
+17. ✅ **BrandGuardian** - Gestión y protección de marca
+18. ✅ **PitchSpecialist** - Creación de pitches y presentaciones
+
+**Total: 18 agentes especializados** ✅
 
 ### Herramientas Implementadas
 
@@ -367,7 +432,7 @@ Agents_Army/
 
 - LLM Integration: Necesitas integrar tu propio provider
 - Web Search: Mock implementation (necesita API real)
-- Agentes: Solo 4/17 implementados (fácil agregar más)
+- Agentes: 18 agentes especializados implementados ✅
 - MCP Avanzado: Pendiente para v2.0
 
 ## 🔮 Roadmap
@@ -378,7 +443,7 @@ Agents_Army/
 - [ ] Búsqueda semántica en memoria
 - [ ] Vector DB backends
 - [ ] MCP avanzado
-- [ ] Más agentes especializados (13 restantes)
+- [ ] Más agentes especializados según necesidades
 - [ ] Dashboard visual
 - [ ] Herramientas avanzadas
 
