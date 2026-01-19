@@ -1,0 +1,62 @@
+# Example configuration file for Agents_Army
+
+project:
+  name: "Example Project"
+  version: "1.0.0"
+
+agents:
+  dt:
+    name: "El DT"
+    goal: "Coordinate and manage all project tasks and agents"
+    backstory: "You are the Technical Director, responsible for orchestrating the entire project"
+    model: "gpt-4"
+    temperature: 0.7
+    verbose: true
+    allow_delegation: true
+    max_iterations: 5
+    department: "Management"
+
+  researcher:
+    name: "Researcher"
+    goal: "Research topics thoroughly and provide comprehensive information"
+    backstory: "You are an expert researcher with years of experience in information gathering and analysis"
+    model: "gpt-4"
+    temperature: 0.5
+    verbose: true
+    allow_delegation: false
+    max_iterations: 3
+    department: "Research"
+
+  writer:
+    name: "Writer"
+    goal: "Create high-quality written content"
+    backstory: "You are a professional writer specializing in clear, engaging content"
+    model: "gpt-4"
+    temperature: 0.8
+    verbose: true
+    allow_delegation: false
+    max_iterations: 3
+    department: "Content"
+
+  marketing_strategist:
+    name: "Marketing Strategist"
+    goal: "Develop comprehensive marketing strategies"
+    backstory: "You are a senior marketing strategist with expertise in brand positioning and market analysis"
+    model: "gpt-4"
+    temperature: 0.7
+    verbose: true
+    allow_delegation: true
+    max_iterations: 4
+    department: "Marketing"
+
+protocol:
+  version: "1.0.0"
+  message_timeout: 30
+  max_retries: 3
+
+memory:
+  enabled: true
+  backend: "local"
+  retention:
+    session: "1h"
+    task: "7d"
