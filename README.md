@@ -89,7 +89,32 @@ python -c "from agents_army import AgentSystem, DT; print('✅ Agents_Army insta
 
 **¿Nuevo en Agents_Army?** Empieza con **[docs/QUICK_START.md](docs/QUICK_START.md)** (5 minutos)
 
-### Ejemplo Básico: Crear un Proyecto con El DT
+### Dos Caminos para Empezar
+
+#### 1️⃣ Ya Tienes un Proyecto
+Clona el repo e integra El DT en tu proyecto existente.
+
+```bash
+git clone https://github.com/Mazalucas/El-DT-Agent-Army.git
+cd El-DT-Agent-Army
+pip install -e .
+```
+
+Luego usa El DT en tu código (ver [docs/QUICK_START.md](docs/QUICK_START.md) para ejemplo completo).
+
+#### 2️⃣ Conversar con El DT para Planear
+Si no tienes proyecto, El DT te ayuda a planearlo desde cero.
+
+```bash
+git clone https://github.com/Mazalucas/El-DT-Agent-Army.git
+cd El-DT-Agent-Army
+pip install -e .
+python examples/dt_example.py
+```
+
+**Ver detalles completos en**: [docs/QUICK_START.md](docs/QUICK_START.md)
+
+### Ejemplo Básico (Referencia)
 
 ```python
 import asyncio
