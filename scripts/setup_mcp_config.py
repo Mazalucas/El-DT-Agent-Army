@@ -94,9 +94,11 @@ def get_mcp_config_template(editor: str) -> Dict:
         Dict con la configuración MCP
     """
     # Template base para todos los editores
+    # Usamos 'agents_army.mcp' en lugar de 'agents_army.mcp.server'
+    # porque el __main__.py está en el paquete mcp, no en server
     base_config = {
         "command": "python",
-        "args": ["-m", "agents_army.mcp.server"],
+        "args": ["-m", "agents_army.mcp"],
         "env": {
             "OPENAI_API_KEY": "YOUR_OPENAI_API_KEY_HERE",
             "ANTHROPIC_API_KEY": "YOUR_ANTHROPIC_API_KEY_HERE",

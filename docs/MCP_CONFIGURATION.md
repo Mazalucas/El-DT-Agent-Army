@@ -53,7 +53,7 @@ Si prefieres configurar manualmente, sigue las instrucciones según tu editor:
   "mcpServers": {
     "agents-army": {
       "command": "python",
-      "args": ["-m", "agents_army.mcp.server"],
+      "args": ["-m", "agents_army.mcp"],
       "env": {
         "OPENAI_API_KEY": "YOUR_OPENAI_API_KEY_HERE",
         "ANTHROPIC_API_KEY": "YOUR_ANTHROPIC_API_KEY_HERE",
@@ -97,7 +97,7 @@ Después de crear el archivo:
   "servers": {
     "agents-army": {
       "command": "python",
-      "args": ["-m", "agents_army.mcp.server"],
+      "args": ["-m", "agents_army.mcp"],
       "type": "stdio",
       "env": {
         "OPENAI_API_KEY": "YOUR_OPENAI_API_KEY_HERE",
@@ -131,7 +131,7 @@ Después de crear el archivo:
   "mcpServers": {
     "agents-army": {
       "command": "python",
-      "args": ["-m", "agents_army.mcp.server"],
+      "args": ["-m", "agents_army.mcp"],
       "env": {
         "OPENAI_API_KEY": "YOUR_OPENAI_API_KEY_HERE",
         "ANTHROPIC_API_KEY": "YOUR_ANTHROPIC_API_KEY_HERE",
@@ -162,7 +162,7 @@ Después de crear el archivo:
   "mcpServers": {
     "agents-army": {
       "command": "python",
-      "args": ["-m", "agents_army.mcp.server"],
+      "args": ["-m", "agents_army.mcp"],
       "env": {
         "OPENAI_API_KEY": "YOUR_OPENAI_API_KEY_HERE",
         "ANTHROPIC_API_KEY": "YOUR_ANTHROPIC_API_KEY_HERE",
@@ -214,7 +214,7 @@ Después de crear el archivo de configuración:
   "mcpServers": {
     "agents-army": {
       "command": "python",
-      "args": ["-m", "agents_army.mcp.server"],
+      "args": ["-m", "agents_army.mcp"],
       "env": {
         "OPENAI_API_KEY": "sk-proj-abc123...",  // ← Tu key real aquí
         "ANTHROPIC_API_KEY": "sk-ant-api03-..."  // ← Tu key real aquí

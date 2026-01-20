@@ -175,3 +175,23 @@ class MCPServer:
             List of resource URIs
         """
         return list(self.resources.keys())
+
+
+# Allow server.py to be executed directly as a module
+# This enables: python -m agents_army.mcp.server
+if __name__ == "__main__":
+    # Import and run the __main__ module
+    import sys
+    import importlib.util
+    
+    # Load and execute __main__.py from the same package
+    spec = importlib.util.spec_from_file_location(
+        "agents_army.mcp.__main__",
+        __file__.replace("server.py", "__main__.py")
+    )
+    if spec and spec.loader:
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+    else:
+        # Fallback: try importing directly
+        from agents_army.mcp import __main__  # noqa: F401
