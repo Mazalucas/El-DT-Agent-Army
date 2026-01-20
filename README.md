@@ -1,142 +1,231 @@
-# Agents_Army 🎯
+# El DT 🎯
 
-> Un framework modular y escalable para construir sistemas multi-agente de IA
+> Director Técnico y su Army de Agentes Especializados
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![Tests](https://img.shields.io/badge/tests-109%20passing-brightgreen.svg)](tests/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-CC%20BY%204.0-blue.svg)](LICENSE)
 
-## 🚀 Estado del Proyecto
+**El DT** es un framework inteligente que coordina un ejército de agentes especializados para ayudarte a construir, planear y ejecutar proyectos de cualquier tipo. Desde desarrollo de software hasta estrategias de marketing, contenido y diseño.
 
-**Versión**: 0.1.0 (MVP)  
-**Estado**: ✅ **Ready to Use** | ✅ **Ready to Share**
-
-El MVP está **completo y funcional**. El framework está listo para uso en proyectos básicos y puede extenderse según necesidad.
+---
 
 ## 📋 Tabla de Contenidos
 
-- [Características](#-características)
-- [Instalación](#-instalación)
-- [Quick Start](#-quick-start)
-- [Arquitectura](#-arquitectura)
-- [Documentación](#-documentación)
-- [Skills](#-skills)
-- [Ejemplos](#-ejemplos)
-- [Estado de Implementación](#-estado-de-implementación)
-- [Contribuir](#-contribuir)
+- [¿Qué es El DT?](#-qué-es-el-dt)
+- [The Army - Los Agentes Especializados](#-the-army---los-agentes-especializados)
+- [¿Qué Trae de Nuevo? El Protocolo DT](#-qué-trae-de-nuevo-el-protocolo-dt)
+- [¿Por Qué Tiene Sentido Este Proyecto?](#-por-qué-tiene-sentido-este-proyecto)
+- [Skills - Workflows Especializados](#-skills---workflows-especializados)
+- [🚀 Cómo Empezar](#-cómo-empezar)
+- [💡 Casos de Uso](#-casos-de-uso)
+- [📚 Documentación y Arquitectura](#-documentación-y-arquitectura)
+- [🔮 Roadmap](#-roadmap)
+- [🤝 Contribuir](#-contribuir)
+- [📄 Licencia](#-licencia)
+- [🙏 Inspiración y Créditos](#-inspiración-y-créditos)
+- [📞 Soporte](#-soporte)
 
-## ✨ Características
+---
 
-### 🎯 Core Features
+## 🎯 ¿Qué es El DT?
 
-- **Protocolo de Comunicación Estándar**: Mensajes estructurados con validación Pydantic
-- **El DT (Director Técnico)**: Coordinador (Orchestrator) inteligente basado en LLM
-- **18 Agentes Especializados**: Desde investigación hasta marketing, desarrollo, diseño y operaciones
-- **Loops Autónomos**: Ejecución iterativa automática hasta completitud verificable
-- **Sistema de Autonomía**: Decisión automática de nivel de ejecución (1-4) según confianza y riesgo
-- **Skills System**: Workflows especializados reutilizables (ej: github-save)
-- **Sistema de Memoria**: Persistencia con múltiples backends (InMemory, SQLite)
-- **Sistema de Herramientas**: 6 herramientas básicas + extensible
-- **Configuración Declarativa**: YAML/JSON para configuración de agentes
+**El DT (Director Técnico)** es como tener un coordinador inteligente que entiende tu proyecto y sabe exactamente qué especialista necesita cada tarea. 
 
-### 🏗️ Arquitectura
+Imagina un director técnico de fútbol que coordina a sus jugadores: cada uno tiene su especialidad (portero, defensa, mediocampo, delantero), pero el DT decide cuándo y cómo cada uno debe actuar para lograr el objetivo del equipo.
 
-- **Modular**: Componentes independientes y reutilizables
-- **Escalable**: Fácil agregar nuevos agentes y herramientas
-- **Type-Safe**: 100% type hints con Pydantic
-- **Testeable**: 109 tests pasando (>80% cobertura)
+De la misma forma, **El DT** coordina a **18 agentes especializados** que trabajan juntos para ayudarte a:
 
-## 📦 Instalación
+- ✅ **Planear proyectos** desde cero con conversaciones guiadas
+- ✅ **Descomponer tareas complejas** en pasos manejables
+- ✅ **Asignar trabajo** al agente especializado correcto
+- ✅ **Ejecutar iterativamente** hasta completar cada tarea
+- ✅ **Coordinar colaboración** entre múltiples agentes
+- ✅ **Gestionar memoria** y contexto del proyecto
 
-### Requisitos
+**El DT** no es solo código: es un sistema inteligente que entiende tu proyecto, planifica la ejecución y coordina a los especialistas adecuados para que puedas enfocarte en lo que realmente importa.
 
-- Python 3.10+
-- pip
-
-### Instalación desde Código
-
-```bash
-# Clonar repositorio
-git clone <repo-url>
-cd Agents_Army
-
-# Instalar en modo desarrollo
-pip install -e .
-
-# O instalar dependencias directamente
-pip install -r requirements.txt
-pip install -r requirements-dev.txt  # Para desarrollo
+```
+┌─────────────────────────────────────────┐
+│            Tu Proyecto                   │
+│         (Tu Objetivo)                    │
+└──────────────────┬──────────────────────┘
+                   │
+         ┌─────────▼─────────┐
+         │      El DT         │
+         │  (Coordinador)     │
+         └─────────┬─────────┘
+                   │
+    ┌──────────────┼──────────────┐
+    │              │              │
+    ▼              ▼              ▼
+┌────────┐    ┌────────┐    ┌────────┐
+│Researcher│  │Developer│  │Marketing│
+│          │  │          │  │         │
+└────────┘    └────────┘    └────────┘
 ```
 
-### ⚠️ Configuración de API Keys
+---
 
-**Importante**: Para usar LLMs reales, necesitas configurar API keys.
+## 🎖️ The Army - Los Agentes Especializados
 
-Ver **[docs/API_KEYS_CONFIG.md](docs/API_KEYS_CONFIG.md)** para instrucciones detalladas.
+**El DT** coordina un ejército de **18 agentes especializados**, cada uno experto en su dominio. Aquí está tu equipo completo:
 
-```bash
-# Configurar variable de entorno (recomendado)
-export OPENAI_API_KEY="tu-api-key"  # Linux/macOS
-# O
-$env:OPENAI_API_KEY="tu-api-key"    # Windows PowerShell
+### 🎯 Core - El Corazón del Sistema
+
+| Agente | Descripción |
+|--------|-------------|
+| **El DT** | Coordinador principal que gestiona tareas, asigna trabajo y toma decisiones estratégicas |
+| **MemoryAgent** | Sistema de memoria persistente que recuerda contexto y decisiones pasadas |
+
+### 🔍 Investigación y Análisis
+
+| Agente | Descripción |
+|--------|-------------|
+| **Researcher** | Investiga información, analiza datos y encuentra fuentes relevantes |
+| **UXResearcher** | Especialista en investigación de experiencia de usuario y necesidades del usuario |
+| **FeedbackSynthesizer** | Analiza y sintetiza feedback de usuarios, clientes y stakeholders |
+
+### 🏗️ Desarrollo y Tecnología
+
+| Agente | Descripción |
+|--------|-------------|
+| **BackendArchitect** | Diseña arquitecturas backend, APIs y sistemas escalables |
+| **FrontendDeveloper** | Desarrolla interfaces de usuario modernas y responsivas |
+| **DevOpsAutomator** | Automatiza infraestructura, CI/CD y despliegues |
+| **QATester** | Ejecuta tests, control de calidad y validación de código |
+
+### 📊 Producto y Estrategia
+
+| Agente | Descripción |
+|--------|-------------|
+| **ProductStrategist** | Define estrategias de producto, roadmap y prioridades |
+| **OperationsMaintainer** | Gestiona operaciones, mantenimiento y optimización continua |
+
+### 🎨 Diseño y Contenido
+
+| Agente | Descripción |
+|--------|-------------|
+| **UIDesigner** | Crea diseños de interfaces de usuario atractivos y funcionales |
+| **ContentCreator** | Genera contenido escrito para blogs, redes sociales y marketing |
+| **StorytellingSpecialist** | Crea narrativas convincentes y storytelling efectivo |
+
+### 📈 Marketing y Crecimiento
+
+| Agente | Descripción |
+|--------|-------------|
+| **MarketingStrategist** | Desarrolla estrategias de marketing completas y campañas |
+| **GrowthHacker** | Enfocado en crecimiento, adquisición y optimización de conversión |
+| **BrandGuardian** | Protege y gestiona la identidad de marca y mensajes |
+| **PitchSpecialist** | Crea pitches convincentes para inversores, clientes y stakeholders |
+
+**Total: 18 agentes especializados** trabajando coordinados por El DT.
+
+---
+
+## ⚡ ¿Qué Trae de Nuevo? El Protocolo DT
+
+**El DT** introduce un nuevo protocolo de comunicación y ejecución que va más allá de los frameworks tradicionales de agentes:
+
+### 🔄 Loops Autónomos
+
+El sistema ejecuta tareas **iterativamente hasta completitud verificable**. No se detiene en el primer intento: analiza resultados, detecta qué falta y continúa hasta que la tarea esté realmente completa.
+
+```
+Tarea → Ejecución → Validación → ¿Completo?
+                              ↓ NO
+                         Mejora → Ejecución → ...
+                              ↓ SÍ
+                         ✅ Tarea Completada
 ```
 
-### Verificar Instalación
+### 🎚️ Sistema de Autonomía Inteligente
 
-```bash
-python -c "from agents_army import AgentSystem, DT; print('✅ Agents_Army instalado correctamente')"
-```
+**El DT** calcula automáticamente el nivel de autonomía (1-4) según:
+- **Confianza**: ¿Qué tan seguro está de poder completar la tarea?
+- **Riesgo**: ¿Qué tan crítico es si algo sale mal?
 
-**Ver más detalles en**: [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md) | [docs/QUICK_START.md](docs/QUICK_START.md)
+| Nivel | Confianza | Riesgo | Acción |
+|-------|-----------|--------|--------|
+| **4** | ≥ 0.9 | ≤ 0.2 | Ejecución autónoma completa (hasta 50 iteraciones) |
+| **3** | ≥ 0.8 | ≤ 0.4 | Ejecución validada (hasta 30 iteraciones) |
+| **2** | ≥ 0.6 | ≤ 0.6 | Ejecución simple con validación |
+| **1** | < 0.6 | > 0.6 | Escala a supervisión humana |
 
-## 🚀 Quick Start
+### 📨 Protocolo de Mensajería Estructurado
 
-**¿Nuevo en Agents_Army?** Empieza con **[docs/QUICK_START.md](docs/QUICK_START.md)** (5 minutos)
+Todos los agentes se comunican mediante mensajes estructurados con:
+- Validación automática con Pydantic
+- Tipos de mensaje claramente definidos
+- Metadatos de prioridad, deadlines y correlación
+- Trazabilidad completa de cada interacción
 
-### 🎯 Configuración Automática del IDE
+### 🛠️ Skills System
 
-**IMPORTANTE**: Agents_Army incluye archivos de configuración que se cargan automáticamente en cada conversación:
+Workflows especializados reutilizables que cualquier agente puede ejecutar:
+- `dt-start`: Inicialización conversacional de proyectos
+- `github-save`: Workflow completo de Git (commit, tag, push)
 
-- **`.cursorrules`** - Reglas globales que Cursor carga automáticamente
-- **`.claude/CLAUDE.md`** - Configuración para Claude Code  
-- **`.cursor/rules/`** - Reglas específicas del DT
+### 🧠 Sistema de Memoria Persistente
 
-Estos archivos aseguran que **El DT esté presente y activo** en cada conversación. Ver **[docs/IDE_CONFIGURATION.md](docs/IDE_CONFIGURATION.md)** para más detalles.
+El sistema recuerda contexto entre sesiones, decisiones pasadas y resultados previos, permitiendo que los agentes aprendan y mejoren con el tiempo.
 
-### ⚡ Forma Más Rápida: Usar `/dt-start`
+---
 
-**Recomendamos empezar usando el comando `/dt-start` directamente en tu IDE.**
+## 💎 ¿Por Qué Tiene Sentido Este Proyecto?
 
-El DT te guiará a través de una conversación adaptativa para inicializar tu proyecto de forma estructurada, sin necesidad de escribir código.
+### Para Desarrolladores
 
-#### 📝 Configurar el Workflow en tu IDE
+- **Type-Safe**: 100% type hints con Pydantic, menos bugs
+- **Testeable**: 109 tests pasando, >80% cobertura
+- **Modular**: Agrega tus propios agentes fácilmente
+- **Extensible**: Arquitectura limpia y bien documentada
 
-**En Cursor:**
-1. Abre el chat en Cursor
-2. Escribe solo `/` (barra diagonal)
-3. Se desplegará un menú con opciones
-4. Selecciona o crea el workflow `dt-start`
-5. ¡Listo! Ahora puedes usar `/dt-start` cuando quieras inicializar un proyecto
+### Para Product Managers y Estrategas
 
-**En Antigravity:**
-1. En el chat, arriba a la derecha, haz clic en los **tres puntitos** (⋯)
-2. Se desplegará un menú → Selecciona **"Customizations"**
-3. Ve a la pestaña **"Workflows"**
-4. Crea un workflow **global** llamado `dt-start`
-5. Configúralo para usar el archivo `.cursor/commands/dt-start.md`
-6. ¡Listo! Ahora puedes usar `/dt-start` desde cualquier proyecto
+- **Planificación Inteligente**: El DT descompone objetivos complejos en tareas ejecutables
+- **Coordinación Automática**: No necesitas gestionar quién hace qué
+- **Visibilidad Completa**: Sigue el progreso de cada tarea y agente
 
-#### 🎯 Usar `/dt-start`
+### Para Equipos de Marketing y Contenido
 
-Una vez configurado el workflow:
+- **Especialización Real**: Agentes que realmente entienden marketing, contenido y branding
+- **Workflows Completos**: Desde estrategia hasta ejecución y medición
+- **Coordinación Natural**: Múltiples agentes trabajando juntos en campañas complejas
 
-1. **Escribe `/dt-start`** en el chat de tu IDE
-2. **El DT comenzará una conversación guiada** contigo:
-   - Te preguntará qué tipo de proyecto quieres crear
-   - Adaptará las preguntas según el tipo (desarrollo, marketing, contenido, diseño, etc.)
-   - Creará un plan estructurado antes de ejecutar
-   - Esperará tu aprobación explícita antes de crear directorios o archivos
-3. **El DT inicializará tu proyecto** con la estructura apropiada
+### Para Cualquier Proyecto
+
+- **No Solo Código**: Funciona para proyectos de desarrollo, marketing, diseño, investigación y más
+- **Conversación Primero**: El DT te guía con preguntas adaptativas antes de ejecutar
+- **Ejecución Autónoma**: Una vez que entiende tu objetivo, ejecuta hasta completarlo
+
+### Comparado con Alternativas
+
+| Característica | El DT | Otros Frameworks |
+|----------------|-------|------------------|
+| Coordinación Inteligente | ✅ El DT decide | ⚠️ Manual |
+| Loops Autónomos | ✅ Hasta completitud | ❌ Una ejecución |
+| Skills Reutilizables | ✅ Sistema completo | ⚠️ Limitado |
+| Memoria Persistente | ✅ Entre sesiones | ⚠️ Solo en memoria |
+| 18 Agentes Especializados | ✅ Listos para usar | ⚠️ Crear desde cero |
+
+---
+
+## 🎯 Skills - Workflows Especializados
+
+Las **Skills** son workflows especializados que pueden ser ejecutados por cualquier agente para realizar tareas complejas de forma estructurada.
+
+### Skills Disponibles
+
+#### 1. `dt-start` ⭐ **Recomendado para Empezar**
+
+Workflow conversacional para inicializar proyectos con El DT.
+
+**¿Qué hace?**
+- Te guía con preguntas adaptativas según el tipo de proyecto
+- Crea un plan estructurado antes de ejecutar
+- Espera tu aprobación explícita antes de crear archivos
+- Inicializa la estructura completa del proyecto
 
 **Tipos de proyectos soportados:**
 - Desarrollo de Software (apps web, móviles, APIs)
@@ -146,45 +235,93 @@ Una vez configurado el workflow:
 - Investigación (market research, user research)
 - Estrategia de Negocio (product strategy, go-to-market)
 - Técnico/DevOps (infraestructura, CI/CD)
-- Y más...
 
-**Ver el workflow completo**: [`skills/dt-start.md`](skills/dt-start.md) | [`.cursor/commands/dt-start.md`](.cursor/commands/dt-start.md)
+**Cómo usar:**
+```bash
+# En tu IDE (Cursor o Antigravity), simplemente escribe:
+/dt-start
+```
+
+**Ubicación**: `skills/dt-start.md` | `.cursor/commands/dt-start.md`
+
+#### 2. `github-save`
+
+Workflow completo de Git para guardar cambios, crear tags de versión y hacer push.
+
+**¿Qué hace?**
+- Verifica repositorio Git inicializado
+- Valida autenticación y conexión remota
+- Crea commits con mensajes descriptivos
+- Genera tags de versión semántica
+- Hace push de commits y tags
+
+**Ubicación**: `skills/github-save.md`
+
+### Cómo Usar Skills
+
+Las skills pueden ser referenciadas por los agentes para ejecutar workflows complejos. Cada skill incluye:
+- Objetivo claro
+- Pre-requisitos y validaciones
+- Pasos detallados del workflow
+- Manejo de errores y advertencias
+- Mejores prácticas
+
+**Ver más**: Directorio `skills/`
 
 ---
 
-### Dos Caminos Alternativos para Empezar
+## 🚀 Cómo Empezar
 
-#### 1️⃣ Ya Tienes un Proyecto
-Clona el repo e integra El DT en tu proyecto existente.
-
-```bash
-git clone https://github.com/Mazalucas/El-DT-Agent-Army.git
-cd El-DT-Agent-Army
-pip install -e .
-```
-
-Luego usa El DT en tu código (ver [docs/QUICK_START.md](docs/QUICK_START.md) para ejemplo completo).
-
-#### 2️⃣ Conversar con El DT para Planear (Código Python)
-Si prefieres usar código Python directamente, El DT te ayuda a planearlo desde cero.
+### Instalación Rápida (3 Comandos)
 
 ```bash
+# 1. Clonar el repositorio
 git clone https://github.com/Mazalucas/El-DT-Agent-Army.git
 cd El-DT-Agent-Army
+
+# 2. Instalar
 pip install -e .
-python examples/dt_example.py
+
+# 3. Verificar instalación
+python -c "from agents_army import AgentSystem, DT; print('✅ El DT instalado correctamente')"
 ```
 
-**Ver detalles completos en**: [docs/QUICK_START.md](docs/QUICK_START.md)
+### ⚙️ Configuración de API Keys (Opcional)
 
-### Ejemplo Básico (Referencia)
+Para usar LLMs reales, configura tu API key:
+
+```bash
+# Linux/macOS
+export OPENAI_API_KEY="tu-api-key"
+
+# Windows PowerShell
+$env:OPENAI_API_KEY="tu-api-key"
+```
+
+**Nota**: Puedes empezar sin API keys usando mocks para probar la estructura.
+
+**Ver más detalles**: [docs/API_KEYS_CONFIG.md](docs/API_KEYS_CONFIG.md)
+
+### ⚡ Forma Más Rápida: Usar `/dt-start`
+
+**Recomendamos empezar usando el comando `/dt-start` directamente en tu IDE.**
+
+1. **Configura el workflow** en tu IDE (Cursor o Antigravity)
+2. **Escribe `/dt-start`** en el chat
+3. **El DT te guiará** con preguntas adaptativas
+4. **Aprobarás el plan** antes de que se ejecute nada
+5. **¡Listo!** Tu proyecto estará inicializado
+
+**Ver guía completa**: [docs/QUICK_START.md](docs/QUICK_START.md)
+
+### Ejemplo Mínimo (Código Python)
 
 ```python
 import asyncio
 from agents_army import DT
 from agents_army.core.agent import LLMProvider
 
-# 1. Crear tu LLM Provider (ejemplo con mock)
+# 1. Crear tu LLM Provider
 class MyLLMProvider(LLMProvider):
     async def generate(self, prompt: str, **kwargs):
         # Integrar con OpenAI, Anthropic, etc.
@@ -202,357 +339,239 @@ async def main():
         project_name="Mi Proyecto",
         description="Descripción del proyecto"
     )
-    
-    # 4. Crear PRD y parsear
-    # ... (ver ejemplos/dt_example.py)
+    print(f"✅ Proyecto '{project.name}' inicializado")
 
 asyncio.run(main())
 ```
 
-### Ejemplo: Sistema Multi-Agente Completo
+**Ver más ejemplos**: [examples/](examples/)
 
-```python
-from agents_army import (
-    DT, Researcher, BackendArchitect, FrontendDeveloper,
-    ProductStrategist, UIDesigner, ContentCreator,
-    AgentSystem, MemoryAgent, InMemoryBackend
-)
+---
 
-# Crear sistema
-system = AgentSystem()
+## 💡 Casos de Uso
 
-# Crear agentes
-dt = DT(llm_provider=your_llm)
-researcher = Researcher(llm_provider=your_llm)
-architect = BackendArchitect(llm_provider=your_llm)
-frontend_dev = FrontendDeveloper(llm_provider=your_llm)
-product_strategist = ProductStrategist(llm_provider=your_llm)
-ui_designer = UIDesigner(llm_provider=your_llm)
-content_creator = ContentCreator(llm_provider=your_llm)
-memory = MemoryAgent(backend=InMemoryBackend())
+### Caso 1: Crear Estrategia de Marketing Completa
 
-# Registrar agentes
-system.register_agent(dt)
-system.register_agent(researcher)
-system.register_agent(architect)
-system.register_agent(frontend_dev)
-system.register_agent(product_strategist)
-system.register_agent(ui_designer)
-system.register_agent(content_creator)
-system.register_agent(memory)
+**Escenario**: Necesitas lanzar una campaña de marketing para tu nuevo producto SaaS.
 
-# Usar...
-# (ver examples/complete_app_example.py)
-```
+**Cómo El DT ayuda:**
+1. **MarketingStrategist** crea la estrategia general
+2. **Researcher** investiga competencia y mejores prácticas
+3. **ContentCreator** genera contenido para redes sociales
+4. **BrandGuardian** asegura consistencia de marca
+5. **GrowthHacker** optimiza para conversión
 
-**Nota**: Hay 18 agentes especializados disponibles. Ver la lista completa en [Agentes Implementados](#agentes-implementados).
+**Resultado**: Estrategia completa, contenido listo y plan de ejecución.
 
-## 🏛️ Arquitectura
+### Caso 2: Desarrollar Aplicación Web Completa
 
-```
-┌─────────────────────────────────────────┐
-│         AgentSystem                     │
-│      (Punto de Entrada)                 │
-└─────────────────────────────────────────┘
-              │
-    ┌─────────┼─────────┐
-    │         │         │
-    ▼         ▼         ▼
-┌────────┐ ┌────────┐ ┌────────┐
-│ El DT  │ │Message │ │Agent   │
-│(Coord.)│ │Router  │ │Registry│
-└────────┘ └────────┘ └────────┘
-    │
-    ▼
-┌──────────────────────────────┐
-│  Agentes Especializados      │
-│  (18 agentes disponibles)    │
-│  Research │ Development      │
-│  Design │ Marketing          │
-│  Product │ Operations        │
-└──────────────────────────────┘
-    │         │         │
-    ▼         ▼         ▼
-┌────────┐ ┌────────┐ ┌────────┐
-│Memory  │ │Tools  │ │Protocol│
-│System  │ │Registry│ │Layer   │
-└────────┘ └────────┘ └────────┘
-```
+**Escenario**: Quieres crear una app web con frontend y backend.
 
-## 📚 Documentación
+**Cómo El DT ayuda:**
+1. **ProductStrategist** define features y prioridades
+2. **BackendArchitect** diseña la arquitectura y APIs
+3. **FrontendDeveloper** crea la interfaz de usuario
+4. **QATester** ejecuta tests y valida calidad
+5. **DevOpsAutomator** configura CI/CD y despliegue
 
-### Para Empezar
-- **[QUICK_START.md](docs/QUICK_START.md)** - ⚡ Inicio rápido (5 minutos)
-- **[REQUIREMENTS.md](docs/REQUIREMENTS.md)** - Requisitos del sistema
-- **[API_KEYS_CONFIG.md](docs/API_KEYS_CONFIG.md)** - ⚠️ **Configuración de API Keys** (LLMs y MCP)
-- **[USER_GUIDE.md](docs/USER_GUIDE.md)** - Guía de usuario completa
-- **[FAQ.md](docs/FAQ.md)** - Preguntas frecuentes
+**Resultado**: Aplicación completa, testeada y lista para desplegar.
 
-### Documentación Técnica
-- **[INDEX.md](docs/INDEX.md)** - Índice completo de documentación
-- **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Arquitectura del sistema
-- **[PROTOCOL.md](docs/PROTOCOL.md)** - Protocolo de comunicación
-- **[SPECIFICATIONS_V2.md](docs/SPECIFICATIONS_V2.md)** - Especificaciones técnicas
-- **[INTEGRATION.md](docs/INTEGRATION.md)** - Guía de integración
-- **[ROLES.md](docs/ROLES.md)** - Roles y responsabilidades
+### Caso 3: Generar Contenido para Redes Sociales
 
-### Operaciones
-- **[TESTING_STRATEGY.md](docs/TESTING_STRATEGY.md)** - Estrategia de testing
-- **[DEPLOYMENT.md](docs/DEPLOYMENT.md)** - Deployment
-- **[SECURITY.md](docs/SECURITY.md)** - Seguridad
-- **[MONITORING.md](docs/MONITORING.md)** - Observabilidad
-- **[COST_MANAGEMENT.md](docs/COST_MANAGEMENT.md)** - Gestión de costos
-- **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** - Solución de problemas
+**Escenario**: Necesitas contenido consistente para Instagram y LinkedIn durante un mes.
 
+**Cómo El DT ayuda:**
+1. **ContentCreator** genera posts adaptados a cada plataforma
+2. **StorytellingSpecialist** crea narrativas convincentes
+3. **BrandGuardian** asegura tono y estilo consistentes
+4. **MarketingStrategist** optimiza timing y mensajes
 
-## 🎯 Skills
+**Resultado**: Calendario editorial completo con contenido listo para publicar.
 
-Las Skills son workflows y comandos especializados que pueden ser ejecutados por los agentes para realizar tareas específicas. Estas skills están documentadas en formato markdown y pueden ser utilizadas por cualquier agente del sistema.
+### Caso 4: Planear y Ejecutar Proyecto desde Cero
 
-### Skills Disponibles
+**Escenario**: Tienes una idea pero no sabes por dónde empezar.
 
-1. **`dt-start`** ⭐ **NUEVO** - Workflow conversacional para inicializar proyectos con El DT
-   - Guía adaptativa según tipo de proyecto (desarrollo, marketing, contenido, diseño, etc.)
-   - Preguntas progresivas y adaptativas
-   - Crea plan estructurado antes de ejecutar
-   - Espera aprobación explícita antes de crear directorios
-   - Ubicación: `skills/dt-start.md` | `.cursor/commands/dt-start.md`
-   - **Recomendado para empezar**: Ver sección [Quick Start](#-quick-start)
+**Cómo El DT ayuda:**
+1. Usas `/dt-start` para conversar con El DT
+2. El DT te hace preguntas adaptativas según tu tipo de proyecto
+3. Crea un PRD o Brief estructurado
+4. Genera tareas automáticamente desde el documento
+5. Asigna cada tarea al agente especializado correcto
+6. Ejecuta iterativamente hasta completar cada tarea
 
-2. **`github-save`** - Workflow completo de Git para guardar cambios, crear tags de versión y hacer push al repositorio remoto
-   - Verifica repositorio Git inicializado
-   - Valida autenticación y conexión remota
-   - Crea commits con mensajes descriptivos
-   - Genera tags de versión semántica
-   - Hace push de commits y tags
-   - Ubicación: `skills/github-save.md`
+**Resultado**: Proyecto completamente planificado y en ejecución.
 
-### Uso de Skills
+---
 
-Las skills pueden ser referenciadas por los agentes para ejecutar workflows complejos. Cada skill incluye:
-- Objetivo claro
-- Pre-requisitos y validaciones
-- Pasos detallados del workflow
-- Manejo de errores y advertencias
-- Mejores prácticas
+## 📚 Documentación y Arquitectura
 
-**Ver más**: `skills/` directory
+### 📖 Para Empezar
 
-## 💡 Ejemplos
+| Documento | Descripción |
+|-----------|-------------|
+| **[QUICK_START.md](docs/QUICK_START.md)** | ⚡ Inicio rápido en 5 minutos |
+| **[REQUIREMENTS.md](docs/REQUIREMENTS.md)** | Requisitos del sistema |
+| **[API_KEYS_CONFIG.md](docs/API_KEYS_CONFIG.md)** | ⚠️ Configuración de API Keys |
+| **[USER_GUIDE.md](docs/USER_GUIDE.md)** | Guía completa de usuario |
+| **[FAQ.md](docs/FAQ.md)** | Preguntas frecuentes |
 
-El proyecto incluye 7 ejemplos funcionales:
+### 🏗️ Arquitectura y Diseño
 
-1. **`basic_message_example.py`** - Mensajería básica entre agentes
-2. **`basic_agent_example.py`** - Creación y uso de agentes básicos
-3. **`dt_example.py`** - El DT y gestión de proyectos
-4. **`specialized_agents_example.py`** - Agentes especializados
-5. **`memory_example.py`** - Sistema de memoria
-6. **`tools_example.py`** - Sistema de herramientas
-7. **`complete_app_example.py`** - Aplicación completa
+| Documento | Descripción |
+|-----------|-------------|
+| **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** | Arquitectura del sistema |
+| **[PROTOCOL.md](docs/PROTOCOL.md)** | Protocolo de comunicación |
+| **[SPECIFICATIONS_V2.md](docs/SPECIFICATIONS_V2.md)** | Especificaciones técnicas |
+| **[AUTONOMOUS_LOOPS.md](docs/AUTONOMOUS_LOOPS.md)** | ⭐ Loops autónomos |
+| **[ROLES.md](docs/ROLES.md)** | Roles y responsabilidades |
 
-Ejecutar ejemplos:
+### 🔧 Integración y Uso
 
-```bash
-python examples/complete_app_example.py
-```
+| Documento | Descripción |
+|-----------|-------------|
+| **[INTEGRATION.md](docs/INTEGRATION.md)** | Guía de integración |
+| **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** | Solución de problemas |
+| **[DT_COMMUNICATION_GUIDELINES.md](docs/DT_COMMUNICATION_GUIDELINES.md)** | Guías de comunicación del DT |
 
-## ✅ Estado de Implementación
+### 🚀 Operaciones
 
-### Fases Completadas ✅
+| Documento | Descripción |
+|-----------|-------------|
+| **[TESTING_STRATEGY.md](docs/TESTING_STRATEGY.md)** | Estrategia de testing |
+| **[DEPLOYMENT.md](docs/DEPLOYMENT.md)** | Deployment |
+| **[SECURITY.md](docs/SECURITY.md)** | Seguridad |
+| **[MONITORING.md](docs/MONITORING.md)** | Observabilidad |
+| **[COST_MANAGEMENT.md](docs/COST_MANAGEMENT.md)** | Gestión de costos |
 
-- [x] **Fase 0: Preparación y Setup** ✅
-- [x] **Fase 1: Protocolo y Mensajería** ✅ (22 tests)
-- [x] **Fase 2: Sistema Base de Agentes** ✅ (30 tests)
-- [x] **Fase 3: El DT (Director Técnico)** ✅ (7 tests)
-- [x] **Fase 4: Agentes Especializados** ✅ (14 tests)
-- [x] **Fase 5: Sistema de Memoria** ✅ (17 tests)
-- [x] **Fase 6: Sistema de Herramientas** ✅ (16 tests)
-- [x] **Fase 7: Integración y Testing E2E** ✅ (3 tests)
+### 📋 Índice Completo
 
-**Total: 109 tests pasando** ✅
+Ver **[docs/INDEX.md](docs/INDEX.md)** para el índice completo de toda la documentación.
 
-### Componentes Implementados
-
-| Componente | Estado | Tests |
-|------------|--------|-------|
-| Protocolo de Mensajería | ✅ Completo | 22 |
-| Sistema Base de Agentes | ✅ Completo | 30 |
-| El DT | ✅ Completo | 7 |
-| Agentes Especializados | ✅ 17/17 | 14 |
-| Sistema de Memoria | ✅ Completo | 17 |
-| Sistema de Herramientas | ✅ 6 herramientas | 16 |
-| Tests E2E | ✅ Completo | 3 |
-
-### Agentes Implementados
-
-#### 🎯 Agentes Core
-1. ✅ **El DT** - Coordinador principal y Director Técnico
-2. ✅ **MemoryAgent** - Gestión de memoria y persistencia
-
-#### 🔍 Agentes de Investigación y Análisis
-3. ✅ **Researcher** - Investigación y análisis de información
-4. ✅ **UXResearcher** - Investigación de experiencia de usuario
-5. ✅ **FeedbackSynthesizer** - Síntesis y análisis de feedback
-
-#### 🏗️ Agentes de Desarrollo
-6. ✅ **BackendArchitect** - Arquitectura y diseño backend
-7. ✅ **FrontendDeveloper** - Desarrollo frontend
-8. ✅ **DevOpsAutomator** - Automatización DevOps y CI/CD
-9. ✅ **QATester** - Testing y control de calidad
-
-#### 📊 Agentes de Producto y Estrategia
-10. ✅ **ProductStrategist** - Estrategia de producto
-11. ✅ **OperationsMaintainer** - Mantenimiento y operaciones
-
-#### 🎨 Agentes de Diseño y Contenido
-12. ✅ **UIDesigner** - Diseño de interfaces de usuario
-13. ✅ **ContentCreator** - Creación de contenido
-14. ✅ **StorytellingSpecialist** - Especialista en narrativa
-
-#### 📈 Agentes de Marketing y Crecimiento
-15. ✅ **MarketingStrategist** - Estrategia de marketing
-16. ✅ **GrowthHacker** - Crecimiento y adquisición
-17. ✅ **BrandGuardian** - Gestión y protección de marca
-18. ✅ **PitchSpecialist** - Creación de pitches y presentaciones
-
-**Total: 18 agentes especializados** ✅
-
-### Herramientas Implementadas
-
-1. ✅ `web_search` - Búsqueda web (mock)
-2. ✅ `document_parser` - Parser de documentos
-3. ✅ `text_extractor` - Extracción de texto
-4. ✅ `text_formatter` - Formateo de texto
-5. ✅ `text_analyzer` - Análisis de texto
-6. ✅ `text_generator` - Generación con LLM
-
-## 🧪 Testing
-
-```bash
-# Ejecutar todos los tests
-pytest
-
-# Con cobertura
-pytest --cov=src/agents_army --cov-report=html
-
-# Tests específicos
-pytest tests/unit/
-pytest tests/integration/
-pytest tests/e2e/
-```
-
-**Resultado**: 109 tests pasando ✅
-
-## 🛠️ Desarrollo
-
-### Setup de Desarrollo
-
-```bash
-# Instalar dependencias de desarrollo
-pip install -r requirements-dev.txt
-
-# Instalar pre-commit hooks
-pre-commit install
-
-# Ejecutar linting
-black src/ tests/
-ruff check src/ tests/
-mypy src/
-```
-
-### Estructura del Proyecto
-
-```
-Agents_Army/
-├── src/agents_army/      # Código fuente
-│   ├── protocol/        # Protocolo de mensajería
-│   ├── core/            # Componentes core
-│   ├── agents/          # Implementaciones de agentes
-│   ├── memory/          # Sistema de memoria
-│   └── tools/           # Sistema de herramientas
-├── tests/               # Tests (109 tests)
-├── examples/            # Ejemplos (7 ejemplos)
-└── docs/                # Documentación (20+ docs)
-```
-
-## 📊 Métricas del Proyecto
-
-- **Líneas de código**: ~5,000+
-- **Archivos Python**: 25+
-- **Tests**: 109 pasando
-- **Cobertura**: >80%
-- **Documentación**: 20+ documentos
-- **Ejemplos**: 7 funcionales
-
-## 🎯 Casos de Uso
-
-### ✅ Lo que SÍ puedes hacer
-
-- Crear sistemas multi-agente básicos
-- Coordinar agentes especializados
-- Gestionar proyectos con El DT
-- Almacenar y recuperar contexto
-- Usar herramientas básicas
-- Integrar en nuevos proyectos
-
-### ⚠️ Limitaciones del MVP
-
-- LLM Integration: Necesitas integrar tu propio provider
-- Web Search: Mock implementation (necesita API real)
-- Agentes: 18 agentes especializados implementados ✅
-- MCP Avanzado: Pendiente para v2.0
+---
 
 ## 🔮 Roadmap
 
-### v2.0 (Futuro)
+### v2.0 (Próximas Funcionalidades)
 
-- [ ] DTAutonomyEngine completo
-- [ ] Búsqueda semántica en memoria
-- [ ] Vector DB backends
-- [ ] MCP avanzado
-- [ ] Más agentes especializados según necesidades
-- [ ] Dashboard visual
-- [ ] Herramientas avanzadas
+- [ ] **DTAutonomyEngine Completo**: Sistema completo de decisión de autonomía
+- [ ] **Búsqueda Semántica en Memoria**: Búsqueda inteligente de contexto histórico
+- [ ] **Vector DB Backends**: Soporte para bases de datos vectoriales (Pinecone, Weaviate)
+- [ ] **MCP Avanzado**: Integración completa con Model Context Protocol
+- [ ] **Más Agentes Especializados**: Según necesidades de la comunidad
+- [ ] **Dashboard Visual**: Interfaz web para monitorear y gestionar proyectos
+- [ ] **Herramientas Avanzadas**: Más herramientas integradas listas para usar
+
+### Contribuciones Bienvenidas
+
+¿Tienes una idea para v2.0? [Abre un issue](https://github.com/Mazalucas/El-DT-Agent-Army/issues) o [contribuye](CONTRIBUTING.md).
+
+---
 
 ## 🤝 Contribuir
 
-El proyecto está listo para contribuciones:
+El proyecto está abierto a contribuciones. Tu ayuda hace que El DT sea mejor para todos.
 
-1. Fork el repositorio
-2. Crea una rama (`git checkout -b feature/nueva-funcionalidad`)
-3. Commit tus cambios (`git commit -am 'Agregar nueva funcionalidad'`)
-4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
-5. Abre un Pull Request
+### Cómo Contribuir
+
+1. **Fork** el repositorio
+2. **Crea una rama** (`git checkout -b feature/nueva-funcionalidad`)
+3. **Commit** tus cambios (`git commit -am 'Agregar nueva funcionalidad'`)
+4. **Push** a la rama (`git push origin feature/nueva-funcionalidad`)
+5. **Abre un Pull Request**
 
 ### Guías de Contribución
 
 - Seguir estructura de código existente
 - Agregar tests para nuevas funcionalidades
 - Actualizar documentación
-- Mantener >80% cobertura
+- Mantener >80% cobertura de tests
+- Seguir las guías de comunicación del DT
+
+**Ver más**: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) (si existe)
+
+---
 
 ## 📄 Licencia
 
-[Especificar licencia aquí - MIT recomendado]
+Este proyecto está licenciado bajo la **[Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/)** (CC BY 4.0).
+
+### ¿Qué Significa Esto?
+
+**Puedes:**
+- ✅ Usar el proyecto comercialmente
+- ✅ Modificar y adaptar el código
+- ✅ Distribuir el proyecto
+- ✅ Usar en proyectos privados
+
+**Debes:**
+- 📝 **Proporcionar atribución** al autor original
+- 📝 Incluir un enlace a la licencia
+- 📝 Indicar si hiciste cambios
+
+### Atribución Requerida
+
+Cuando uses este proyecto, incluye la siguiente atribución:
+
+```
+Este proyecto utiliza El DT (Agents_Army), creado por @Mazalucas.
+Licencia: CC BY 4.0 - https://creativecommons.org/licenses/by/4.0/
+```
+
+**Autor**: @Mazalucas (GitHub) / @LucasMazalan (otras redes)
+
+**Ver licencia completa**: [LICENSE](LICENSE)
+
+---
 
 ## 🙏 Inspiración y Créditos
 
-Este proyecto está inspirado en:
+Este proyecto está inspirado y construido sobre los hombros de gigantes:
 
-- [claude-task-master](https://github.com/eyaltoledano/claude-task-master) - Para El DT
-- [OpenAI Cookbook](https://github.com/openai/openai-cookbook) - Para patrones de agentes
-- [CrewAI](https://github.com/joaomdmoura/crewAI) - Para estructura de agentes
-- [Anthropic Cookbook](https://github.com/anthropics/claude-cookbooks) - Para patrones de agentes
+### Proyectos que Inspiraron El DT
+
+- **[claude-task-master](https://github.com/eyaltoledano/claude-task-master)** - Arquitectura base de El DT y gestión de tareas
+- **[CrewAI](https://github.com/joaomdmoura/crewAI)** - Estructura y organización de agentes
+- **[OpenAI Cookbook](https://github.com/openai/openai-cookbook)** - Patrones y mejores prácticas para agentes
+- **[Anthropic Cookbook](https://github.com/anthropics/claude-cookbooks)** - Patrones avanzados de agentes
+
+### Tecnologías Utilizadas
+
+- **Python 3.10+** - Lenguaje principal
+- **Pydantic** - Validación de datos y type safety
+- **pytest** - Framework de testing
+- **Creative Commons** - Licencia abierta
+
+### Agradecimientos
+
+Gracias a toda la comunidad open source que hace posible proyectos como este. Especialmente a los mantenedores de los proyectos mencionados arriba.
+
+---
 
 ## 📞 Soporte
 
-- **Documentación**: Ver `docs/`
-- **Ejemplos**: Ver `examples/`
-- **Issues**: [Crear issue en GitHub]
-- **Troubleshooting**: Ver `docs/TROUBLESHOOTING.md`
+### ¿Necesitas Ayuda?
+
+- **📚 Documentación Completa**: Ver directorio `docs/`
+- **💡 Ejemplos**: Ver directorio `examples/`
+- **🐛 Reportar Bugs**: [Crear issue en GitHub](https://github.com/Mazalucas/El-DT-Agent-Army/issues)
+- **❓ Troubleshooting**: Ver [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)
+- **💬 Preguntas**: Ver [docs/FAQ.md](docs/FAQ.md)
+
+### Recursos Rápidos
+
+- **Inicio Rápido**: [docs/QUICK_START.md](docs/QUICK_START.md)
+- **Guía de Usuario**: [docs/USER_GUIDE.md](docs/USER_GUIDE.md)
+- **Índice Completo**: [docs/INDEX.md](docs/INDEX.md)
 
 ---
+
+<div align="center">
 
 **Versión**: 0.1.0 (MVP)  
 **Estado**: ✅ Production Ready (con integración LLM)  
 **Última actualización**: Enero 2025
+
+⭐ **Si este proyecto te ayuda, considera darle una estrella en GitHub** ⭐
+
+</div>

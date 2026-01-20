@@ -8,9 +8,9 @@ version = "0.1.0"
 description = "A modular and scalable framework for building multi-agent AI systems"
 readme = "README.md"
 requires-python = ">=3.10"
-license = "MIT"
+license = {text = "CC-BY-4.0"}
 authors = [
-    {name = "Agents_Army Contributors"}
+    {name = "@Mazalucas", email = ""}
 ]
 keywords = ["ai", "agents", "multi-agent", "llm", "orchestration"]
 classifiers = [
