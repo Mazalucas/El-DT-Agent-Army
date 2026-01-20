@@ -1,6 +1,55 @@
 # Quick Start: Agents_Army
 
-## 🚀 Dos Caminos para Empezar
+## ⚡ Forma Más Rápida: Usar `/dt-start`
+
+**Recomendamos empezar usando el comando `/dt-start` directamente en tu IDE.**
+
+El DT te guiará a través de una conversación adaptativa para inicializar tu proyecto de forma estructurada, sin necesidad de escribir código.
+
+### 📝 Configurar el Workflow en tu IDE
+
+**En Cursor:**
+1. Abre el chat en Cursor
+2. Escribe solo `/` (barra diagonal)
+3. Se desplegará un menú con opciones
+4. Selecciona o crea el workflow `dt-start`
+5. ¡Listo! Ahora puedes usar `/dt-start` cuando quieras inicializar un proyecto
+
+**En Antigravity:**
+1. En el chat, arriba a la derecha, haz clic en los **tres puntitos** (⋯)
+2. Se desplegará un menú → Selecciona **"Customizations"**
+3. Ve a la pestaña **"Workflows"**
+4. Crea un workflow **global** llamado `dt-start`
+5. Configúralo para usar el archivo `.cursor/commands/dt-start.md`
+6. ¡Listo! Ahora puedes usar `/dt-start` desde cualquier proyecto
+
+### 🎯 Usar `/dt-start`
+
+Una vez configurado el workflow:
+
+1. **Escribe `/dt-start`** en el chat de tu IDE
+2. **El DT comenzará una conversación guiada** contigo:
+   - Te preguntará qué tipo de proyecto quieres crear
+   - Adaptará las preguntas según el tipo (desarrollo, marketing, contenido, diseño, etc.)
+   - Creará un plan estructurado antes de ejecutar
+   - Esperará tu aprobación explícita antes de crear directorios o archivos
+3. **El DT inicializará tu proyecto** con la estructura apropiada
+
+**Tipos de proyectos soportados:**
+- Desarrollo de Software (apps web, móviles, APIs)
+- Marketing (campañas, estrategias)
+- Contenido (blog, copywriting, redes sociales)
+- Diseño (UI/UX, branding)
+- Investigación (market research, user research)
+- Estrategia de Negocio (product strategy, go-to-market)
+- Técnico/DevOps (infraestructura, CI/CD)
+- Y más...
+
+**Ver el workflow completo**: [`skills/dt-start.md`](../skills/dt-start.md) | [`.cursor/commands/dt-start.md`](../.cursor/commands/dt-start.md)
+
+---
+
+## 🚀 Dos Caminos Alternativos para Empezar
 
 ### Camino 1: Ya Tienes un Proyecto
 

@@ -91,7 +91,56 @@ python -c "from agents_army import AgentSystem, DT; print('✅ Agents_Army insta
 
 **¿Nuevo en Agents_Army?** Empieza con **[docs/QUICK_START.md](docs/QUICK_START.md)** (5 minutos)
 
-### Dos Caminos para Empezar
+### ⚡ Forma Más Rápida: Usar `/dt-start`
+
+**Recomendamos empezar usando el comando `/dt-start` directamente en tu IDE.**
+
+El DT te guiará a través de una conversación adaptativa para inicializar tu proyecto de forma estructurada, sin necesidad de escribir código.
+
+#### 📝 Configurar el Workflow en tu IDE
+
+**En Cursor:**
+1. Abre el chat en Cursor
+2. Escribe solo `/` (barra diagonal)
+3. Se desplegará un menú con opciones
+4. Selecciona o crea el workflow `dt-start`
+5. ¡Listo! Ahora puedes usar `/dt-start` cuando quieras inicializar un proyecto
+
+**En Antigravity:**
+1. En el chat, arriba a la derecha, haz clic en los **tres puntitos** (⋯)
+2. Se desplegará un menú → Selecciona **"Customizations"**
+3. Ve a la pestaña **"Workflows"**
+4. Crea un workflow **global** llamado `dt-start`
+5. Configúralo para usar el archivo `.cursor/commands/dt-start.md`
+6. ¡Listo! Ahora puedes usar `/dt-start` desde cualquier proyecto
+
+#### 🎯 Usar `/dt-start`
+
+Una vez configurado el workflow:
+
+1. **Escribe `/dt-start`** en el chat de tu IDE
+2. **El DT comenzará una conversación guiada** contigo:
+   - Te preguntará qué tipo de proyecto quieres crear
+   - Adaptará las preguntas según el tipo (desarrollo, marketing, contenido, diseño, etc.)
+   - Creará un plan estructurado antes de ejecutar
+   - Esperará tu aprobación explícita antes de crear directorios o archivos
+3. **El DT inicializará tu proyecto** con la estructura apropiada
+
+**Tipos de proyectos soportados:**
+- Desarrollo de Software (apps web, móviles, APIs)
+- Marketing (campañas, estrategias)
+- Contenido (blog, copywriting, redes sociales)
+- Diseño (UI/UX, branding)
+- Investigación (market research, user research)
+- Estrategia de Negocio (product strategy, go-to-market)
+- Técnico/DevOps (infraestructura, CI/CD)
+- Y más...
+
+**Ver el workflow completo**: [`skills/dt-start.md`](skills/dt-start.md) | [`.cursor/commands/dt-start.md`](.cursor/commands/dt-start.md)
+
+---
+
+### Dos Caminos Alternativos para Empezar
 
 #### 1️⃣ Ya Tienes un Proyecto
 Clona el repo e integra El DT en tu proyecto existente.
@@ -104,8 +153,8 @@ pip install -e .
 
 Luego usa El DT en tu código (ver [docs/QUICK_START.md](docs/QUICK_START.md) para ejemplo completo).
 
-#### 2️⃣ Conversar con El DT para Planear
-Si no tienes proyecto, El DT te ayuda a planearlo desde cero.
+#### 2️⃣ Conversar con El DT para Planear (Código Python)
+Si prefieres usar código Python directamente, El DT te ayuda a planearlo desde cero.
 
 ```bash
 git clone https://github.com/Mazalucas/El-DT-Agent-Army.git
@@ -250,7 +299,15 @@ Las Skills son workflows y comandos especializados que pueden ser ejecutados por
 
 ### Skills Disponibles
 
-1. **`github-save`** - Workflow completo de Git para guardar cambios, crear tags de versión y hacer push al repositorio remoto
+1. **`dt-start`** ⭐ **NUEVO** - Workflow conversacional para inicializar proyectos con El DT
+   - Guía adaptativa según tipo de proyecto (desarrollo, marketing, contenido, diseño, etc.)
+   - Preguntas progresivas y adaptativas
+   - Crea plan estructurado antes de ejecutar
+   - Espera aprobación explícita antes de crear directorios
+   - Ubicación: `skills/dt-start.md` | `.cursor/commands/dt-start.md`
+   - **Recomendado para empezar**: Ver sección [Quick Start](#-quick-start)
+
+2. **`github-save`** - Workflow completo de Git para guardar cambios, crear tags de versión y hacer push al repositorio remoto
    - Verifica repositorio Git inicializado
    - Valida autenticación y conexión remota
    - Crea commits con mensajes descriptivos
