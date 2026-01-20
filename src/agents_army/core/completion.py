@@ -301,22 +301,33 @@ class CompletionCriteriaFactory:
             return "research"
 
         # Check for documentation keywords (must check before code keywords)
+        # Look for documentation context first
         doc_keywords = ["documentation", "document", "write", "readme", "guide", "tutorial", "docs"]
-        if any(keyword in desc_lower for keyword in doc_keywords):
+        doc_contexts = ["write", "create", "draft", "prepare"]
+        
+        # If description contains doc keywords AND doc contexts, it's documentation
+        has_doc_keyword = any(keyword in desc_lower for keyword in doc_keywords)
+        has_doc_context = any(context in desc_lower for context in doc_contexts)
+        
+        if has_doc_keyword or (has_doc_context and ("guide" in desc_lower or "readme" in desc_lower or "tutorial" in desc_lower)):
             return "documentation"
-
-        # Check for code implementation keywords
-        code_keywords = ["implement", "code", "function", "class", "endpoint"]
-        # Only check "api" if it's not clearly documentation
-        if "api" in desc_lower and "documentation" not in desc_lower and "document" not in desc_lower:
-            if any(keyword in desc_lower for keyword in ["implement", "code", "function", "class", "endpoint"]):
-                return "code_implementation"
-        elif any(keyword in desc_lower for keyword in code_keywords):
-            return "code_implementation"
 
         # Check for research keywords
         research_keywords = ["research", "investigate", "analyze", "study", "explore"]
         if any(keyword in desc_lower for keyword in research_keywords):
             return "research"
+
+        # Check for code implementation keywords (after checking docs)
+        code_keywords = ["implement", "code", "function", "class", "endpoint"]
+        # Check "api" only if it's clearly implementation, not documentation
+        if "api" in desc_lower:
+            # If it says "write documentation for API" or similar, it's documentation
+            if "documentation" in desc_lower or "document" in desc_lower or "guide" in desc_lower:
+                return "documentation"
+            # Otherwise, if it has implementation keywords, it's code
+            if any(keyword in desc_lower for keyword in ["implement", "code", "function", "class", "endpoint"]):
+                return "code_implementation"
+        elif any(keyword in desc_lower for keyword in code_keywords):
+            return "code_implementation"
 
         return "general"

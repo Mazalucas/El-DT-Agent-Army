@@ -24,7 +24,10 @@ Este comando activa el workflow descrito en `skills/dt-start.md`. El DT:
 3. **Hace preguntas adaptativas** según el tipo de proyecto identificado
 4. **Crea un plan estructurado** antes de ejecutar nada
 5. **Espera tu aprobación explícita** antes de crear directorios o archivos
-6. **Inicializa el proyecto** solo después de tu aprobación
+6. **Inicializa el proyecto** solo después de tu aprobación, incluyendo:
+   - Estructura de directorios (`.dt/` y `projects/[nombre-proyecto]/`)
+   - **Archivos de configuración del IDE** (`.cursorrules`, `.claude/`, `.cursor/rules/`) para activación automática del DT
+   - Documento inicial apropiado según el tipo de proyecto
 
 ## Principios Importantes
 
@@ -72,9 +75,11 @@ Para ver el workflow completo con todos los detalles, consulta: `skills/dt-start
 ## Notas
 
 - El DT creará la estructura `.dt/` y `projects/[nombre-proyecto]/` según el plan aprobado
+- **Configuración del IDE**: Se copiarán automáticamente los archivos necesarios (`.cursorrules`, `.claude/CLAUDE.md`, `.cursor/rules/`) para que El DT se active automáticamente en cada conversación
 - El documento apropiado (PRD, SRD, Brief, etc.) se creará según el tipo de proyecto
 - Puedes refinar y expandir el proyecto después de la inicialización
 - Si ya existe `.dt/` en el directorio, El DT te advertirá y ofrecerá opciones
+- **IMPORTANTE**: Después de la inicialización, reinicia Cursor para que cargue los nuevos archivos de configuración del IDE
 
 ## Referencias
 

@@ -291,23 +291,34 @@ Inicializar El DT (Director Técnico) con una conversación guiada y adaptativa 
       - .dt/ (archivos del sistema DT para gestión de tareas y reglas)
       - projects/[nombre-proyecto]/ (archivos específicos del proyecto)
    
-   b. Crear archivos base:
+   b. Configurar IDE para activación automática del DT:
+      - .cursorrules (reglas globales que Cursor carga automáticamente)
+      - .claude/CLAUDE.md (configuración para Claude Code)
+      - .cursor/rules/ (reglas específicas del DT)
+      Esto asegura que El DT esté presente y activo en cada conversación.
+   
+   c. Crear archivos base:
       - project.json (metadatos del proyecto, incluyendo tipo de proyecto)
       - docs/[documento-apropiado].txt (template inicial del documento identificado)
       - Estructura de carpetas básica según tipo de proyecto
    
-   c. Configurar reglas iniciales según tipo de proyecto (si aplica)
+   d. Configurar reglas iniciales según tipo de proyecto (si aplica)
    
-   d. [Otros pasos específicos según contexto y tipo]
+   e. [Otros pasos específicos según contexto y tipo]
    
    El documento [nombre del documento] será creado como template inicial y podrás 
-   refinarlo después con más detalles."
+   refinarlo después con más detalles.
+   
+   Después de la inicialización, necesitarás reiniciar Cursor para que cargue los 
+   nuevos archivos de configuración del IDE."
    ```
 
 4. **Explicar cada paso brevemente**:
    - Explicar qué va en `.dt/` vs `projects/`
+   - **Explicar la importancia de los archivos de configuración del IDE**: Estos archivos permiten que El DT se active automáticamente en cada conversación sin necesidad de comandos especiales
    - Explicar qué documento se generará y por qué es apropiado para este tipo de proyecto
    - Mencionar que es solo la inicialización y que se puede refinar después
+   - Mencionar que será necesario reiniciar Cursor después de la inicialización
 
 5. **Preguntar si hay algo que ajustar**:
    ```
@@ -340,7 +351,7 @@ Inicializar El DT (Director Técnico) con una conversación guiada y adaptativa 
 
 ### Fase 6: Ejecución
 
-**Objetivo**: Crear la estructura del proyecto solo después de aprobación explícita
+**Objetivo**: Crear la estructura del proyecto y configurar el IDE solo después de aprobación explícita
 
 **Solo después de aprobación explícita, ejecutar:**
 
@@ -367,7 +378,40 @@ Inicializar El DT (Director Técnico) con una conversación guiada y adaptativa 
        └── config/ (si aplica)
    ```
 
-2. **Crear archivos base**:
+2. **Crear archivos de configuración del IDE** (CRÍTICO para activación automática del DT):
+   
+   **IMPORTANTE**: Estos archivos deben crearse en la raíz del proyecto del usuario para que el DT se active automáticamente en cada conversación.
+   
+   Crear los siguientes archivos en la raíz del proyecto del usuario:
+   
+   - **`.cursorrules`** → Crear en la raíz del proyecto
+     - Contiene las reglas globales que Cursor carga automáticamente
+     - Permite que el DT esté presente en cada conversación
+     - El DT debe crear este archivo con el contenido apropiado (ver referencia en `docs/IDE_CONFIGURATION.md` o copiar desde el repositorio Agents_Army si está disponible)
+   
+   - **`.claude/CLAUDE.md`** → Crear directorio y archivo
+     - Configuración para Claude Code
+     - Se carga automáticamente cuando se usa Claude Code
+     - Crear el directorio `.claude/` y el archivo `CLAUDE.md` con el contenido apropiado
+   
+   - **`.cursor/rules/`** → Crear directorio y archivos
+     - Reglas específicas de activación del DT (`dt-activation.md`)
+     - Reglas del comportamiento del DT (`dt-rules.md`)
+     - Crear el directorio `.cursor/rules/` y los archivos necesarios
+   
+   **Cómo obtener el contenido de los archivos**:
+   - **Opción 1 (Recomendada)**: Si el usuario tiene acceso al repositorio Agents_Army, copiar los archivos desde ahí:
+     - `.cursorrules` desde la raíz de Agents_Army
+     - `.claude/CLAUDE.md` desde Agents_Army
+     - `.cursor/rules/*.md` desde Agents_Army
+   
+   - **Opción 2**: El DT puede crear los archivos directamente leyendo el contenido desde el repositorio Agents_Army si está disponible en el workspace
+   
+   - **Opción 3**: El DT puede crear los archivos con el contenido estándar basado en las plantillas en `docs/IDE_CONFIGURATION.md` y `.cursorrules` del repositorio
+   
+   **Ubicación**: Todos estos archivos deben estar en la **raíz del proyecto donde el usuario está trabajando** (no dentro de `projects/[nombre-proyecto]/`), ya que Cursor busca `.cursorrules` en la raíz del workspace abierto.
+
+3. **Crear archivos base**:
    - `project.json` con metadatos básicos (creado por `DT.initialize_project()`):
      ```json
      {
@@ -387,7 +431,7 @@ Inicializar El DT (Director Técnico) con una conversación guiada y adaptativa 
      - Diseño → `brief_diseno.txt`
      - Otros → `prd.txt` o documento apropiado
 
-3. **Inicializar proyecto usando DT.initialize_project()**:
+4. **Inicializar proyecto usando DT.initialize_project()**:
    ```python
    project = await dt.initialize_project(
        project_name="[nombre]",
@@ -404,15 +448,21 @@ Inicializar El DT (Director Técnico) con una conversación guiada y adaptativa 
    
    Después de la inicialización, crear manualmente el documento apropiado en `projects/[nombre-proyecto]/docs/[documento].txt`
 
-4. **Confirmar creación exitosa**:
+5. **Confirmar creación exitosa**:
    ```
    "✅ Proyecto inicializado exitosamente!
    
    Estructura creada:
    - .dt/ → Gestión del sistema DT
    - projects/[nombre-proyecto]/ → Tu proyecto
+   - .cursorrules → Configuración del IDE (DT activo automáticamente)
+   - .claude/ → Configuración para Claude Code
+   - .cursor/rules/ → Reglas específicas del DT
    
-   Documento inicial creado: projects/[nombre-proyecto]/docs/[documento].txt"
+   Documento inicial creado: projects/[nombre-proyecto]/docs/[documento].txt
+   
+   🎯 El DT ahora está configurado y se activará automáticamente en cada conversación.
+   Reinicia Cursor para que cargue los nuevos archivos de configuración."
    ```
 
 5. **Ofrecer próximos pasos según tipo**:
