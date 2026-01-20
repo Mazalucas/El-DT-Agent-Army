@@ -25,6 +25,8 @@ Guía completa con ejemplos y casos de uso.
 - **[PROTOCOL.md](PROTOCOL.md)** - Protocolo de comunicación
 - **[SPECIFICATIONS_V2.md](SPECIFICATIONS_V2.md)** - Especificaciones técnicas
 - **[ROLES.md](ROLES.md)** - Roles y responsabilidades
+- **[PROJECT_STRUCTURE_SEPARATION.md](PROJECT_STRUCTURE_SEPARATION.md)** - Separación DT vs Proyectos
+- **[DT_COMMUNICATION_GUIDELINES.md](DT_COMMUNICATION_GUIDELINES.md)** - Guías de comunicación del DT
 
 ### Integración y Uso
 - **[INTEGRATION.md](INTEGRATION.md)** - Guía de integración
@@ -56,6 +58,8 @@ La documentación histórica ha sido eliminada para mantener solo lo esencial.
 - **El protocolo**: [PROTOCOL.md](PROTOCOL.md#visión-general)
 - **La arquitectura**: [ARCHITECTURE.md](ARCHITECTURE.md#visión-general)
 - **El DT**: [SPECIFICATIONS_V2.md](SPECIFICATIONS_V2.md#el-dt-director-técnico)
+- **Separación de proyectos**: [PROJECT_STRUCTURE_SEPARATION.md](PROJECT_STRUCTURE_SEPARATION.md)
+- **Comunicación del DT**: [DT_COMMUNICATION_GUIDELINES.md](DT_COMMUNICATION_GUIDELINES.md)
 
 ## 📋 Orden Recomendado de Lectura
 

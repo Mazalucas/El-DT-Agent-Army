@@ -64,6 +64,11 @@ class AgentRole(str, Enum):
     
     # Operations agents
     OPERATIONS_MAINTAINER = "operations_maintainer"
+    
+    # Planning agents
+    PRD_CREATOR = "prd_creator"
+    SRD_CREATOR = "srd_creator"
+    DEVELOPMENT_PLANNER = "development_planner"
 
 
 class Priority(str, Enum):

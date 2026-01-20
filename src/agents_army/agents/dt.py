@@ -1,6 +1,9 @@
 """El DT (Director Técnico) - Main coordinator agent."""
 
+import json
+import re
 import uuid
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -59,17 +62,46 @@ class DT(Agent):
         default_instructions = (
             "You are El DT (Technical Director), responsible for coordinating "
             "and managing all project tasks and agents. You parse PRDs, generate "
-            "tasks, assign them to specialized agents, and ensure project completion."
+            "tasks, assign them to specialized agents, and ensure project completion.\n\n"
+            "## Communication Principles\n\n"
+            "Your role is to be a critical but respectful technical advisor:\n\n"
+            "1. **When user proposes or decides**: If the user explicitly decides to proceed "
+            "or approves a direction, respect their decision and move forward efficiently. "
+            "Don't continue questioning once a decision is made - instead, create a detailed "
+            "plan before execution.\n\n"
+            "2. **Before implementation**: Always present a structured plan first. Work on "
+            "refining the plan collaboratively. **CRITICAL: Never execute or implement until "
+            "the user explicitly approves the plan.** Always wait for user approval before "
+            "starting any implementation.\n\n"
+            "3. **Critical thinking**: Question proposals constructively by:\n"
+            "   - Identifying potential risks, edge cases, or technical challenges\n"
+            "   - Proposing alternative approaches with their trade-offs\n"
+            "   - Justifying your concerns with technical reasoning\n"
+            "   - Inviting discussion rather than simply approving\n\n"
+            "4. **Conversational flow**: Keep interactions conversational. After analysis, "
+            "always open the door for refinement: 'Should we consider...?', 'What if we "
+            "explore...?', 'Before proceeding, let's review...'\n\n"
+            "5. **Balance**: Be thorough in analysis but efficient in execution. Once the "
+            "user confirms a direction, shift from questioning to planning. **CRITICAL: "
+            "Never execute or implement anything until the user explicitly approves the plan. "
+            "Always wait for explicit approval before starting implementation.**\n\n"
+            "6. **Project structure awareness**: Each project has its own isolated directory. "
+            "Never mix DT system files (.dt/) with project-specific files. Project files go "
+            "in the project's dedicated directory, DT management files stay in .dt/"
         )
 
         config = AgentConfig(
             name=name,
             role=AgentRole.DT,
-            goal="Coordinate and manage all project tasks and agents",
+            goal="Coordinate and manage all project tasks and agents while providing critical technical guidance",
             backstory=(
                 "You are the Technical Director, responsible for orchestrating "
-                "the entire project. You have deep technical knowledge and "
-                "excellent coordination skills."
+                "the entire project. You have deep technical knowledge and excellent "
+                "coordination skills. You are known for your ability to critically analyze "
+                "proposals, identify risks, and propose alternatives, while respecting "
+                "user decisions and maintaining efficient workflow. You understand that "
+                "once a direction is approved, your role shifts to planning and execution "
+                "rather than continued questioning."
             ),
             instructions=instructions or default_instructions,
             model=model,
@@ -113,39 +145,78 @@ class DT(Agent):
         project_name: str,
         description: str,
         rules: Optional[List[str]] = None,
+        project_base_path: Optional[str] = None,
     ) -> Project:
         """
         Initialize a new project.
 
-        Creates the .dt directory structure.
+        Creates separate directory structures:
+        - .dt/ : DT system files (tasks, rules, config) - shared across projects
+        - projects/{project_name}/ : Project-specific files (code, docs, assets)
 
         Args:
-            project_name: Name of the project
+            project_name: Name of the project (used for project directory name)
             description: Project description
             rules: Optional list of project rules
+            project_base_path: Optional base path for projects (defaults to 'projects' 
+                              relative to DT's project_path)
 
         Returns:
             Project instance
         """
-        # Create directory structure
+        # Sanitize project name for directory
+        safe_project_name = re.sub(r'[^\w\s-]', '', project_name).strip()
+        safe_project_name = re.sub(r'[-\s]+', '_', safe_project_name)
+        
+        # Determine project-specific directory
+        if project_base_path is None:
+            # Default: projects/{project_name}/ relative to DT's base path
+            dt_base = self.project_path.parent if self.project_path.name == ".dt" else self.project_path.parent
+            project_dir = dt_base / "projects" / safe_project_name
+        else:
+            project_dir = Path(project_base_path) / safe_project_name
+        
+        # Create DT directory structure (for DT management files)
         (self.project_path / "docs").mkdir(parents=True, exist_ok=True)
         (self.project_path / "tasks").mkdir(parents=True, exist_ok=True)
         (self.project_path / "rules").mkdir(parents=True, exist_ok=True)
         (self.project_path / "config").mkdir(parents=True, exist_ok=True)
         (self.project_path / "templates").mkdir(parents=True, exist_ok=True)
+        
+        # Create project-specific directory structure
+        project_dir.mkdir(parents=True, exist_ok=True)
+        (project_dir / "docs").mkdir(parents=True, exist_ok=True)
+        (project_dir / "src").mkdir(parents=True, exist_ok=True)
+        (project_dir / "tests").mkdir(parents=True, exist_ok=True)
+        (project_dir / "assets").mkdir(parents=True, exist_ok=True)
+        (project_dir / "config").mkdir(parents=True, exist_ok=True)
+        
+        # Project PRD goes in project directory, not DT directory
+        project_prd_path = project_dir / "docs" / "prd.txt"
+        
+        # Create project metadata file
+        project_meta = {
+            "name": project_name,
+            "description": description,
+            "dt_path": str(self.project_path),
+            "project_path": str(project_dir),
+            "created_at": datetime.now().isoformat(),
+        }
+        with open(project_dir / "project.json", "w", encoding="utf-8") as f:
+            json.dump(project_meta, f, indent=2, ensure_ascii=False)
 
         # Create project
         project = Project(
             name=project_name,
             description=description,
-            path=str(self.project_path),
-            prd_path=str(self.prd_path),
+            path=str(project_dir),  # Project-specific path, not DT path
+            prd_path=str(project_prd_path),
             rules=rules or [],
         )
 
         self.current_project = project
 
-        # Load rules
+        # Load rules from DT directory (system rules)
         rules_dict = RulesLoader.load_all_rules(str(self.project_path))
         self.rules_checker = RulesChecker(rules_dict)
 
@@ -156,12 +227,18 @@ class DT(Agent):
         Parse a PRD and generate tasks.
 
         Args:
-            prd_path: Optional path to PRD file (uses default if None)
+            prd_path: Optional path to PRD file (uses project's PRD path if None)
 
         Returns:
             List of generated tasks
         """
-        prd_file = Path(prd_path) if prd_path else self.prd_path
+        # Use project's PRD path if available, otherwise fall back to DT's default
+        if prd_path:
+            prd_file = Path(prd_path)
+        elif self.current_project:
+            prd_file = Path(self.current_project.prd_path)
+        else:
+            prd_file = self.prd_path
 
         if not prd_file.exists():
             raise FileNotFoundError(f"PRD file not found: {prd_file}")
@@ -623,6 +700,321 @@ Return:
             all_tools.extend(tools)
 
         return all_tools
+
+    async def create_prd(
+        self,
+        product_idea: str,
+        business_objectives: Optional[List[str]] = None,
+        target_users: Optional[List[str]] = None,
+        constraints: Optional[Dict[str, Any]] = None,
+        context: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        """
+        Create a PRD using the PRD Creator agent.
+
+        Args:
+            product_idea: Description of the product idea
+            business_objectives: List of business objectives
+            target_users: List of target user personas
+            constraints: Constraints (budget, timeline, etc.)
+            context: Additional context
+
+        Returns:
+            PRD document
+        """
+        if not self.system:
+            raise ValueError("DT must be registered in AgentSystem to use planning agents")
+
+        prd_creator = self.system.get_agent(AgentRole.PRD_CREATOR)
+        if not prd_creator:
+            raise ValueError("PRD Creator agent not found in system")
+
+        message = AgentMessage(
+            from_role=self.role,
+            to_role=AgentRole.PRD_CREATOR,
+            type=MessageType.TASK_REQUEST,
+            payload={
+                "product_idea": product_idea,
+                "business_objectives": business_objectives,
+                "target_users": target_users,
+                "constraints": constraints,
+                "context": context,
+            },
+        )
+
+        response = await prd_creator.handle_message(message)
+        if response and response.payload.get("status") == "completed":
+            return response.payload.get("result", {})
+        
+        raise RuntimeError("Failed to create PRD")
+
+    async def create_srd(
+        self,
+        prd: Dict[str, Any],
+        technical_context: Optional[Dict[str, Any]] = None,
+        existing_systems: Optional[List[str]] = None,
+        technical_constraints: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        """
+        Create an SRD using the SRD Creator agent.
+
+        Args:
+            prd: Product Requirements Document
+            technical_context: Technical context
+            existing_systems: List of existing systems to integrate with
+            technical_constraints: Technical constraints
+
+        Returns:
+            SRD document
+        """
+        if not self.system:
+            raise ValueError("DT must be registered in AgentSystem to use planning agents")
+
+        srd_creator = self.system.get_agent(AgentRole.SRD_CREATOR)
+        if not srd_creator:
+            raise ValueError("SRD Creator agent not found in system")
+
+        message = AgentMessage(
+            from_role=self.role,
+            to_role=AgentRole.SRD_CREATOR,
+            type=MessageType.TASK_REQUEST,
+            payload={
+                "prd": prd,
+                "technical_context": technical_context,
+                "existing_systems": existing_systems,
+                "technical_constraints": technical_constraints,
+            },
+        )
+
+        response = await srd_creator.handle_message(message)
+        if response and response.payload.get("status") == "completed":
+            return response.payload.get("result", {})
+        
+        raise RuntimeError("Failed to create SRD")
+
+    async def create_development_plan(
+        self,
+        prd: Optional[Dict[str, Any]] = None,
+        srd: Optional[Dict[str, Any]] = None,
+        constraints: Optional[Dict[str, Any]] = None,
+        preferences: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        """
+        Create a development plan using the Development Planner agent.
+
+        Args:
+            prd: Product Requirements Document
+            srd: Software Requirements Document
+            constraints: Constraints (budget, timeline, team size, etc.)
+            preferences: Preferences (technology, methodology, etc.)
+
+        Returns:
+            Development plan document
+        """
+        if not self.system:
+            raise ValueError("DT must be registered in AgentSystem to use planning agents")
+
+        planner = self.system.get_agent(AgentRole.DEVELOPMENT_PLANNER)
+        if not planner:
+            raise ValueError("Development Planner agent not found in system")
+
+        message = AgentMessage(
+            from_role=self.role,
+            to_role=AgentRole.DEVELOPMENT_PLANNER,
+            type=MessageType.TASK_REQUEST,
+            payload={
+                "prd": prd,
+                "srd": srd,
+                "constraints": constraints,
+                "preferences": preferences,
+            },
+        )
+
+        response = await planner.handle_message(message)
+        if response and response.payload.get("status") == "completed":
+            return response.payload.get("result", {})
+        
+        raise RuntimeError("Failed to create development plan")
+
+    async def extract_tasks_from_plan(
+        self,
+        plan: Dict[str, Any],
+        phase: Optional[str] = None,
+    ) -> List[Task]:
+        """
+        Extract tasks from a development plan and create Task objects.
+
+        Args:
+            plan: Development plan document
+            phase: Optional phase name to extract tasks from specific phase
+
+        Returns:
+            List of Task objects
+        """
+        if not self.system:
+            raise ValueError("DT must be registered in AgentSystem to use planning agents")
+
+        planner = self.system.get_agent(AgentRole.DEVELOPMENT_PLANNER)
+        if not planner:
+            raise ValueError("Development Planner agent not found in system")
+
+        message = AgentMessage(
+            from_role=self.role,
+            to_role=AgentRole.DEVELOPMENT_PLANNER,
+            type=MessageType.TASK_REQUEST,
+            payload={
+                "plan": plan,
+                "action": "extract_tasks",
+                "phase": phase,
+            },
+        )
+
+        response = await planner.handle_message(message)
+        if not response or response.payload.get("status") != "completed":
+            raise RuntimeError("Failed to extract tasks from plan")
+
+        tasks_data = response.payload.get("result", {}).get("tasks", [])
+        
+        # Convert task data to Task objects
+        tasks = []
+        for task_data in tasks_data:
+            task = Task(
+                id=task_data.get("task_id", f"task_{uuid.uuid4().hex[:8]}"),
+                title=task_data.get("description", "Untitled Task"),
+                description=task_data.get("description", ""),
+                priority=task_data.get("priority", "Medium"),
+                tags=task_data.get("tags", []) + [task_data.get("phase", "unknown")],
+                metadata={
+                    "phase": task_data.get("phase"),
+                    "dependencies": task_data.get("dependencies", []),
+                    "effort": task_data.get("effort"),
+                    "skills": task_data.get("skills", []),
+                    "acceptance_criteria": task_data.get("acceptance_criteria", []),
+                    "deliverables": task_data.get("deliverables", []),
+                },
+            )
+            tasks.append(task)
+            # Save task
+            self.task_storage.save_task(task)
+
+        return tasks
+
+    async def map_task_to_agent(
+        self,
+        task: Task,
+        plan: Optional[Dict[str, Any]] = None,
+    ) -> Optional[AgentRole]:
+        """
+        Map a task to the appropriate agent based on task content and development plan.
+
+        Args:
+            task: Task to map
+            plan: Optional development plan for context
+
+        Returns:
+            Recommended AgentRole or None if unclear
+        """
+        # Build mapping prompt
+        prompt = f"""Given the following task, determine which agent role should handle it.
+
+Task: {task.title}
+Description: {task.description}
+Tags: {task.tags}
+Metadata: {task.metadata}
+
+Available agent roles:
+- BACKEND_ARCHITECT: Backend architecture, APIs, databases, server-side logic
+- FRONTEND_DEVELOPER: Frontend UI/UX implementation, client-side code
+- DEVOPS_AUTOMATOR: Infrastructure, CI/CD, deployment, monitoring
+- UX_RESEARCHER: User research, usability studies, user testing
+- UI_DESIGNER: Visual design, UI mockups, design systems
+- QA_TESTER: Testing, quality assurance, test plans
+- PRODUCT_STRATEGIST: Product strategy, feature prioritization
+- MARKETING_STRATEGIST: Marketing strategy, campaigns
+- CONTENT_CREATOR: Content creation, copywriting
+- RESEARCHER: Research, information gathering
+- OPERATIONS_MAINTAINER: Operations, maintenance, monitoring
+
+Based on the task description, which agent role should handle this task?
+Return only the role name (e.g., BACKEND_ARCHITECT).
+"""
+
+        if plan:
+            prompt += f"\n\nDevelopment Plan Context:\n{plan.get('plan_content', '')[:500]}"
+
+        try:
+            response = await self.generate_response(prompt)
+            # Extract role name from response
+            response_upper = response.upper().strip()
+            
+            # Map response to AgentRole
+            role_mapping = {
+                "BACKEND_ARCHITECT": AgentRole.BACKEND_ARCHITECT,
+                "FRONTEND_DEVELOPER": AgentRole.FRONTEND_DEVELOPER,
+                "DEVOPS_AUTOMATOR": AgentRole.DEVOPS_AUTOMATOR,
+                "UX_RESEARCHER": AgentRole.UX_RESEARCHER,
+                "UI_DESIGNER": AgentRole.UI_DESIGNER,
+                "QA_TESTER": AgentRole.QA_TESTER,
+                "PRODUCT_STRATEGIST": AgentRole.PRODUCT_STRATEGIST,
+                "MARKETING_STRATEGIST": AgentRole.MARKETING_STRATEGIST,
+                "CONTENT_CREATOR": AgentRole.CONTENT_CREATOR,
+                "RESEARCHER": AgentRole.RESEARCHER,
+                "OPERATIONS_MAINTAINER": AgentRole.OPERATIONS_MAINTAINER,
+            }
+
+            for key, role in role_mapping.items():
+                if key in response_upper:
+                    return role
+
+            # Fallback: try to infer from task content
+            task_lower = (task.title + " " + task.description).lower()
+            if any(word in task_lower for word in ["backend", "api", "database", "server"]):
+                return AgentRole.BACKEND_ARCHITECT
+            elif any(word in task_lower for word in ["frontend", "ui", "ux", "interface", "client"]):
+                return AgentRole.FRONTEND_DEVELOPER
+            elif any(word in task_lower for word in ["test", "qa", "quality"]):
+                return AgentRole.QA_TESTER
+            elif any(word in task_lower for word in ["deploy", "infrastructure", "ci/cd", "devops"]):
+                return AgentRole.DEVOPS_AUTOMATOR
+
+        except Exception:
+            pass
+
+        return None
+
+    async def execute_plan(
+        self,
+        plan: Dict[str, Any],
+        phase: Optional[str] = None,
+        auto_assign: bool = True,
+    ) -> List[TaskAssignment]:
+        """
+        Execute a development plan by extracting tasks and assigning them to agents.
+
+        Args:
+            plan: Development plan document
+            phase: Optional phase name to execute specific phase
+            auto_assign: Whether to automatically assign tasks to agents
+
+        Returns:
+            List of task assignments
+        """
+        # Extract tasks from plan
+        tasks = await self.extract_tasks_from_plan(plan, phase)
+
+        assignments = []
+        for task in tasks:
+            if auto_assign:
+                # Map task to appropriate agent
+                agent_role = await self.map_task_to_agent(task, plan)
+                if agent_role:
+                    assignment = await self.assign_task(task, agent_role)
+                    assignments.append(assignment)
+                else:
+                    # If unclear, leave task unassigned for manual assignment
+                    self.task_storage.save_task(task)
+
+        return assignments
 
     async def _process_message(
         self, message: AgentMessage
