@@ -54,7 +54,7 @@ Una **tarea** es una unidad de trabajo que El DT puede:
 
 ### 1. Crear un PRD
 
-Crea un archivo `.taskmaster/docs/prd.txt`:
+Crea un archivo `.dt/docs/prd.txt`:
 
 ```markdown
 # Product Requirements Document
@@ -78,7 +78,7 @@ Crear una campaña de marketing para nuestro nuevo producto.
 
 ```python
 # El DT parsea el PRD y genera tareas
-tasks = await dt.parse_prd(".taskmaster/docs/prd.txt")
+tasks = await dt.parse_prd(".dt/docs/prd.txt")
 
 print(f"Generadas {len(tasks)} tareas")
 for task in tasks:
@@ -168,7 +168,7 @@ pitch_result = await dt.execute_task(pitch_task)
 ### Configurar Agentes
 
 ```yaml
-# .taskmaster/config/agents_config.yaml
+# .dt/config/agents_config.yaml
 agents:
   marketing_strategist:
     enabled: true
@@ -188,7 +188,7 @@ agents:
 ### Configurar El DT
 
 ```yaml
-# .taskmaster/config/dt_config.json
+# .dt/config/dt_config.json
 {
   "dt": {
     "autonomy_level": "high",

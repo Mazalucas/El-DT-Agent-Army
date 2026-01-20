@@ -28,10 +28,10 @@ class RulesLoader:
     @staticmethod
     def load_all_rules(project_path: str) -> Dict[str, str]:
         """
-        Load all rules from .taskmaster/rules directory.
+        Load all rules from .dt/rules directory.
 
         Args:
-            project_path: Path to .taskmaster directory
+            project_path: Path to .dt directory
 
         Returns:
             Dictionary mapping rule file names to content
@@ -52,7 +52,7 @@ class RulesLoader:
         Load mandatory rules.
 
         Args:
-            project_path: Path to .taskmaster directory
+            project_path: Path to .dt directory
 
         Returns:
             Mandatory rules content

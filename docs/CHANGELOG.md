@@ -41,7 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - ✅ **Reorganización completa de documentación**
   - Documentación esencial separada de referencia
-  - Documentos de referencia movidos a `docs/archive/`
+  - Documentación histórica eliminada (solo esencial)
   - Nuevo `docs/INDEX.md` simplificado
   - Nuevo `docs/QUICK_START.md` para inicio rápido
 - ✅ **Mejoras en documentación**

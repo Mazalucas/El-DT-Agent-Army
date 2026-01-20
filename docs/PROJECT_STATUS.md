@@ -16,7 +16,7 @@
 
 ### Documentación
 - ✅ 15 documentos esenciales
-- ✅ 11 documentos de referencia (en archive/)
+- ✅ Documentación esencial organizada
 - ✅ Guías completas de instalación y uso
 - ✅ Documentación de API keys y MCP
 - ✅ FAQ y troubleshooting
@@ -65,7 +65,6 @@ docs/
 │   ├── SPECIFICATIONS_V2.md
 │   ├── TESTING_STRATEGY.md
 │   └── ... (operacionales)
-└── archive/ (11 docs de referencia)
 ```
 
 ## 🚀 Próximos Pasos Sugeridos

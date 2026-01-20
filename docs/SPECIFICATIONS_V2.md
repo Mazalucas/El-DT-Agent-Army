@@ -109,8 +109,8 @@ class DT(Agent):
         name: str = "El DT",
         instructions: str = None,  # Usa instrucciones por defecto de taskmaster
         model: str = "gpt-4",
-        project_path: str = ".taskmaster",
-        prd_path: str = ".taskmaster/docs/prd.txt"
+        project_path: str = ".dt",
+        prd_path: str = ".dt/docs/prd.txt"
     ) -> None
     
     async def initialize_project(
@@ -123,7 +123,7 @@ class DT(Agent):
         Inicializa un nuevo proyecto (equivalente a task-master init).
         
         Crea estructura:
-        - .taskmaster/
+        - .dt/
           - docs/prd.txt
           - tasks/
           - templates/
@@ -260,7 +260,7 @@ class Task:
 class Project:
     name: str
     description: str
-    path: str  # .taskmaster
+    path: str  # .dt
     prd_path: str
     rules: List[str]
     created_at: datetime
@@ -290,8 +290,8 @@ dt:
     - Review agent outputs before marking tasks as done
     - Escalate conflicts that cannot be resolved automatically
     - Maintain project vision and strategic alignment
-  project_path: ".taskmaster"
-  prd_path: ".taskmaster/docs/prd.txt"
+  project_path: ".dt"
+  prd_path: ".dt/docs/prd.txt"
   max_concurrent_tasks: 10
   task_timeout: 300  # 5 minutos
 ```
@@ -358,7 +358,7 @@ dt:
     servers:
       - name: "brand_assets"
         type: "filesystem"
-        path: ".taskmaster/brand_assets"
+        path: ".dt/brand_assets"
         accessible_by: ["brand_guardian", "content_creator", "storytelling_specialist"]
       - name: "marketing_platforms"
         type: "api"
@@ -408,7 +408,7 @@ class DT(Agent):
 **Estructura de Reglas** (basada en taskmaster):
 
 ```
-.taskmaster/
+.dt/
 ├── rules/
 │   ├── dt_rules.md              # Reglas de El DT (autonomía)
 │   ├── agent_protocols.md       # Protocolos multi-agente

@@ -40,8 +40,8 @@ class DT(Agent):
         name: str = "El DT",
         instructions: Optional[str] = None,
         model: str = "gpt-4",
-        project_path: str = ".taskmaster",
-        prd_path: str = ".taskmaster/docs/prd.txt",
+        project_path: str = ".dt",
+        prd_path: str = ".dt/docs/prd.txt",
         llm_provider: Optional[LLMProvider] = None,
     ):
         """
@@ -51,7 +51,7 @@ class DT(Agent):
             name: Agent name
             instructions: Custom instructions (uses defaults if None)
             model: LLM model to use
-            project_path: Path to .taskmaster directory
+            project_path: Path to .dt directory
             prd_path: Path to PRD file
             llm_provider: Optional LLM provider
         """
@@ -117,7 +117,7 @@ class DT(Agent):
         """
         Initialize a new project.
 
-        Creates the .taskmaster directory structure.
+        Creates the .dt directory structure.
 
         Args:
             project_name: Name of the project

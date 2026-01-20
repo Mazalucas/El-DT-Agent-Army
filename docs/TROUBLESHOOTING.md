@@ -19,14 +19,14 @@ try:
     dt = DT()
 except Exception as e:
     print(f"Error: {e}")
-    # Verificar que existe .taskmaster/
+    # Verificar que existe .dt/
     # Verificar que existe config/
 ```
 
 **Soluciones**:
 1. Verificar estructura de directorios:
 ```bash
-.taskmaster/
+.dt/
 ├── config/
 │   └── dt_config.json
 └── docs/

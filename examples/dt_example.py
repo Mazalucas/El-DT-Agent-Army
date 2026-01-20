@@ -52,8 +52,8 @@ async def main():
     print("1. Creating El DT...")
     dt = DT(
         name="El DT",
-        project_path=".taskmaster_example",
-        prd_path=".taskmaster_example/docs/prd.txt",
+        project_path=".dt_example",
+        prd_path=".dt_example/docs/prd.txt",
         llm_provider=MockLLMProvider(),
     )
     print(f"   Created: {dt.name} ({dt.role.value})\n")
@@ -128,7 +128,7 @@ Build a web application for task management.
         print(f"   Updated: {updated.title} -> {updated.status}\n")
 
     print("Example completed successfully!")
-    print("\nNote: Clean up .taskmaster_example directory if needed")
+    print("\nNote: Clean up .dt_example directory if needed")
 
 
 if __name__ == "__main__":

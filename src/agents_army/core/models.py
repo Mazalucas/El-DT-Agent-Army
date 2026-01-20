@@ -92,7 +92,7 @@ class Project:
 
     name: str
     description: str
-    path: str  # .taskmaster directory
+    path: str  # .dt directory
     prd_path: str
     rules: List[str] = field(default_factory=list)
     created_at: datetime = field(default_factory=datetime.now)

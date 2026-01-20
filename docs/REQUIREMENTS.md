@@ -51,7 +51,7 @@ anthropic>=0.7.0
 
 ## Instalación
 
-Ver [INSTALLATION.md](INSTALLATION.md) para instrucciones detalladas.
+Ver [INSTALLATION.md](docs/INSTALLATION.md) para instrucciones detalladas.
 
 ## API Keys
 

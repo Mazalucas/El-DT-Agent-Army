@@ -15,7 +15,7 @@ class TaskStorage:
         Initialize task storage.
 
         Args:
-            project_path: Path to .taskmaster directory
+            project_path: Path to .dt directory
         """
         self.project_path = Path(project_path)
         self.tasks_dir = self.project_path / "tasks"

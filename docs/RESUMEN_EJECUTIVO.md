@@ -117,7 +117,6 @@ docs/
 ├── SPECIFICATIONS_V2.md         # Especificaciones técnicas actuales
 ├── TESTING_STRATEGY.md          # Estrategia de testing
 ├── FAQ.md                       # Preguntas frecuentes
-└── archive/                     # Documentación de referencia
     ├── INSPIRATION.md           # Fuentes de inspiración
     ├── RESEARCH.md              # Investigación inicial
     ├── SPECIFICATIONS.md        # Especificaciones v1 (deprecated)
@@ -149,7 +148,7 @@ docs/
 14. **MONITORING.md** - Observabilidad
 15. **COST_MANAGEMENT.md** - Gestión de costos
 
-#### 📚 Documentación de Referencia (Mover a archive/)
+#### 📚 Documentación de Referencia (Eliminada - Solo esencial)
 
 **Estos documentos son útiles para entender el contexto pero NO necesarios para usar el proyecto:**
 
@@ -184,7 +183,7 @@ docs/
 1. ✅ **Revisar** [docs/FAQ.md](docs/FAQ.md) para respuestas detalladas
 2. ✅ **Revisar** [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md) para requisitos
 3. 📋 **Reorganizar** documentación según [docs/REORGANIZATION_PLAN.md](docs/REORGANIZATION_PLAN.md)
-4. 🚀 **Comenzar** a usar el framework con [docs/INSTALLATION.md](docs/INSTALLATION.md)
+4. 🚀 **Comenzar** a usar el framework con [INSTALLATION.md](INSTALLATION.md)
 
 ---
 

@@ -164,13 +164,6 @@ docs/
 ├── PROTOCOL.md                  # Protocolo de comunicación
 ├── INTEGRATION.md               # Guía de integración
 ├── TROUBLESHOOTING.md           # Solución de problemas
-└── archive/                     # Documentación de referencia
-    ├── INSPIRATION.md           # Fuentes de inspiración
-    ├── RESEARCH.md              # Investigación inicial
-    ├── SPECIFICATIONS.md        # Especificaciones v1 (deprecated)
-    ├── PLAN_REVIEW.md          # Revisión del plan
-    ├── CREWAI_LEARNINGS.md      # Lecciones de CrewAI
-    └── TASKMASTER_RULES_INTEGRATION.md
 ```
 
 ### ✅ Documentación Necesaria (Mantener)
@@ -194,19 +187,9 @@ docs/
 12. **MONITORING.md** - Observabilidad (futuro)
 13. **COST_MANAGEMENT.md** - Gestión de costos (futuro)
 
-### 📚 Documentación de Referencia (Mover a archive/)
+### 📚 Documentación de Referencia
 
-**Estos documentos son útiles para entender el contexto pero no necesarios para usar el proyecto:**
-
-1. **INSPIRATION.md** - Fuentes de inspiración (útil pero no esencial)
-2. **RESEARCH.md** - Investigación inicial (útil pero no esencial)
-3. **SPECIFICATIONS.md** - Especificaciones v1 (deprecated, reemplazado por v2)
-4. **PLAN_REVIEW.md** - Revisión del plan (útil para desarrollo futuro)
-5. **CREWAI_LEARNINGS.md** - Lecciones aprendidas (referencia)
-6. **TASKMASTER_RULES_INTEGRATION.md** - Integración de reglas (referencia)
-7. **DT_AUTONOMY.md** - Autonomía del DT (detalle avanzado, puede ir a archive/)
-8. **IMPLEMENTATION_PLAN.md** - Plan de implementación (completado, puede ir a archive/)
-9. **PROJECT_SUMMARY.md** - Resumen del proyecto (útil pero puede ir a archive/)
+La documentación histórica ha sido eliminada para mantener solo lo esencial para el funcionamiento del framework.
 10. **INDEX.md** - Índice (útil pero puede simplificarse)
 
 ### 🗂️ Propuesta de Reorganización
@@ -226,7 +209,6 @@ docs/
 ├── SECURITY.md                  # Seguridad (futuro)
 ├── MONITORING.md                # Observabilidad (futuro)
 ├── COST_MANAGEMENT.md           # Costos (futuro)
-└── archive/                     # Referencia histórica
     ├── INSPIRATION.md
     ├── RESEARCH.md
     ├── SPECIFICATIONS.md        # v1 deprecated
@@ -255,7 +237,7 @@ docs/
 
 ### 4. Documentación
 ✅ Mantener: README, INSTALLATION, USER_GUIDE, ARCHITECTURE, PROTOCOL, INTEGRATION
-📚 Mover a archive/: INSPIRATION, RESEARCH, especificaciones v1, planes completados
+📚 Documentación histórica eliminada - solo esencial
 
 ---
 

@@ -243,8 +243,6 @@ system.register_agent(memory)
 - **[COST_MANAGEMENT.md](docs/COST_MANAGEMENT.md)** - Gestión de costos
 - **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** - Solución de problemas
 
-### Referencia
-- **[archive/](docs/archive/)** - Documentación histórica y de referencia
 
 ## 🎯 Skills
 

@@ -60,7 +60,7 @@ dmypy.json
 .ipynb_checkpoints
 
 # Project specific
-.taskmaster/
+.dt/
 *.db
 *.sqlite
 *.sqlite3

@@ -34,7 +34,7 @@ services:
     build: .
     volumes:
       - .:/app
-      - ./.taskmaster:/app/.taskmaster
+      - ./.dt:/app/.dt
     environment:
       - ENV=development
       - DEBUG=true

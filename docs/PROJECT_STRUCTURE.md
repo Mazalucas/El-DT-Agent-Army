@@ -75,7 +75,12 @@ Agents_Army/
 ├── docs/                          # Documentación
 │   ├── INDEX.md                   # Índice de documentación
 │   ├── REQUIREMENTS.md            # Requisitos
-│   ├── INSTALLATION.md            # Instalación
+│   ├── INSTALLATION.md            # Instalación (movido desde raíz)
+│   ├── PROJECT_STATUS.md          # Estado del proyecto (movido desde raíz)
+│   ├── PROJECT_STRUCTURE.md       # Estructura del proyecto (movido desde raíz)
+│   ├── RESUMEN_EJECUTIVO.md       # Resumen ejecutivo (movido desde raíz)
+│   ├── README_DEVELOPMENT.md      # Guía de desarrollo (movido desde raíz)
+│   ├── CHANGELOG.md               # Historial de cambios (movido desde raíz)
 │   ├── API_KEYS_CONFIG.md        # ⚠️ Configuración API Keys
 │   ├── USER_GUIDE.md             # Guía de usuario
 │   ├── FAQ.md                    # Preguntas frecuentes
@@ -90,7 +95,6 @@ Agents_Army/
 │   ├── SECURITY.md                # Seguridad
 │   ├── MONITORING.md              # Observabilidad
 │   ├── COST_MANAGEMENT.md         # Costos
-│   └── archive/                   # Documentación de referencia
 │       ├── README.md
 │       ├── INSPIRATION.md
 │       ├── RESEARCH.md
@@ -109,10 +113,6 @@ Agents_Army/
 │       └── ci.yml                 # CI/CD pipeline
 │
 ├── README.md                       # Documentación principal
-├── RESUMEN_EJECUTIVO.md           # Resumen ejecutivo
-├── PROJECT_STRUCTURE.md           # Este archivo
-├── INSTALLATION.md                 # Guía de instalación (raíz)
-├── CHANGELOG.md                    # Historial de cambios
 ├── LICENSE                         # Licencia (si existe)
 ├── pyproject.toml                 # Configuración del proyecto
 ├── setup.py                       # Setup script
@@ -137,7 +137,6 @@ Agents_Army/
 - **tests/**: Tests organizados por tipo
 - **examples/**: Ejemplos funcionales
 - **docs/**: Documentación esencial
-- **docs/archive/**: Documentación de referencia
 
 ### 2. Modularidad
 - Cada módulo tiene su propio `__init__.py`

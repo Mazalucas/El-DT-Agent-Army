@@ -40,16 +40,12 @@ Guía completa con ejemplos y casos de uso.
 
 ## 📁 Documentación de Referencia
 
-Documentos históricos y de referencia están en **[archive/](archive/)**:
-- Fuentes de inspiración
-- Investigación inicial
-- Planes completados
-- Especificaciones v1 (deprecated)
+La documentación histórica ha sido eliminada para mantener solo lo esencial.
 
 ## 🔍 Búsqueda Rápida
 
 ### ¿Cómo...?
-- **Instalar**: [INSTALLATION.md](INSTALLATION.md)
+- **Instalar**: [INSTALLATION.md](docs/INSTALLATION.md)
 - **Configurar API keys**: [API_KEYS_CONFIG.md](API_KEYS_CONFIG.md)
 - **Usar el framework**: [USER_GUIDE.md](USER_GUIDE.md)
 - **Integrar en mi proyecto**: [INTEGRATION.md](INTEGRATION.md)
@@ -65,7 +61,7 @@ Documentos históricos y de referencia están en **[archive/](archive/)**:
 
 ### Para Usuarios Nuevos
 1. [REQUIREMENTS.md](REQUIREMENTS.md)
-2. [INSTALLATION.md](INSTALLATION.md)
+2. [INSTALLATION.md](docs/INSTALLATION.md)
 3. [API_KEYS_CONFIG.md](API_KEYS_CONFIG.md)
 4. [USER_GUIDE.md](USER_GUIDE.md)
 
