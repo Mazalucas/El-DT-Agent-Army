@@ -19,3 +19,6 @@ pyyaml>=6.0.0
 # Optional: HTTP server
 # fastapi>=0.104.0
 # uvicorn>=0.24.0
+
+# Optional: MCP Server (for full MCP protocol support)
+# mcp>=0.1.0

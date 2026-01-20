@@ -26,25 +26,36 @@ Inicializar El DT (Director Técnico) con una conversación guiada y adaptativa 
   - Q CLI: `~/.aws/amazonq/mcp.json`
 
 **Si NO existe configuración MCP o las API keys están como placeholders**:
-- **Mensaje al usuario**:
+- **Mensaje al usuario** (IMPORTANTE: Este mensaje debe ser DESTACADO y URGENTE):
   ```
-  "¡Hola! Antes de empezar, noto que no tienes configuradas las API keys para El DT.
+  ⚠️⚠️⚠️ **CONFIGURACIÓN REQUERIDA** ⚠️⚠️⚠️
   
-  Para aprovechar al máximo el potencial de El DT y sus 18 agentes especializados, 
-  necesitas al menos una API key de un proveedor de LLM (OpenAI, Anthropic, Google, etc.).
+  🔴 **NO HAY API KEY CONFIGURADA** 🔴
   
-  Sin API keys, El DT funcionará en modo limitado (mocks). Con API keys podrás:
-  - Generar contenido real con los agentes
-  - Usar investigación avanzada
-  - Ejecutar tareas complejas de forma autónoma
-  - Coordinar múltiples agentes trabajando juntos
+  ¡Hola! Antes de empezar, **ES IMPERATIVO** que configures las API keys para El DT.
   
-  ¿Te gustaría configurar tus API keys ahora? (Recomendado: SÍ)
+  **Sin API keys, El DT funcionará en modo MUY LIMITADO (solo mocks)** y NO podrás:
+  ❌ Generar contenido real con los agentes
+  ❌ Usar investigación avanzada
+  ❌ Ejecutar tareas complejas de forma autónoma
+  ❌ Coordinar múltiples agentes trabajando juntos
+  
+  **Para aprovechar al máximo el potencial de El DT y sus 18 agentes especializados, 
+  necesitas al menos una API key de un proveedor de LLM:**
+  - OpenAI (GPT-4, GPT-3.5): https://platform.openai.com/api-keys
+  - Anthropic (Claude): https://console.anthropic.com/
+  - Google (Gemini): https://makersuite.google.com/app/apikey
+  - Perplexity (para investigación): https://www.perplexity.ai/settings/api
+  
+  ⚡ **¿Te gustaría configurar tus API keys AHORA? (MUY RECOMENDADO: SÍ)** ⚡
   
   Si dices 'sí', te guiaré para:
   1. Crear automáticamente el archivo de configuración MCP
   2. Pegar tu API key (solo necesitas una para empezar)
-  3. Continuar con la inicialización del proyecto"
+  3. Continuar con la inicialización del proyecto
+  
+  Si prefieres hacerlo después, puedes ejecutar:
+  python scripts/setup_mcp_config.py
   ```
 
 **Si el usuario acepta configurar**:

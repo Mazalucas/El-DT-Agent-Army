@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "CC-BY-4.0"}
 authors = [
-    {name = "@Mazalucas", email = ""}
+    {name = "@Mazalucas"}
 ]
 keywords = ["ai", "agents", "multi-agent", "llm", "orchestration"]
 classifiers = [
@@ -47,8 +47,11 @@ openai = [
 anthropic = [
     "anthropic>=0.7.0",
 ]
+mcp = [
+    "mcp>=0.1.0",
+]
 all = [
-    "agents-army[dev,openai,anthropic]",
+    "agents-army[dev,openai,anthropic,mcp]",
 ]
 
 [project.urls]
