@@ -29,4 +29,5 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python -c "import agents_army; print('OK')" || exit 1
 
 # Default command (can be overridden)
-CMD ["python", "-m", "agents_army"]
+# Note: agents_army doesn't have a __main__.py, so we just run Python interactively
+CMD ["python"]
