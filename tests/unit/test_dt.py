@@ -70,11 +70,12 @@ class TestDT:
     async def test_parse_prd(self):
         """Test parsing PRD."""
         with tempfile.TemporaryDirectory() as tmpdir:
-            prd_file = Path(tmpdir) / "docs" / "prd.txt"
-            dt = DT(project_path=tmpdir, prd_path=str(prd_file), llm_provider=MockLLMProvider())
-            await dt.initialize_project("Test", "Test")
+            dt = DT(project_path=tmpdir, llm_provider=MockLLMProvider())
+            project = await dt.initialize_project("Test", "Test")
 
-            # Create PRD file
+            # Create PRD file in the project directory (where initialize_project expects it)
+            prd_file = Path(project.prd_path)
+            prd_file.parent.mkdir(parents=True, exist_ok=True)
             prd_file.write_text("# Test PRD\n\nFeature 1: Implement X\nFeature 2: Implement Y")
 
             tasks = await dt.parse_prd()

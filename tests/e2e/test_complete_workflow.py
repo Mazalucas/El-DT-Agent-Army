@@ -115,8 +115,9 @@ class TestCompleteWorkflow:
 
             assert project.name == "E2E Test Project"
 
-            # 6. Create and parse PRD
-            prd_file = Path(tmpdir) / "docs" / "prd.txt"
+            # 6. Create and parse PRD (in the project directory where initialize_project expects it)
+            prd_file = Path(project.prd_path)
+            prd_file.parent.mkdir(parents=True, exist_ok=True)
             prd_file.write_text(
                 """# Project PRD
 
