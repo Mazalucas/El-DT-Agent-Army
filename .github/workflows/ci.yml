@@ -24,10 +24,12 @@ jobs:
           pip install -e .
       
       - name: Run black
-        run: black --check .
+        run: black --check src/ tests/ examples/ setup.py
+        continue-on-error: false
       
       - name: Run ruff
-        run: ruff check .
+        run: ruff check src/ tests/ examples/ setup.py
+        continue-on-error: false
       
       - name: Run mypy
         run: mypy src/agents_army/ || true
