@@ -288,7 +288,35 @@ python -c "from agents_army import AgentSystem, DT; print('✅ El DT instalado c
 
 ### ⚙️ Configuración de API Keys (Opcional)
 
-Para usar LLMs reales, configura tu API key:
+#### Método 1: Configuración Automática con MCP (Recomendado) ⭐
+
+**La forma más fácil**: Usa nuestro script que detecta tu editor y crea la configuración automáticamente:
+
+```bash
+# Detecta automáticamente tu editor y crea configuración
+python scripts/setup_mcp_config.py
+
+# O especifica el editor manualmente
+python scripts/setup_mcp_config.py --editor cursor
+```
+
+El script:
+- ✅ Detecta automáticamente tu editor (Cursor, VS Code, Windsurf, etc.)
+- ✅ Crea el archivo de configuración en la ubicación correcta
+- ✅ Incluye placeholders para todas las API keys
+- ✅ Solo necesitas reemplazar `YOUR_*_API_KEY_HERE` con tus keys reales
+
+**Después de ejecutar el script:**
+1. Abre el archivo `mcp.json` creado
+2. Reemplaza `YOUR_OPENAI_API_KEY_HERE` (y otras keys) con tus API keys reales
+3. Reinicia tu editor
+4. En Cursor: Ve a Settings (Ctrl+Shift+J) → MCP → Habilita `agents-army`
+
+**Ver guía completa**: [docs/MCP_CONFIGURATION.md](docs/MCP_CONFIGURATION.md)
+
+#### Método 2: Variables de Entorno (Alternativa)
+
+Si prefieres usar variables de entorno tradicionales:
 
 ```bash
 # Linux/macOS
@@ -300,7 +328,7 @@ $env:OPENAI_API_KEY="tu-api-key"
 
 **Nota**: Puedes empezar sin API keys usando mocks para probar la estructura.
 
-**Ver más detalles**: [docs/API_KEYS_CONFIG.md](docs/API_KEYS_CONFIG.md)
+**Ver más detalles**: [docs/API_KEYS_CONFIG.md](docs/API_KEYS_CONFIG.md) (si existe)
 
 ### ⚡ Forma Más Rápida: Usar `/dt-start`
 

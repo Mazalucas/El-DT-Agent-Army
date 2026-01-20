@@ -19,12 +19,17 @@ Simplemente escribe `/dt-start` en el chat y El DT comenzará una conversación 
 
 Este comando activa el workflow descrito en `skills/dt-start.md`. El DT:
 
-1. **Te saluda y explica** qué puede hacer
-2. **Identifica el tipo de proyecto** que quieres crear (desarrollo, marketing, contenido, diseño, etc.)
-3. **Hace preguntas adaptativas** según el tipo de proyecto identificado
-4. **Crea un plan estructurado** antes de ejecutar nada
-5. **Espera tu aprobación explícita** antes de crear directorios o archivos
-6. **Inicializa el proyecto** solo después de tu aprobación, incluyendo:
+1. **Verifica configuración MCP y API keys** ⭐ **NUEVO**
+   - Detecta si tienes configuración MCP
+   - Si no la tienes o tiene placeholders, te invita a configurarla
+   - Te ayuda a pegar tu API key de forma conversacional
+   - Esto permite que El DT use todo su potencial con los 18 agentes especializados
+2. **Te saluda y explica** qué puede hacer
+3. **Identifica el tipo de proyecto** que quieres crear (desarrollo, marketing, contenido, diseño, etc.)
+4. **Hace preguntas adaptativas** según el tipo de proyecto identificado
+5. **Crea un plan estructurado** antes de ejecutar nada
+6. **Espera tu aprobación explícita** antes de crear directorios o archivos
+7. **Inicializa el proyecto** solo después de tu aprobación, incluyendo:
    - Estructura de directorios (`.dt/` y `projects/[nombre-proyecto]/`)
    - **Archivos de configuración del IDE** (`.cursorrules`, `.claude/`, `.cursor/rules/`) para activación automática del DT
    - Documento inicial apropiado según el tipo de proyecto

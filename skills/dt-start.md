@@ -13,7 +13,82 @@ Inicializar El DT (Director Técnico) con una conversación guiada y adaptativa 
 
 ## Pre-requisitos y Validaciones
 
-### 1. Verificar Estado del Directorio Actual
+### 1. Verificar Configuración MCP y API Keys ⭐ **NUEVO**
+
+**Acción**: Verificar si existe configuración MCP y si tiene API keys configuradas
+
+**Validación**:
+- **Detectar editor**: Usar la misma lógica que `scripts/setup_mcp_config.py` para detectar el editor
+- **Verificar archivo MCP**: Buscar el archivo `mcp.json` en la ubicación apropiada según el editor:
+  - Cursor: `.cursor/mcp.json` (proyecto) o `~/.cursor/mcp.json` (global)
+  - VS Code: `.vscode/mcp.json`
+  - Windsurf: `~/.codeium/windsurf/mcp_config.json`
+  - Q CLI: `~/.aws/amazonq/mcp.json`
+
+**Si NO existe configuración MCP o las API keys están como placeholders**:
+- **Mensaje al usuario**:
+  ```
+  "¡Hola! Antes de empezar, noto que no tienes configuradas las API keys para El DT.
+  
+  Para aprovechar al máximo el potencial de El DT y sus 18 agentes especializados, 
+  necesitas al menos una API key de un proveedor de LLM (OpenAI, Anthropic, Google, etc.).
+  
+  Sin API keys, El DT funcionará en modo limitado (mocks). Con API keys podrás:
+  - Generar contenido real con los agentes
+  - Usar investigación avanzada
+  - Ejecutar tareas complejas de forma autónoma
+  - Coordinar múltiples agentes trabajando juntos
+  
+  ¿Te gustaría configurar tus API keys ahora? (Recomendado: SÍ)
+  
+  Si dices 'sí', te guiaré para:
+  1. Crear automáticamente el archivo de configuración MCP
+  2. Pegar tu API key (solo necesitas una para empezar)
+  3. Continuar con la inicialización del proyecto"
+  ```
+
+**Si el usuario acepta configurar**:
+1. **Ejecutar script automático**: `python scripts/setup_mcp_config.py --editor <detectado> --scope project`
+2. **Mostrar ubicación del archivo creado**
+3. **Pedir API key de forma conversacional**:
+   ```
+   "Perfecto! He creado el archivo de configuración en: [ruta]
+   
+   Ahora necesito que me proporciones tu API key. Puedes usar cualquiera de estos proveedores:
+   - OpenAI (GPT-4, GPT-3.5): https://platform.openai.com/api-keys
+   - Anthropic (Claude): https://console.anthropic.com/
+   - Google (Gemini): https://makersuite.google.com/app/apikey
+   - Perplexity (para investigación): https://www.perplexity.ai/settings/api
+   
+   ¿Cuál prefieres usar? (Si no tienes ninguna, puedo ayudarte a obtener una)
+   
+   Una vez que tengas tu API key, simplemente pégala aquí y yo la configuraré automáticamente."
+   ```
+4. **Cuando el usuario pegue la API key**:
+   - Validar formato básico (no vacío, tiene caracteres válidos)
+   - Actualizar el archivo `mcp.json` con la key real
+   - Confirmar: "✅ API key configurada correctamente. Ahora El DT puede usar todo su potencial."
+   - Continuar con el workflow normal
+
+**Si el usuario NO quiere configurar ahora**:
+- **Mensaje**:
+  ```
+  "Entendido. Continuaremos sin API keys por ahora. El DT funcionará en modo limitado.
+  
+  Puedes configurar las API keys después ejecutando:
+  python scripts/setup_mcp_config.py
+  
+  O manualmente editando el archivo de configuración MCP.
+  
+  Continuemos con la inicialización de tu proyecto..."
+  ```
+- Continuar con el workflow normal
+
+**Si YA existe configuración MCP con API keys válidas**:
+- **Mensaje breve**: "✅ Configuración MCP detectada. El DT está listo para usar todo su potencial."
+- Continuar directamente con el workflow
+
+### 2. Verificar Estado del Directorio Actual
 
 **Acción**: Verificar si ya existe `.dt/` en el directorio actual
 
@@ -24,7 +99,7 @@ Inicializar El DT (Director Técnico) con una conversación guiada y adaptativa 
   3. Reinicializar (con advertencia de posibles pérdidas)
 - Si no existe `.dt/`: Continuar con el workflow
 
-### 2. Verificar Proyectos Existentes
+### 3. Verificar Proyectos Existentes
 
 **Acción**: Verificar si ya existe un proyecto con el mismo nombre en `projects/`
 
@@ -38,12 +113,22 @@ Inicializar El DT (Director Técnico) con una conversación guiada y adaptativa 
 
 **Objetivo**: Presentar El DT y entender el contexto inicial del usuario
 
+**Nota**: Esta fase se ejecuta DESPUÉS de la verificación de MCP/API keys (Pre-requisito 1).
+
 **Pasos**:
 
-1. **Saludo inicial**:
+1. **Saludo inicial** (adaptado según si se configuraron API keys):
    ```
-   "Hola! Soy El DT, tu Director Técnico. Estoy aquí para ayudarte a planear y 
-   gestionar tu proyecto de forma estructurada."
+   Si API keys configuradas:
+   "¡Hola! Soy El DT, tu Director Técnico. Estoy listo para ayudarte con todo mi 
+   potencial. Tengo acceso a mis 18 agentes especializados y puedo generar contenido 
+   real, investigar, y ejecutar tareas complejas."
+   
+   Si NO hay API keys:
+   "¡Hola! Soy El DT, tu Director Técnico. Estoy aquí para ayudarte a planear y 
+   gestionar tu proyecto de forma estructurada. Nota: Estoy funcionando en modo 
+   limitado sin API keys. Para aprovechar todo mi potencial, configura tus API keys 
+   después con: python scripts/setup_mcp_config.py"
    ```
 
 2. **Explicar qué es El DT**:
@@ -507,6 +592,69 @@ Inicializar El DT (Director Técnico) con una conversación guiada y adaptativa 
 
 ## Ejemplos de Conversación
 
+### Ejemplo 0: Configuración de API Keys (Nuevo Usuario) ⭐ **NUEVO**
+
+```
+Usuario: /dt-start
+
+DT: "🔍 Verificando configuración...
+
+⚠️ No detecté configuración MCP con API keys configuradas.
+
+¡Hola! Antes de empezar, noto que no tienes configuradas las API keys para El DT.
+
+Para aprovechar al máximo el potencial de El DT y sus 18 agentes especializados, 
+necesitas al menos una API key de un proveedor de LLM (OpenAI, Anthropic, Google, etc.).
+
+Sin API keys, El DT funcionará en modo limitado (mocks). Con API keys podrás:
+- Generar contenido real con los agentes
+- Usar investigación avanzada
+- Ejecutar tareas complejas de forma autónoma
+- Coordinar múltiples agentes trabajando juntos
+
+¿Te gustaría configurar tus API keys ahora? (Recomendado: SÍ)"
+
+Usuario: "Sí, quiero configurarlas"
+
+DT: "Perfecto! He detectado que estás usando Cursor.
+
+He creado automáticamente el archivo de configuración en: .cursor/mcp.json
+
+Ahora necesito que me proporciones tu API key. Puedes usar cualquiera de estos proveedores:
+- OpenAI (GPT-4, GPT-3.5): https://platform.openai.com/api-keys
+- Anthropic (Claude): https://console.anthropic.com/
+- Google (Gemini): https://makersuite.google.com/app/apikey
+- Perplexity (para investigación): https://www.perplexity.ai/settings/api
+
+¿Cuál prefieres usar? (Si no tienes ninguna, puedo ayudarte a obtener una)
+
+Una vez que tengas tu API key, simplemente pégala aquí y yo la configuraré automáticamente."
+
+Usuario: "Voy a usar OpenAI"
+
+DT: "Excelente elección. OpenAI es muy potente para desarrollo y contenido.
+
+Por favor, pega tu API key de OpenAI aquí. Debe empezar con 'sk-' y tener 
+alrededor de 50 caracteres. La configuraré de forma segura en el archivo MCP."
+
+Usuario: "sk-proj-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz"
+
+DT: "✅ API key configurada correctamente. Ahora El DT puede usar todo su potencial.
+
+He actualizado el archivo .cursor/mcp.json con tu API key de OpenAI.
+Después de reiniciar Cursor, El DT tendrá acceso completo a sus herramientas.
+
+Ahora continuemos con la inicialización de tu proyecto...
+
+¡Hola! Soy El DT, tu Director Técnico. Estoy listo para ayudarte con todo mi 
+potencial. Tengo acceso a mis 18 agentes especializados y puedo generar contenido 
+real, investigar, y ejecutar tareas complejas.
+
+¿Quieres iniciar un nuevo proyecto o trabajar en uno existente?"
+
+[... continúa con el workflow normal ...]
+```
+
 ### Ejemplo 1: Proyecto de Desarrollo de Software (información completa)
 
 ```
@@ -720,6 +868,10 @@ DT: "✅ Proyecto inicializado exitosamente!
 ## Integración con DT
 
 Este workflow debe:
+- **Verificar configuración MCP primero** usando `scripts/check_mcp_config.py` o lógica similar
+- **Si no hay configuración MCP**: Invitar al usuario a configurarla conversacionalmente
+- **Si el usuario acepta**: Ejecutar `scripts/setup_mcp_config.py` y pedir API key
+- **Actualizar archivo MCP** con la API key proporcionada por el usuario
 - Usar `DT.initialize_project()` para crear el proyecto
 - Seguir las guías de comunicación en `docs/DT_COMMUNICATION_GUIDELINES.md`
 - Respetar la separación de directorios (.dt/ vs projects/)
@@ -727,6 +879,19 @@ Este workflow debe:
 - Identificar el tipo de proyecto ANTES de hacer preguntas específicas
 - Adaptar preguntas y documentos según el tipo identificado
 - Usar agentes especializados cuando estén disponibles (PRD_CREATOR, SRD_CREATOR, etc.)
+
+## Scripts Helper
+
+Este workflow utiliza los siguientes scripts helper:
+
+- **`scripts/check_mcp_config.py`**: Verifica si existe configuración MCP y si tiene API keys válidas
+  - Retorna: `(has_config, editor, config_path, has_valid_keys)`
+  - Puede ejecutarse desde Python o línea de comandos
+  
+- **`scripts/setup_mcp_config.py`**: Crea automáticamente el archivo de configuración MCP
+  - Detecta el editor automáticamente
+  - Crea el archivo en la ubicación correcta
+  - Incluye placeholders para API keys
 
 ## Referencias
 

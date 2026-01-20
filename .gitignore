@@ -75,6 +75,10 @@ secrets/
 *api_key*
 *apikey*
 
+# MCP Configuration (contains API keys)
+.cursor/mcp.json
+.vscode/mcp.json
+
 # Documentation
 docs/_build/
 site/
