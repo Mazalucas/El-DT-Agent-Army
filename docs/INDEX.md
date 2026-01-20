@@ -22,6 +22,7 @@ Guía completa con ejemplos y casos de uso.
 
 ### Arquitectura y Diseño
 - **[ARCHITECTURE.md](ARCHITECTURE.md)** - Arquitectura del sistema
+- **[AUTONOMOUS_LOOPS.md](AUTONOMOUS_LOOPS.md)** - ⭐ Loops autónomos: ejecución iterativa automática
 - **[PROTOCOL.md](PROTOCOL.md)** - Protocolo de comunicación
 - **[SPECIFICATIONS_V2.md](SPECIFICATIONS_V2.md)** - Especificaciones técnicas
 - **[ROLES.md](ROLES.md)** - Roles y responsabilidades
@@ -57,6 +58,7 @@ La documentación histórica ha sido eliminada para mantener solo lo esencial.
 - **Un agente**: [ROLES.md](ROLES.md#roles-principales)
 - **El protocolo**: [PROTOCOL.md](PROTOCOL.md#visión-general)
 - **La arquitectura**: [ARCHITECTURE.md](ARCHITECTURE.md#visión-general)
+- **Loops autónomos**: [AUTONOMOUS_LOOPS.md](AUTONOMOUS_LOOPS.md#visión-general)
 - **El DT**: [SPECIFICATIONS_V2.md](SPECIFICATIONS_V2.md#el-dt-director-técnico)
 - **Separación de proyectos**: [PROJECT_STRUCTURE_SEPARATION.md](PROJECT_STRUCTURE_SEPARATION.md)
 - **Comunicación del DT**: [DT_COMMUNICATION_GUIDELINES.md](DT_COMMUNICATION_GUIDELINES.md)

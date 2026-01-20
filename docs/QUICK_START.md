@@ -1,5 +1,25 @@
 # Quick Start: Agents_Army
 
+## 🎯 Configuración Automática del DT
+
+**IMPORTANTE**: Agents_Army ahora incluye archivos de configuración que se cargan automáticamente en cada conversación:
+
+- **`.cursorrules`** - Reglas globales que Cursor carga automáticamente
+- **`.claude/CLAUDE.md`** - Configuración para Claude Code
+- **`.cursor/rules/`** - Reglas específicas del DT
+
+Estos archivos aseguran que **El DT esté presente y activo** en cada conversación, monitoreando, coordinando y asegurando que el proyecto avance de forma estructurada.
+
+### ✅ Verificación
+
+Si clonaste el repositorio, estos archivos ya están incluidos. El DT debería activarse automáticamente cuando:
+- Detecta decisiones arquitectónicas importantes
+- Requiere planificación de tareas
+- Necesita coordinar componentes
+- Detecta código que requiere validación
+
+---
+
 ## ⚡ Forma Más Rápida: Usar `/dt-start`
 
 **Recomendamos empezar usando el comando `/dt-start` directamente en tu IDE.**

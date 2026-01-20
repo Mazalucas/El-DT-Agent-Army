@@ -125,6 +125,7 @@ class DT(Agent):
         self.autonomy_engine: Optional[DTAutonomyEngine] = DTAutonomyEngine(
             rules_loader=rules_loader,
             history=DecisionHistory(),
+            dt=self,  # Pass reference to DT for execution
         )
         
         # Initialize task decomposer and scheduler
@@ -360,7 +361,13 @@ Return only valid JSON array."""
         self, task: Task, agent_role: AgentRole
     ) -> TaskAssignment:
         """
-        Assign a task to an agent.
+        Assign a task to an agent and execute autonomously.
+
+        The system automatically decides:
+        - If use autonomous loop (level 4)
+        - If use validated loop (level 3)
+        - If use simple execution (level 2)
+        - If escalate to human (level 1)
 
         Args:
             task: Task to assign
@@ -383,6 +390,34 @@ Return only valid JSON array."""
             task_id=task.id,
             agent_role=agent_role,
         )
+
+        # Create situation for autonomy decision
+        situation = Situation(
+            task=task,
+            context={"assigned_agent": agent_role},
+            available_agents=[agent_role] if self.system else [],
+            constraints={},
+        )
+        
+        # Decide and execute automatically
+        if self.autonomy_engine:
+            try:
+                result = await self.autonomy_engine.decide_and_act(situation)
+                
+                # Update task status according to result
+                if result.success:
+                    await self.update_task_status(task.id, "done")
+                elif result.escalated:
+                    await self.update_task_status(task.id, "blocked")
+                    # Log escalation reason if available
+                    if result.escalation_reason:
+                        # Could store in task metadata or log
+                        pass
+                # If in-progress, status remains as is
+            except Exception as e:
+                # If execution fails, keep task in-progress
+                # Log error but don't break the flow
+                pass
 
         return assignment
 

@@ -226,8 +226,14 @@ await dt.update_task_status("task_123", "done")
 # Expandir tarea
 expanded = await dt.expand_task("task_123")
 
-# Asignar manualmente
+# Asignar tarea (ahora ejecuta automáticamente)
 await dt.assign_task(task, agent)
+# El sistema automáticamente:
+# - Decide nivel de autonomía (1-4)
+# - Ejecuta con loop si corresponde (niveles 4/3)
+# - Ejecuta simple si corresponde (nivel 2)
+# - Escala si corresponde (nivel 1)
+# - Actualiza estado de tarea según resultado
 ```
 
 ### Investigar
@@ -255,11 +261,22 @@ project = await dt.initialize_project("Nuevo Producto")
 # 2. Parsear PRD
 tasks = await dt.parse_prd()
 
-# 3. Ejecutar todas las tareas
+# 3. Ejecutar todas las tareas (ahora con ejecución automática)
 for task in tasks:
-    result = await dt.execute_task(task)
-    if result.status == "failed":
-        print(f"Error en {task.id}: {result.error}")
+    # assign_task() ahora ejecuta automáticamente según nivel de autonomía
+    assignment = await dt.assign_task(task, AgentRole.BACKEND_ARCHITECT)
+    # El sistema decide y ejecuta:
+    # - Si nivel 4: Loop autónomo completo hasta completitud
+    # - Si nivel 3: Loop validado con validación estricta
+    # - Si nivel 2: Ejecución simple con validación
+    # - Si nivel 1: Escala a humano (tarea queda en "blocked")
+    
+    # Verificar estado
+    updated_task = dt.task_storage.load_task(task.id)
+    if updated_task.status == "done":
+        print(f"✓ {task.title} completado")
+    elif updated_task.status == "blocked":
+        print(f"⚠ {task.title} requiere atención humana")
 
 # 4. Obtener resultado final
 final_result = await dt.synthesize_results()

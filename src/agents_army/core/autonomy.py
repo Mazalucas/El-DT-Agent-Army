@@ -10,6 +10,7 @@ from agents_army.core.models import (
     Situation,
     SituationAnalysis,
     Task,
+    TaskResult,
 )
 from agents_army.core.rules import RulesLoader
 from agents_army.protocol.types import AgentRole
@@ -282,6 +283,7 @@ class DTAutonomyEngine:
         self,
         rules_loader: RulesLoader,
         history: Optional[DecisionHistory] = None,
+        dt: Optional[Any] = None,
     ):
         """
         Initialize DTAutonomyEngine.
@@ -289,11 +291,13 @@ class DTAutonomyEngine:
         Args:
             rules_loader: Rules loader for checking rules
             history: Optional decision history
+            dt: Optional DT instance for execution
         """
         self.rules_loader = rules_loader
         self.history = history or DecisionHistory()
         self.confidence_calculator = ConfidenceCalculator()
         self.risk_assessor = RiskAssessor()
+        self.dt = dt  # Reference to DT for execution
         self.adaptive_thresholds = {
             "confidence_min": 0.7,
             "risk_max": 0.5,
@@ -458,15 +462,58 @@ class DTAutonomyEngine:
     async def _execute_autonomously(
         self, situation: Situation, decision: Decision
     ) -> ActionResult:
-        """Execute autonomous action."""
-        # This would typically delegate to El DT's actual execution methods
-        # For now, return a success result
-        return ActionResult(
-            success=True,
-            action_taken=decision.action,
-            result={"task_id": situation.task.id, "decision": decision.action},
-            escalated=False,
-        )
+        """
+        Execute autonomous action.
+        
+        Now decides automatically the execution mode based on autonomy level:
+        - Level 4: Full autonomous loop
+        - Level 3: Validated loop
+        - Level 2: Simple execution with validation
+        """
+        task = situation.task
+        agent_role = task.assigned_agent
+        
+        if not agent_role:
+            return ActionResult(
+                success=False,
+                action_taken="escalated",
+                escalated=True,
+                escalation_reason="No agent assigned",
+            )
+        
+        # Decide execution mode based on autonomy level
+        if decision.level == 4:
+            # High autonomy → Full autonomous loop
+            return await self._execute_with_autonomous_loop(
+                task=task,
+                agent_role=agent_role,
+                max_iterations=50,
+                strict_validation=True,
+            )
+        
+        elif decision.level == 3:
+            # Good autonomy → Validated loop
+            return await self._execute_with_validated_loop(
+                task=task,
+                agent_role=agent_role,
+                max_iterations=30,
+                validate_each_iteration=True,
+            )
+        
+        elif decision.level == 2:
+            # Low autonomy → Simple execution with validation
+            return await self._execute_simple_with_validation(
+                task=task,
+                agent_role=agent_role,
+            )
+        
+        else:
+            # Should not reach here (level 1 escalates)
+            return ActionResult(
+                success=False,
+                action_taken="escalated",
+                escalated=True,
+            )
 
     async def _escalate_to_human(
         self, situation: Situation, decision: Decision
@@ -580,6 +627,217 @@ class DTAutonomyEngine:
             ActionResult
         """
         return await self._execute_autonomously(situation, decision)
+    
+    async def _execute_with_autonomous_loop(
+        self,
+        task: Task,
+        agent_role: AgentRole,
+        max_iterations: int = 50,
+        strict_validation: bool = True,
+    ) -> ActionResult:
+        """
+        Execute task with full autonomous loop.
+        
+        Used for level 4 (high autonomy).
+        
+        Args:
+            task: Task to execute
+            agent_role: Agent role
+            max_iterations: Maximum iterations
+            strict_validation: Use strict validation
+            
+        Returns:
+            ActionResult
+        """
+        if not self.dt:
+            return ActionResult(
+                success=False,
+                action_taken="escalated",
+                escalated=True,
+                escalation_reason="DT instance not available",
+            )
+        
+        from agents_army.core.autonomous_executor import AutonomousTaskExecutor
+        from agents_army.core.completion import CompletionCriteria, CompletionCriteriaFactory
+        
+        executor = AutonomousTaskExecutor(
+            dt=self.dt,
+            max_iterations=max_iterations,
+            enable_circuit_breaker=True,
+            enable_sessions=True,
+        )
+        
+        completion_criteria = CompletionCriteriaFactory.create_for_task(task, autonomy_level=4)
+        completion_criteria.tests_must_pass = strict_validation
+        completion_criteria.linter_must_pass = strict_validation
+        
+        return await executor.execute_until_complete(
+            task=task,
+            agent_role=agent_role,
+            completion_criteria=completion_criteria,
+        )
+    
+    async def _execute_with_validated_loop(
+        self,
+        task: Task,
+        agent_role: AgentRole,
+        max_iterations: int = 30,
+        validate_each_iteration: bool = True,
+    ) -> ActionResult:
+        """
+        Execute task with validated loop.
+        
+        Used for level 3 (good autonomy).
+        
+        Args:
+            task: Task to execute
+            agent_role: Agent role
+            max_iterations: Maximum iterations
+            validate_each_iteration: Validate on each iteration
+            
+        Returns:
+            ActionResult
+        """
+        if not self.dt:
+            return ActionResult(
+                success=False,
+                action_taken="escalated",
+                escalated=True,
+                escalation_reason="DT instance not available",
+            )
+        
+        from agents_army.core.autonomous_executor import AutonomousTaskExecutor
+        from agents_army.core.completion import CompletionCriteria, CompletionCriteriaFactory
+        
+        executor = AutonomousTaskExecutor(
+            dt=self.dt,
+            max_iterations=max_iterations,
+            enable_circuit_breaker=True,
+            enable_sessions=True,
+            circuit_breaker_strict=True,  # More strict
+        )
+        
+        completion_criteria = CompletionCriteriaFactory.create_for_task(task, autonomy_level=3)
+        completion_criteria.tests_must_pass = True
+        completion_criteria.linter_must_pass = True
+        completion_criteria.min_completion_indicators = 3  # More strict
+        
+        return await executor.execute_until_complete(
+            task=task,
+            agent_role=agent_role,
+            completion_criteria=completion_criteria,
+            validate_each_iteration=validate_each_iteration,
+        )
+    
+    async def _execute_simple_with_validation(
+        self,
+        task: Task,
+        agent_role: AgentRole,
+    ) -> ActionResult:
+        """
+        Execute task once with validation.
+        
+        Used for level 2 (low autonomy).
+        If validation fails, escalates (no loop).
+        
+        Args:
+            task: Task to execute
+            agent_role: Agent role
+            
+        Returns:
+            ActionResult
+        """
+        # Execute once
+        result = await self._execute_task_once(task, agent_role)
+        
+        # Validate result
+        from agents_army.core.completion import CompletionCriteria
+        
+        criteria = CompletionCriteria(
+            tests_must_pass=True,
+            linter_must_pass=False,  # Less strict
+            agent_exit_signal=False,
+        )
+        
+        # Check if validation passes (simplified check)
+        if result.success and result.error is None:
+            return result
+        
+        # If validation fails, escalate (no loop)
+        return ActionResult(
+            success=False,
+            action_taken="escalated",
+            escalated=True,
+            escalation_reason="Task validation failed after single execution",
+        )
+    
+    async def _execute_task_once(
+        self,
+        task: Task,
+        agent_role: AgentRole,
+    ) -> ActionResult:
+        """
+        Execute task once (helper method).
+        
+        Args:
+            task: Task to execute
+            agent_role: Agent role
+            
+        Returns:
+            ActionResult
+        """
+        if not self.dt or not self.dt.system:
+            return ActionResult(
+                success=False,
+                action_taken="escalated",
+                escalated=True,
+                escalation_reason="DT system not available",
+            )
+        
+        from agents_army.protocol.message import AgentMessage
+        from agents_army.protocol.types import MessageType
+        
+        # Create message for agent
+        message = AgentMessage(
+            from_role=AgentRole.DT,
+            to_role=agent_role,
+            type=MessageType.TASK_REQUEST,
+            payload={
+                "task_id": task.id,
+                "description": task.description,
+            },
+        )
+        
+        try:
+            agent = self.dt.system.get_agent(agent_role)
+            if agent:
+                response = await agent.handle_message(message)
+                if response and response.payload.get("status") == "completed":
+                    return ActionResult(
+                        success=True,
+                        action_taken="executed",
+                        result={
+                            "task_id": task.id,
+                            "result": response.payload.get("result", {}),
+                        },
+                        escalated=False,
+                    )
+            
+            return ActionResult(
+                success=False,
+                action_taken="executed",
+                result={"task_id": task.id},
+                error="Agent execution failed or incomplete",
+                escalated=False,
+            )
+        except Exception as e:
+            return ActionResult(
+                success=False,
+                action_taken="executed",
+                result={"task_id": task.id},
+                error=str(e),
+                escalated=False,
+            )
 
 
 class LearningEngine:

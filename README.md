@@ -32,6 +32,8 @@ El MVP está **completo y funcional**. El framework está listo para uso en proy
 - **Protocolo de Comunicación Estándar**: Mensajes estructurados con validación Pydantic
 - **El DT (Director Técnico)**: Coordinador (Orchestrator) inteligente basado en LLM
 - **18 Agentes Especializados**: Desde investigación hasta marketing, desarrollo, diseño y operaciones
+- **Loops Autónomos**: Ejecución iterativa automática hasta completitud verificable
+- **Sistema de Autonomía**: Decisión automática de nivel de ejecución (1-4) según confianza y riesgo
 - **Skills System**: Workflows especializados reutilizables (ej: github-save)
 - **Sistema de Memoria**: Persistencia con múltiples backends (InMemory, SQLite)
 - **Sistema de Herramientas**: 6 herramientas básicas + extensible
@@ -90,6 +92,16 @@ python -c "from agents_army import AgentSystem, DT; print('✅ Agents_Army insta
 ## 🚀 Quick Start
 
 **¿Nuevo en Agents_Army?** Empieza con **[docs/QUICK_START.md](docs/QUICK_START.md)** (5 minutos)
+
+### 🎯 Configuración Automática del IDE
+
+**IMPORTANTE**: Agents_Army incluye archivos de configuración que se cargan automáticamente en cada conversación:
+
+- **`.cursorrules`** - Reglas globales que Cursor carga automáticamente
+- **`.claude/CLAUDE.md`** - Configuración para Claude Code  
+- **`.cursor/rules/`** - Reglas específicas del DT
+
+Estos archivos aseguran que **El DT esté presente y activo** en cada conversación. Ver **[docs/IDE_CONFIGURATION.md](docs/IDE_CONFIGURATION.md)** para más detalles.
 
 ### ⚡ Forma Más Rápida: Usar `/dt-start`
 

@@ -84,7 +84,7 @@ class AgentSystem:
     def shutdown(self) -> None
 ```
 
-### 2. Coordinator (Coordinador)
+### 2. Coordinator (Coordinador) / El DT
 
 **Responsabilidad**: Orquestación de tareas y coordinación entre agentes.
 
@@ -92,6 +92,8 @@ class AgentSystem:
 - **Task Decomposer**: Divide tareas complejas en subtareas
 - **Task Scheduler**: Programa y asigna tareas
 - **Result Synthesizer**: Combina resultados de múltiples agentes
+- **DTAutonomyEngine**: Decide nivel de autonomía y modo de ejecución
+- **AutonomousTaskExecutor**: Ejecuta tareas con loops iterativos cuando corresponde
 
 **Interfaces**:
 ```python
@@ -199,57 +201,121 @@ class Tool:
     async def execute(self, params: dict) -> dict
 ```
 
+### 8. Autonomous Execution System (Sistema de Ejecución Autónoma)
+
+**Responsabilidad**: Ejecución iterativa de tareas hasta completitud verificable.
+
+**Componentes**:
+- **AutonomousTaskExecutor**: Orquestador principal de loops iterativos
+- **CompletionCriteria**: Verifica criterios de completitud (tests, linter, build, exit signals)
+- **TaskProgressTracker**: Rastrea progreso entre iteraciones
+- **TaskCircuitBreaker**: Detecta y previene loops sin progreso
+- **TaskSessionManager**: Gestiona sesiones persistentes entre iteraciones
+- **ValidationRunner**: Ejecuta tests, linters y builds
+- **FileChangeDetector**: Detecta cambios de archivos para tracking de progreso
+
+**Flujo de Ejecución Autónoma**:
+```
+DT.assign_task() 
+  → DTAutonomyEngine.decide_and_act()
+    → Calcula nivel de autonomía (1-4)
+      → Nivel 4: AutonomousTaskExecutor (loop completo, 50 iteraciones)
+      → Nivel 3: AutonomousTaskExecutor (loop validado, 30 iteraciones)
+      → Nivel 2: Ejecución simple + validación
+      → Nivel 1: Escalar a humano
+```
+
+**Interfaces**:
+```python
+class AutonomousTaskExecutor:
+    async def execute_until_complete(
+        task: Task,
+        agent_role: AgentRole,
+        completion_criteria: CompletionCriteria
+    ) -> ActionResult
+
+class CompletionCriteria:
+    def is_complete(
+        task_result: TaskResult,
+        agent_output: str,
+        file_changes: List[str]
+    ) -> bool
+
+class TaskProgressTracker:
+    def record_iteration(...) -> None
+    def has_progress(task_id: str, last_n: int) -> bool
+    def is_stuck(task_id: str) -> bool
+
+class TaskCircuitBreaker:
+    def check_should_continue(...) -> CircuitBreakerResult
+    def is_open(task_id: str) -> bool
+```
+
 ## Flujo de Datos
 
-### Flujo 1: Ejecución de Tarea Simple
+### Flujo 1: Ejecución de Tarea Simple (Actualizado con Loops Autónomos)
 
 ```
 User Request
     │
     ▼
-AgentSystem.execute_task()
+DT.assign_task(task, agent_role)
     │
     ▼
-Coordinator.receive_task()
+DT crea Situation
     │
     ▼
-Coordinator.decompose_task()
+DTAutonomyEngine.decide_and_act()
+    │
+    ├─> Analiza complejidad, riesgo, confianza
+    ├─> Calcula nivel de autonomía (1-4)
+    │
+    └─> Decide modo de ejecución:
+        │
+        ├─> Nivel 4: AutonomousTaskExecutor.execute_until_complete()
+        │   │
+        │   └─> Loop iterativo hasta completitud:
+        │       ├─> Agent.handle_message()
+        │       ├─> TaskProgressTracker.record()
+        │       ├─> CompletionCriteria.check()
+        │       ├─> CircuitBreaker.check()
+        │       └─> Si no completo: reiniciar con contexto
+        │
+        ├─> Nivel 3: AutonomousTaskExecutor (con validación estricta)
+        │
+        ├─> Nivel 2: Ejecución simple + validación
+        │
+        └─> Nivel 1: Escalar a humano
     │
     ▼
-Coordinator.assign_task() ──► MessageRouter.send()
-    │                              │
-    │                              ▼
-    │                    Specialist.receive()
-    │                              │
-    │                              ▼
-    │                    Specialist.execute()
-    │                              │
-    │                              ▼
-    │                    ToolRegistry.get_tool()
-    │                              │
-    │                              ▼
-    │                    Tool.execute()
-    │                              │
-    │                              ▼
-    │                    Specialist.send_response()
-    │                              │
-    │                              ▼
-    │                    MessageRouter.send()
-    │                              │
-    ▼                              │
-Coordinator.receive_response()     │
-    │                              │
-    ▼                              │
-Coordinator.validate() ──► Validator.validate()
-    │                              │
-    ▼                              │
-Coordinator.synthesize()           │
-    │                              │
-    ▼                              │
-MemorySystem.store()               │
-    │                              │
-    ▼                              │
-User Response                      │
+DT.update_task_status() según resultado
+    │
+    ▼
+User Response
+```
+
+### Flujo 2: Loop Autónomo Detallado (Nivel 4)
+
+```
+AutonomousTaskExecutor.execute_until_complete()
+    │
+    ├─> Iteración 1:
+    │   ├─> TaskSessionManager.get_session() (recupera contexto)
+    │   ├─> Agent.handle_message() (ejecuta con contexto)
+    │   ├─> FileChangeDetector.detect_changes()
+    │   ├─> ValidationRunner.run_tests() (si required)
+    │   ├─> TaskProgressTracker.record()
+    │   ├─> CompletionCriteria.is_complete()
+    │   │   └─> ¿Completo? → SÍ: Retornar éxito
+    │   │                   └─> NO: Continuar
+    │   └─> CircuitBreaker.check()
+    │       └─> ¿Estancado? → SÍ: Abortar
+    │                       └─> NO: Continuar
+    │
+    ├─> Iteración 2:
+    │   └─> (mismo proceso con contexto acumulado)
+    │
+    └─> ... hasta completitud o max_iterations
 ```
 
 ### Flujo 2: Consulta de Memoria
