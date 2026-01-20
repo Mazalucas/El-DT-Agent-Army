@@ -95,9 +95,7 @@ class TaskStorage:
                 new_file.unlink()
             old_file.rename(new_file)
 
-    def list_tasks(
-        self, status: Optional[str] = None, limit: int = 100
-    ) -> List[Task]:
+    def list_tasks(self, status: Optional[str] = None, limit: int = 100) -> List[Task]:
         """
         List tasks.
 

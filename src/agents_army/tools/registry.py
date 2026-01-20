@@ -87,9 +87,7 @@ class ToolRegistry:
         """
         return name in self._tools
 
-    async def execute_tool(
-        self, tool_name: str, params: Dict[str, Any]
-    ) -> Any:
+    async def execute_tool(self, tool_name: str, params: Dict[str, Any]) -> Any:
         """
         Execute a tool with validation.
 
@@ -125,9 +123,7 @@ class ToolRegistry:
         except Exception as e:
             if isinstance(e, (ToolExecutionError, InvalidParametersError)):
                 raise
-            raise ToolExecutionError(
-                f"Tool '{tool_name}' execution failed: {str(e)}"
-            ) from e
+            raise ToolExecutionError(f"Tool '{tool_name}' execution failed: {str(e)}") from e
 
     def get_all_tools(self) -> List[Tool]:
         """

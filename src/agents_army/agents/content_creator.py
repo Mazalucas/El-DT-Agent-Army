@@ -56,9 +56,7 @@ class ContentCreator(Agent):
 
         super().__init__(config, llm_provider)
 
-    async def create_content(
-        self, brief: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def create_content(self, brief: Dict[str, Any]) -> Dict[str, Any]:
         """
         Create content according to brief.
 
@@ -88,9 +86,7 @@ Provide:
             "metadata": {},
         }
 
-    async def optimize_seo(
-        self, content: str, keywords: List[str]
-    ) -> Dict[str, Any]:
+    async def optimize_seo(self, content: str, keywords: List[str]) -> Dict[str, Any]:
         """
         Optimize content for SEO.
 
@@ -155,9 +151,7 @@ Provide:
             "target_audience": target_audience,
         }
 
-    async def _process_message(
-        self, message: AgentMessage
-    ) -> Optional[AgentMessage]:
+    async def _process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """
         Process incoming message.
 

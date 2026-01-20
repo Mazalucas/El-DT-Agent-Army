@@ -12,7 +12,7 @@ from agents_army.memory.models import MemoryItem, RetentionPolicy
 class VectorBackend(MemoryBackend):
     """
     Abstract base class for vector-based memory backends.
-    
+
     Extends MemoryBackend with semantic search capabilities using embeddings.
     """
 
@@ -74,7 +74,7 @@ class VectorBackend(MemoryBackend):
 class InMemoryVectorBackend(VectorBackend):
     """
     In-memory vector backend for semantic search.
-    
+
     Stores embeddings in memory and performs similarity search.
     Suitable for development and small-scale deployments.
     """
@@ -223,9 +223,7 @@ class InMemoryVectorBackend(VectorBackend):
         Returns:
             Number of items deleted
         """
-        expired_keys = [
-            key for key, item in self._storage.items() if item.is_expired()
-        ]
+        expired_keys = [key for key, item in self._storage.items() if item.is_expired()]
 
         for key in expired_keys:
             del self._storage[key]

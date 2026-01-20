@@ -15,9 +15,7 @@ class LLMProvider(ABC):
     """Abstract base class for LLM providers."""
 
     @abstractmethod
-    async def generate(
-        self, prompt: str, **kwargs: Any
-    ) -> str:
+    async def generate(self, prompt: str, **kwargs: Any) -> str:
         """Generate a response from the LLM."""
         pass
 
@@ -219,9 +217,7 @@ class Agent(ABC):
         """
         pass
 
-    async def generate_response(
-        self, prompt: str, **kwargs: Any
-    ) -> str:
+    async def generate_response(self, prompt: str, **kwargs: Any) -> str:
         """
         Generate a response using the LLM.
 

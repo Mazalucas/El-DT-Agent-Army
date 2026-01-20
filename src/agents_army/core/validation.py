@@ -51,9 +51,7 @@ class BuildResults:
     output: str
     artifacts: List[str] = None
 
-    def __init__(
-        self, succeeded: bool, output: str, artifacts: Optional[List[str]] = None
-    ):
+    def __init__(self, succeeded: bool, output: str, artifacts: Optional[List[str]] = None):
         """Initialize build results."""
         self.succeeded = succeeded
         self.output = output
@@ -154,9 +152,7 @@ class ValidationRunner:
             return TestResults(passed=passed, output=output, coverage=coverage)
 
         except subprocess.TimeoutExpired:
-            return TestResults(
-                passed=False, output="Test execution timed out after 5 minutes"
-            )
+            return TestResults(passed=False, output="Test execution timed out after 5 minutes")
         except FileNotFoundError:
             # Command not found, assume tests pass (optional validation)
             return TestResults(passed=True, output="Test command not found, skipping")
@@ -201,18 +197,14 @@ class ValidationRunner:
             return LinterResults(passed=passed, output=output, errors=errors)
 
         except subprocess.TimeoutExpired:
-            return LinterResults(
-                passed=False, output="Linter execution timed out", errors=[]
-            )
+            return LinterResults(passed=False, output="Linter execution timed out", errors=[])
         except FileNotFoundError:
             # Command not found, assume linter passes (optional validation)
             return LinterResults(
                 passed=True, output="Linter command not found, skipping", errors=[]
             )
         except Exception as e:
-            return LinterResults(
-                passed=False, output=f"Error running linter: {str(e)}", errors=[]
-            )
+            return LinterResults(passed=False, output=f"Error running linter: {str(e)}", errors=[])
 
     def run_build(self, project_path: Optional[str] = None) -> BuildResults:
         """
@@ -229,9 +221,7 @@ class ValidationRunner:
 
         if not command:
             # No build command configured, assume build succeeds
-            return BuildResults(
-                succeeded=True, output="No build command configured, skipping"
-            )
+            return BuildResults(succeeded=True, output="No build command configured, skipping")
 
         args = self.config.get("build_args", [])
 
@@ -265,10 +255,6 @@ class ValidationRunner:
             )
         except FileNotFoundError:
             # Command not found, assume build succeeds (optional validation)
-            return BuildResults(
-                succeeded=True, output="Build command not found, skipping"
-            )
+            return BuildResults(succeeded=True, output="Build command not found, skipping")
         except Exception as e:
-            return BuildResults(
-                succeeded=False, output=f"Error running build: {str(e)}"
-            )
+            return BuildResults(succeeded=False, output=f"Error running build: {str(e)}")

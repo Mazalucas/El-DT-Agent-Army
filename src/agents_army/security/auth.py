@@ -8,7 +8,7 @@ from agents_army.protocol.types import AgentRole
 class AuthenticationManager:
     """
     Manages authentication and authorization for agents.
-    
+
     Provides basic authentication and role-based access control.
     """
 
@@ -18,9 +18,7 @@ class AuthenticationManager:
         self.token_roles: Dict[str, AgentRole] = {}  # token -> role
         self.role_permissions: Dict[AgentRole, List[str]] = {}
 
-    def register_agent(
-        self, agent_id: str, role: AgentRole, token: Optional[str] = None
-    ) -> str:
+    def register_agent(self, agent_id: str, role: AgentRole, token: Optional[str] = None) -> str:
         """
         Register an agent and generate authentication token.
 
@@ -54,9 +52,7 @@ class AuthenticationManager:
         """
         return self.token_roles.get(token)
 
-    def authorize(
-        self, role: AgentRole, action: str, resource: Optional[str] = None
-    ) -> bool:
+    def authorize(self, role: AgentRole, action: str, resource: Optional[str] = None) -> bool:
         """
         Check if role is authorized for action.
 
@@ -75,9 +71,7 @@ class AuthenticationManager:
         permissions = self.role_permissions.get(role, [])
         return action in permissions or "*" in permissions
 
-    def set_role_permissions(
-        self, role: AgentRole, permissions: List[str]
-    ) -> None:
+    def set_role_permissions(self, role: AgentRole, permissions: List[str]) -> None:
         """
         Set permissions for a role.
 
@@ -100,9 +94,7 @@ class AuthenticationManager:
         if token in self.token_roles:
             role = self.token_roles.pop(token)
             # Remove from agent_tokens
-            agent_id = next(
-                (aid for aid, t in self.agent_tokens.items() if t == token), None
-            )
+            agent_id = next((aid for aid, t in self.agent_tokens.items() if t == token), None)
             if agent_id:
                 del self.agent_tokens[agent_id]
             return True

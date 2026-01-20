@@ -47,9 +47,7 @@ class ConfigLoader:
                 )
 
     @staticmethod
-    def create_agent_config(
-        config_dict: Dict[str, Any], role: AgentRole
-    ) -> AgentConfig:
+    def create_agent_config(config_dict: Dict[str, Any], role: AgentRole) -> AgentConfig:
         """
         Create AgentConfig from dictionary.
 

@@ -78,7 +78,7 @@ This is the conclusion.
     print(f"   Parsed document:")
     print(f"     - Format: {parsed['format']}")
     print(f"     - Sections: {len(parsed['sections'])}")
-    for section in parsed['sections']:
+    for section in parsed["sections"]:
         print(f"       * {section['title']}")
     print()
 

@@ -94,9 +94,7 @@ class MemoryAgent(Agent):
         item = await self.memory_system.retrieve(key)
         return item.value if item else None
 
-    async def search(
-        self, query: str, tags: Optional[list] = None, limit: int = 10
-    ) -> list:
+    async def search(self, query: str, tags: Optional[list] = None, limit: int = 10) -> list:
         """
         Search memories.
 
@@ -133,9 +131,7 @@ class MemoryAgent(Agent):
             query, limit=limit, threshold=threshold, tags=tags
         )
 
-    async def _process_message(
-        self, message: AgentMessage
-    ) -> Optional[AgentMessage]:
+    async def _process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """
         Process incoming message.
 

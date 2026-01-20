@@ -104,9 +104,7 @@ class TaskSessionManager:
         """
         return self.sessions_dir / f"{task_id}.json"
 
-    def get_or_create_session(
-        self, task_id: str, agent_role: AgentRole
-    ) -> TaskSession:
+    def get_or_create_session(self, task_id: str, agent_role: AgentRole) -> TaskSession:
         """
         Get existing session or create new one.
 
@@ -170,9 +168,7 @@ class TaskSessionManager:
         self._save_session(session)
         return session
 
-    def should_reset_session(
-        self, session: TaskSession, reason: SessionResetReason
-    ) -> bool:
+    def should_reset_session(self, session: TaskSession, reason: SessionResetReason) -> bool:
         """
         Determine if session should be reset.
 

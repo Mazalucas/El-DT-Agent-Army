@@ -74,22 +74,22 @@ class TestAutonomousTaskExecutor:
         )
         mock_agent.handle_message.return_value = mock_response
         mock_agent.id = "agent_123"
-        
+
         executor.dt.system.get_agent.return_value = mock_agent
-        
+
         # Mock file detector to return changes (so progress is detected)
         executor.file_detector.detect_changes = MagicMock(return_value=["file1.py"])
-        
+
         # Disable circuit breaker for this test
         executor.enable_circuit_breaker = False
         executor.circuit_breaker = None
-        
+
         result = await executor.execute_until_complete(
             task=task,
             agent_role=AgentRole.BACKEND_ARCHITECT,
             completion_criteria=completion_criteria,
         )
-        
+
         assert result.success is True
         assert result.action_taken == "completed"
 
@@ -109,18 +109,18 @@ class TestAutonomousTaskExecutor:
         )
         mock_agent.handle_message.return_value = mock_response
         mock_agent.id = "agent_123"
-        
+
         executor.dt.system.get_agent.return_value = mock_agent
-        
+
         # Set low max iterations for test
         executor.max_iterations = 2
-        
+
         result = await executor.execute_until_complete(
             task=task,
             agent_role=AgentRole.BACKEND_ARCHITECT,
             completion_criteria=completion_criteria,
         )
-        
+
         assert result.success is False
         assert "max_iterations" in result.action_taken
 
@@ -140,16 +140,16 @@ class TestAutonomousTaskExecutor:
         )
         mock_agent.handle_message.return_value = mock_response
         mock_agent.id = "agent_123"
-        
+
         executor.dt.system.get_agent.return_value = mock_agent
-        
+
         task_result, agent_output, file_changes = await executor._execute_iteration(
             task=task,
             agent_role=AgentRole.BACKEND_ARCHITECT,
             session=None,
             iteration=1,
         )
-        
+
         assert task_result is not None
         assert isinstance(agent_output, str)
         assert isinstance(file_changes, list)
@@ -162,7 +162,7 @@ class TestAutonomousTaskExecutor:
             type=MessageType.TASK_RESPONSE,
             payload={"output": "Test output"},
         )
-        
+
         output = executor._extract_agent_output(response)
         assert output == "Test output"
 
@@ -174,6 +174,6 @@ class TestAutonomousTaskExecutor:
             type=MessageType.TASK_RESPONSE,
             payload={"result": "Fallback output"},
         )
-        
+
         output = executor._extract_agent_output(response)
         assert output == "Fallback output"

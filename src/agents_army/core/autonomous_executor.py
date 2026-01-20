@@ -48,25 +48,22 @@ class AutonomousTaskExecutor:
             if enable_circuit_breaker
             else None
         )
-        self.session_manager = (
-            TaskSessionManager(dt.task_storage)
-            if enable_sessions
-            else None
-        )
+        self.session_manager = TaskSessionManager(dt.task_storage) if enable_sessions else None
         # Determine project path for file detection and validation
         from pathlib import Path
+
         dt_path = Path(dt.project_path) if isinstance(dt.project_path, str) else dt.project_path
-        
+
         # If .dt directory, use parent; otherwise use project path
         if dt_path.name == ".dt":
             project_root = str(dt_path.parent)
         else:
             project_root = str(dt_path)
-        
+
         # Use current project path if available
-        if dt.current_project and hasattr(dt.current_project, 'path'):
+        if dt.current_project and hasattr(dt.current_project, "path"):
             project_root = dt.current_project.path
-        
+
         self.file_detector = FileChangeDetector(project_root)
         self.validation_runner = ValidationRunner(project_root)
 
@@ -110,9 +107,7 @@ class AutonomousTaskExecutor:
                 if not cb_result.should_continue:
                     # Circuit breaker opened - abort
                     if self.enable_sessions and session:
-                        self.session_manager.reset_session(
-                            task.id, "circuit_breaker_open"
-                        )
+                        self.session_manager.reset_session(task.id, "circuit_breaker_open")
                     return ActionResult(
                         success=False,
                         action_taken="aborted",
@@ -180,9 +175,7 @@ class AutonomousTaskExecutor:
                 )
 
             # Check completion
-            is_complete = completion_criteria.is_complete(
-                task_result, agent_output, file_changes
-            )
+            is_complete = completion_criteria.is_complete(task_result, agent_output, file_changes)
 
             if is_complete:
                 # Task complete!
@@ -252,7 +245,7 @@ class AutonomousTaskExecutor:
             "description": task.description,
             "iteration": iteration,
         }
-        
+
         # Add context if available
         if context:
             payload["context"] = context
@@ -276,11 +269,15 @@ class AutonomousTaskExecutor:
                     if response:
                         # Extract output from response
                         agent_output = self._extract_agent_output(response)
-                        
+
                         # Create task result
                         task_result = TaskResult(
                             task_id=task.id,
-                            status="completed" if response.payload.get("status") == "completed" else "partial",
+                            status=(
+                                "completed"
+                                if response.payload.get("status") == "completed"
+                                else "partial"
+                            ),
                             result=response.payload.get("result", {}),
                             error=response.payload.get("error"),
                             agent_id=agent.id,
@@ -335,7 +332,7 @@ class AutonomousTaskExecutor:
             Agent output string
         """
         payload = response.payload or {}
-        
+
         # Try different possible output fields
         output = payload.get("output", "")
         if not output:

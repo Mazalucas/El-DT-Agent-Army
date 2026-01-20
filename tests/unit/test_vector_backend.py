@@ -55,9 +55,7 @@ class TestInMemoryVectorBackend:
         await backend.store(item3)
 
         # Search with threshold 0.0 (should find all items)
-        results = await backend.search_semantic(
-            "test query", limit=10, threshold=0.0
-        )
+        results = await backend.search_semantic("test query", limit=10, threshold=0.0)
 
         # MockEmbeddings uses hash-based approach, so results depend on hash similarity
         # Just verify search doesn't crash and returns some results
@@ -77,15 +75,11 @@ class TestInMemoryVectorBackend:
         await backend.store(item)
 
         # Search with high threshold (should find item)
-        results = await backend.search_semantic(
-            "Test content", limit=10, threshold=0.0
-        )
+        results = await backend.search_semantic("Test content", limit=10, threshold=0.0)
         assert len(results) >= 1
 
         # Search with very high threshold (might not find)
-        results = await backend.search_semantic(
-            "completely different", limit=10, threshold=0.99
-        )
+        results = await backend.search_semantic("completely different", limit=10, threshold=0.99)
         # Results depend on hash similarity, so just check it doesn't crash
 
     @pytest.mark.asyncio

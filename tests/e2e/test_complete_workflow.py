@@ -33,7 +33,7 @@ class MockLLMProvider(LLMProvider):
         self.call_count += 1
 
         if "PRD" in prompt or "parse" in prompt.lower():
-            return '''[
+            return """[
   {
     "title": "Research market trends",
     "description": "Research current market trends for AI agents",
@@ -52,7 +52,7 @@ class MockLLMProvider(LLMProvider):
     "priority": 4,
     "tags": ["marketing", "strategy"]
   }
-]'''
+]"""
         elif "architecture" in prompt.lower() or "design" in prompt.lower():
             return """Architecture Design:
 - API Layer: RESTful API with GraphQL support
@@ -118,8 +118,7 @@ class TestCompleteWorkflow:
             # 6. Create and parse PRD (in the project directory where initialize_project expects it)
             prd_file = Path(project.prd_path)
             prd_file.parent.mkdir(parents=True, exist_ok=True)
-            prd_file.write_text(
-                """# Project PRD
+            prd_file.write_text("""# Project PRD
 
 ## Overview
 Build a multi-agent system for project management.
@@ -128,8 +127,7 @@ Build a multi-agent system for project management.
 1. Research market trends
 2. Design backend architecture
 3. Create marketing strategy
-"""
-            )
+""")
 
             tasks = await dt.parse_prd()
             assert len(tasks) > 0

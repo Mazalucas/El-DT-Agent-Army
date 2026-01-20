@@ -33,10 +33,10 @@ class TestBackwardCompatibility:
     def test_assign_task_signature_unchanged(self, dt):
         """Test that assign_task maintains same signature."""
         import inspect
-        
+
         sig = inspect.signature(dt.assign_task)
         params = list(sig.parameters.keys())
-        
+
         # Should have same parameters: task, agent_role
         assert "task" in params
         assert "agent_role" in params
@@ -48,19 +48,19 @@ class TestBackwardCompatibility:
         system.register_agent(dt)
         dt.set_system(system)
         await system.start()
-        
+
         task = Task(
             id="test_task",
             title="Test",
             description="Test description",
         )
-        
+
         assignment = await dt.assign_task(task, AgentRole.BACKEND_ARCHITECT)
-        
+
         # Should return TaskAssignment
         assert assignment.task_id == task.id
         assert assignment.agent_role == AgentRole.BACKEND_ARCHITECT
-        
+
         await system.stop()
 
     @pytest.mark.asyncio
@@ -69,14 +69,14 @@ class TestBackwardCompatibility:
         system.register_agent(dt)
         dt.set_system(system)
         await system.start()
-        
+
         # Simulate existing workflow - skip parse_prd if PRD doesn't exist
         try:
             tasks = await dt.parse_prd()
             if tasks:
                 task = tasks[0]
                 assignment = await dt.assign_task(task, AgentRole.RESEARCHER)
-                
+
                 # Should work without errors
                 assert assignment is not None
                 assert assignment.task_id == task.id
@@ -84,6 +84,7 @@ class TestBackwardCompatibility:
             # PRD file doesn't exist, which is fine for this test
             # Just verify that assign_task would work with a manual task
             from agents_army.core.models import Task
+
             task = Task(
                 id="test_task",
                 title="Test task",
@@ -91,13 +92,13 @@ class TestBackwardCompatibility:
             )
             assignment = await dt.assign_task(task, AgentRole.RESEARCHER)
             assert assignment is not None
-        
+
         await system.stop()
 
     def test_dt_methods_unchanged(self, dt):
         """Test that DT methods maintain same signatures."""
         import inspect
-        
+
         # Check key methods
         methods_to_check = [
             "parse_prd",
@@ -105,7 +106,7 @@ class TestBackwardCompatibility:
             "get_next_task",
             "update_task_status",
         ]
-        
+
         for method_name in methods_to_check:
             method = getattr(dt, method_name)
             sig = inspect.signature(method)

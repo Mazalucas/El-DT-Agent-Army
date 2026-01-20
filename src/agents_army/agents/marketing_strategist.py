@@ -54,9 +54,7 @@ class MarketingStrategist(Agent):
 
         super().__init__(config, llm_provider)
 
-    async def develop_strategy(
-        self, context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def develop_strategy(self, context: Dict[str, Any]) -> Dict[str, Any]:
         """
         Develop marketing strategy.
 
@@ -89,9 +87,7 @@ Provide:
             "metrics": [],
         }
 
-    async def analyze_market(
-        self, market_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def analyze_market(self, market_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Analyze market conditions.
 
@@ -122,9 +118,7 @@ Provide:
             "opportunities": [],
         }
 
-    async def _process_message(
-        self, message: AgentMessage
-    ) -> Optional[AgentMessage]:
+    async def _process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """
         Process incoming message.
 

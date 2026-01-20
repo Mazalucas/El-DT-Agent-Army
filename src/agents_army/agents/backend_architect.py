@@ -54,9 +54,7 @@ class BackendArchitect(Agent):
 
         super().__init__(config, llm_provider)
 
-    async def design_architecture(
-        self, requirements: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def design_architecture(self, requirements: Dict[str, Any]) -> Dict[str, Any]:
         """
         Design backend architecture.
 
@@ -88,9 +86,7 @@ Provide:
             "database_schema": {},
         }
 
-    async def design_api(
-        self, api_spec: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def design_api(self, api_spec: Dict[str, Any]) -> Dict[str, Any]:
         """
         Design API endpoints.
 
@@ -119,9 +115,7 @@ Provide:
             "endpoints": [],
         }
 
-    async def _process_message(
-        self, message: AgentMessage
-    ) -> Optional[AgentMessage]:
+    async def _process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """
         Process incoming message.
 

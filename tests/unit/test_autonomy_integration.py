@@ -59,7 +59,7 @@ class TestDTAutonomyEngineIntegration:
             context={},
             available_agents=[AgentRole.BACKEND_ARCHITECT],
         )
-        
+
         # Mock decision with level 4
         decision = Decision(
             autonomous=True,
@@ -68,7 +68,7 @@ class TestDTAutonomyEngineIntegration:
             action="execute_autonomously",
             level=4,
         )
-        
+
         # Mock executor
         with patch(
             "agents_army.core.autonomous_executor.AutonomousTaskExecutor"
@@ -79,9 +79,9 @@ class TestDTAutonomyEngineIntegration:
                 action_taken="completed",
             )
             mock_executor_class.return_value = mock_executor
-            
+
             result = await autonomy_engine._execute_autonomously(situation, decision)
-            
+
             assert result.success is True
             mock_executor.execute_until_complete.assert_called_once()
 
@@ -93,7 +93,7 @@ class TestDTAutonomyEngineIntegration:
             context={},
             available_agents=[AgentRole.BACKEND_ARCHITECT],
         )
-        
+
         decision = Decision(
             autonomous=True,
             confidence=0.85,
@@ -101,7 +101,7 @@ class TestDTAutonomyEngineIntegration:
             action="execute_with_validation",
             level=3,
         )
-        
+
         with patch(
             "agents_army.core.autonomous_executor.AutonomousTaskExecutor"
         ) as mock_executor_class:
@@ -111,9 +111,9 @@ class TestDTAutonomyEngineIntegration:
                 action_taken="completed",
             )
             mock_executor_class.return_value = mock_executor
-            
+
             result = await autonomy_engine._execute_autonomously(situation, decision)
-            
+
             assert result.success is True
             # Should be called with validate_each_iteration=True
             call_kwargs = mock_executor.execute_until_complete.call_args[1]
@@ -127,7 +127,7 @@ class TestDTAutonomyEngineIntegration:
             context={},
             available_agents=[AgentRole.BACKEND_ARCHITECT],
         )
-        
+
         decision = Decision(
             autonomous=True,
             confidence=0.7,
@@ -135,16 +135,16 @@ class TestDTAutonomyEngineIntegration:
             action="execute_simple",
             level=2,
         )
-        
+
         # Mock agent execution
         mock_agent = AsyncMock()
         mock_response = MagicMock()
         mock_response.payload = {"status": "completed", "result": {}}
         mock_agent.handle_message.return_value = mock_response
         mock_dt.system.get_agent.return_value = mock_agent
-        
+
         result = await autonomy_engine._execute_autonomously(situation, decision)
-        
+
         # Should execute once and validate
         assert mock_agent.handle_message.called
 
@@ -156,7 +156,7 @@ class TestDTAutonomyEngineIntegration:
             context={},
             available_agents=[AgentRole.BACKEND_ARCHITECT],
         )
-        
+
         decision = Decision(
             autonomous=False,
             confidence=0.5,
@@ -165,8 +165,8 @@ class TestDTAutonomyEngineIntegration:
             level=1,
             escalation_reason="Low confidence",
         )
-        
+
         result = await autonomy_engine._escalate_to_human(situation, decision)
-        
+
         assert result.escalated is True
         assert result.success is False

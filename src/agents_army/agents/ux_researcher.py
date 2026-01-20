@@ -55,9 +55,7 @@ class UXResearcher(Agent):
 
         super().__init__(config, llm_provider)
 
-    async def research_users(
-        self, research_questions: List[str]
-    ) -> Dict[str, Any]:
+    async def research_users(self, research_questions: List[str]) -> Dict[str, Any]:
         """
         Conduct user research.
 
@@ -88,9 +86,7 @@ Provide:
             "insights": [],
         }
 
-    async def create_personas(
-        self, user_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def create_personas(self, user_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Create user personas.
 
@@ -120,9 +116,7 @@ Provide:
             "persona_list": [],
         }
 
-    async def _process_message(
-        self, message: AgentMessage
-    ) -> Optional[AgentMessage]:
+    async def _process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """
         Process incoming message.
 

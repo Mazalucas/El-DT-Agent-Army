@@ -38,9 +38,7 @@ class FileChangeDetector:
 
         self.initial_states[task_id] = initial_state
 
-    def detect_changes(
-        self, task_id: str, since_iteration: int = 0
-    ) -> List[str]:
+    def detect_changes(self, task_id: str, since_iteration: int = 0) -> List[str]:
         """
         Detect files that have changed since task started or since iteration.
 
@@ -101,11 +99,7 @@ class FileChangeDetector:
             )
 
             if result.returncode == 0 and result.stdout.strip():
-                files = [
-                    f.strip()
-                    for f in result.stdout.strip().split("\n")
-                    if f.strip()
-                ]
+                files = [f.strip() for f in result.stdout.strip().split("\n") if f.strip()]
                 return files
 
             # Also check untracked files
@@ -118,11 +112,7 @@ class FileChangeDetector:
             )
 
             if result.returncode == 0 and result.stdout.strip():
-                untracked = [
-                    f.strip()
-                    for f in result.stdout.strip().split("\n")
-                    if f.strip()
-                ]
+                untracked = [f.strip() for f in result.stdout.strip().split("\n") if f.strip()]
                 return untracked
 
             return []
@@ -183,9 +173,7 @@ class FileChangeDetector:
 
             if result.returncode == 0:
                 commits = [
-                    line.split()[0]
-                    for line in result.stdout.strip().split("\n")
-                    if line.strip()
+                    line.split()[0] for line in result.stdout.strip().split("\n") if line.strip()
                 ]
                 return commits
         except Exception:

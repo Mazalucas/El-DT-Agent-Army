@@ -76,9 +76,7 @@ class TestConfigLoader:
             "department": "Research",
         }
 
-        agent_config = ConfigLoader.create_agent_config(
-            config_dict, AgentRole.RESEARCHER
-        )
+        agent_config = ConfigLoader.create_agent_config(config_dict, AgentRole.RESEARCHER)
 
         assert agent_config.name == "Test Researcher"
         assert agent_config.role == AgentRole.RESEARCHER

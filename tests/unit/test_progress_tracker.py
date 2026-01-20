@@ -34,7 +34,7 @@ class TestTaskProgressTracker:
             agent_output="Task completed",
             errors=[],
         )
-        
+
         assert tracker.get_iteration_count("test_task") == 1
 
     def test_has_progress_with_changes(self, tracker):
@@ -47,7 +47,7 @@ class TestTaskProgressTracker:
             agent_output="Working on it",
             errors=[],
         )
-        
+
         assert tracker.has_progress("test_task", last_n=1) is True
 
     def test_has_progress_without_changes(self, tracker):
@@ -60,7 +60,7 @@ class TestTaskProgressTracker:
             agent_output="No changes",
             errors=["Error"],
         )
-        
+
         tracker.record_iteration(
             task_id="test_task",
             iteration=2,
@@ -69,7 +69,7 @@ class TestTaskProgressTracker:
             agent_output="Still no changes",
             errors=["Error"],
         )
-        
+
         tracker.record_iteration(
             task_id="test_task",
             iteration=3,
@@ -78,7 +78,7 @@ class TestTaskProgressTracker:
             agent_output="Still no changes",
             errors=["Error"],
         )
-        
+
         # Should have no progress in last 3 iterations
         assert tracker.has_progress("test_task", last_n=3) is False
 
@@ -94,7 +94,7 @@ class TestTaskProgressTracker:
                 agent_output="Error occurred",
                 errors=["Same error"],
             )
-        
+
         assert tracker.is_stuck("test_task") is True
 
     def test_is_stuck_with_progress(self, tracker):
@@ -107,7 +107,7 @@ class TestTaskProgressTracker:
             agent_output="Working",
             errors=[],
         )
-        
+
         assert tracker.is_stuck("test_task") is False
 
     def test_get_file_changes(self, tracker):
@@ -120,7 +120,7 @@ class TestTaskProgressTracker:
             agent_output="",
             errors=[],
         )
-        
+
         changes = tracker.get_file_changes("test_task", iteration=1)
         assert changes == ["file1.py", "file2.py"]
 
@@ -134,7 +134,7 @@ class TestTaskProgressTracker:
             agent_output="",
             errors=["Error 1", "Error 2"],
         )
-        
+
         tracker.record_iteration(
             task_id="test_task",
             iteration=2,
@@ -143,7 +143,7 @@ class TestTaskProgressTracker:
             agent_output="",
             errors=["Error 1", "Error 3"],
         )
-        
+
         patterns = tracker.get_error_patterns("test_task", last_n=2)
         assert "Error 1" in patterns
         assert "Error 2" in patterns
@@ -152,7 +152,7 @@ class TestTaskProgressTracker:
     def test_get_iteration_count(self, tracker):
         """Test getting iteration count."""
         assert tracker.get_iteration_count("test_task") == 0
-        
+
         for i in range(1, 6):
             tracker.record_iteration(
                 task_id="test_task",
@@ -162,7 +162,7 @@ class TestTaskProgressTracker:
                 agent_output="",
                 errors=[],
             )
-        
+
         assert tracker.get_iteration_count("test_task") == 5
 
     def test_clear_progress(self, tracker):
@@ -175,9 +175,9 @@ class TestTaskProgressTracker:
             agent_output="",
             errors=[],
         )
-        
+
         assert tracker.get_iteration_count("test_task") == 1
-        
+
         tracker.clear_progress("test_task")
-        
+
         assert tracker.get_iteration_count("test_task") == 0

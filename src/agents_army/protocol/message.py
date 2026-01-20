@@ -44,9 +44,7 @@ class AgentMessage(BaseModel):
 
     # Identification
     id: str = Field(default_factory=lambda: f"msg_{uuid.uuid4().hex[:8]}")
-    timestamp: str = Field(
-        default_factory=lambda: datetime.now(timezone.utc).isoformat()
-    )
+    timestamp: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     correlation_id: Optional[str] = None
 
     # Routing
@@ -139,9 +137,7 @@ class AgentMessage(BaseModel):
         """Check if message deadline has passed."""
         if not self.has_deadline():
             return False
-        deadline = datetime.fromisoformat(
-            self.metadata.deadline.replace("Z", "+00:00")
-        )
+        deadline = datetime.fromisoformat(self.metadata.deadline.replace("Z", "+00:00"))
         now = datetime.now(timezone.utc)
         return now > deadline
 

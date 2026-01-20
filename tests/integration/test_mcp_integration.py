@@ -68,9 +68,7 @@ class TestDTMCPIntegration:
             description="Restricted tool",
         )
 
-        await dt.register_mcp_tool(
-            tool, accessible_by=[AgentRole.BACKEND_ARCHITECT]
-        )
+        await dt.register_mcp_tool(tool, accessible_by=[AgentRole.BACKEND_ARCHITECT])
 
         # DT should not have access
         dt_tools = await dt.get_mcp_tools(AgentRole.DT)

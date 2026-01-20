@@ -38,14 +38,10 @@ class ConfidenceCalculator:
         """
         factors = {
             "historical_success": self._calculate_historical_success(history, situation),
-            "agent_reliability": self._calculate_agent_reliability(
-                analysis.agents_available
-            ),
+            "agent_reliability": self._calculate_agent_reliability(analysis.agents_available),
             "complexity_factor": self._complexity_to_confidence(analysis.complexity),
             "task_clarity": self._assess_task_clarity(situation.task),
-            "resource_availability": self._assess_resources(
-                analysis.resources_required
-            ),
+            "resource_availability": self._assess_resources(analysis.resources_required),
             "context_quality": self._assess_context_quality(analysis.context),
         }
 
@@ -98,9 +94,7 @@ class ConfidenceCalculator:
             AgentRole.QA_TESTER: 0.85,
         }
 
-        scores = [
-            reliability_scores.get(agent, 0.7) for agent in agents
-        ]
+        scores = [reliability_scores.get(agent, 0.7) for agent in agents]
         return sum(scores) / len(scores) if scores else 0.5
 
     def _complexity_to_confidence(self, complexity: str) -> float:
@@ -131,9 +125,7 @@ class ConfidenceCalculator:
         # More context = higher quality
         return min(len(context) / 10.0, 1.0) if context else 0.3
 
-    def _generate_explanation(
-        self, factors: Dict[str, float], weights: Dict[str, float]
-    ) -> str:
+    def _generate_explanation(self, factors: Dict[str, float], weights: Dict[str, float]) -> str:
         """Generate explanation for confidence score."""
         top_factors = sorted(
             factors.items(), key=lambda x: x[1] * weights.get(x[0], 0), reverse=True
@@ -144,9 +136,7 @@ class ConfidenceCalculator:
 class RiskAssessor:
     """Assesses risk for autonomous decisions."""
 
-    def assess(
-        self, situation: Situation, analysis: SituationAnalysis
-    ) -> RiskAssessment:
+    def assess(self, situation: Situation, analysis: SituationAnalysis) -> RiskAssessment:
         """
         Assess risk of acting autonomously.
 
@@ -226,9 +216,7 @@ class RiskAssessor:
             return 0.8
         return 0.1
 
-    def _generate_risk_explanation(
-        self, risk_factors: Dict[str, float], total_risk: float
-    ) -> str:
+    def _generate_risk_explanation(self, risk_factors: Dict[str, float], total_risk: float) -> str:
         """Generate explanation for risk assessment."""
         top_risks = sorted(risk_factors.items(), key=lambda x: x[1], reverse=True)[:3]
         return f"Risk level: {total_risk:.2f}. Top risks: {', '.join([f'{k}={v:.2f}' for k, v in top_risks])}"
@@ -265,11 +253,7 @@ class DecisionHistory:
         """Find similar decisions in history."""
         # Simple similarity: same task title prefix
         prefix = situation.task.title[:20]
-        return [
-            h
-            for h in self.history
-            if h.get("task_type", "").startswith(prefix)
-        ]
+        return [h for h in self.history if h.get("task_type", "").startswith(prefix)]
 
 
 class DTAutonomyEngine:
@@ -306,9 +290,7 @@ class DTAutonomyEngine:
             "autonomy_level_2": {"confidence": 0.6, "risk": 0.6},
         }
 
-    async def decide_and_act(
-        self, situation: Situation
-    ) -> ActionResult:
+    async def decide_and_act(self, situation: Situation) -> ActionResult:
         """
         Complete process of decision and autonomous action.
 
@@ -333,9 +315,7 @@ class DTAutonomyEngine:
 
         # 2. Calculate confidence
         similar_decisions = self.history.find_similar(situation)
-        confidence = self.confidence_calculator.calculate(
-            situation, analysis, similar_decisions
-        )
+        confidence = self.confidence_calculator.calculate(situation, analysis, similar_decisions)
 
         # 3. Assess risk
         risk = self.risk_assessor.assess(situation, analysis)
@@ -355,9 +335,7 @@ class DTAutonomyEngine:
         else:
             return await self._escalate_to_human(situation, decision)
 
-    async def _analyze_situation(
-        self, situation: Situation
-    ) -> SituationAnalysis:
+    async def _analyze_situation(self, situation: Situation) -> SituationAnalysis:
         """Analyze the situation."""
         complexity = self._assess_complexity(situation.task)
         dependencies = situation.task.dependencies.copy()
@@ -384,9 +362,7 @@ class DTAutonomyEngine:
         else:
             return "low"
 
-    def _check_rules(
-        self, situation: Situation, analysis: SituationAnalysis
-    ) -> Dict[str, Any]:
+    def _check_rules(self, situation: Situation, analysis: SituationAnalysis) -> Dict[str, Any]:
         """Check rules for this situation."""
         # Simple rule check (can be enhanced with actual RulesChecker)
         return {
@@ -445,9 +421,7 @@ class DTAutonomyEngine:
             autonomous = False
             action = "escalate"
             reasoning = "Low confidence or high risk - escalate to human"
-            escalation_reason = (
-                f"Confidence: {confidence.score:.2f}, Risk: {risk.total_risk:.2f}"
-            )
+            escalation_reason = f"Confidence: {confidence.score:.2f}, Risk: {risk.total_risk:.2f}"
 
         return Decision(
             autonomous=autonomous,
@@ -459,12 +433,10 @@ class DTAutonomyEngine:
             level=level,
         )
 
-    async def _execute_autonomously(
-        self, situation: Situation, decision: Decision
-    ) -> ActionResult:
+    async def _execute_autonomously(self, situation: Situation, decision: Decision) -> ActionResult:
         """
         Execute autonomous action.
-        
+
         Now decides automatically the execution mode based on autonomy level:
         - Level 4: Full autonomous loop
         - Level 3: Validated loop
@@ -472,7 +444,7 @@ class DTAutonomyEngine:
         """
         task = situation.task
         agent_role = task.assigned_agent
-        
+
         if not agent_role:
             return ActionResult(
                 success=False,
@@ -480,7 +452,7 @@ class DTAutonomyEngine:
                 escalated=True,
                 escalation_reason="No agent assigned",
             )
-        
+
         # Decide execution mode based on autonomy level
         if decision.level == 4:
             # High autonomy → Full autonomous loop
@@ -490,7 +462,7 @@ class DTAutonomyEngine:
                 max_iterations=50,
                 strict_validation=True,
             )
-        
+
         elif decision.level == 3:
             # Good autonomy → Validated loop
             return await self._execute_with_validated_loop(
@@ -499,14 +471,14 @@ class DTAutonomyEngine:
                 max_iterations=30,
                 validate_each_iteration=True,
             )
-        
+
         elif decision.level == 2:
             # Low autonomy → Simple execution with validation
             return await self._execute_simple_with_validation(
                 task=task,
                 agent_role=agent_role,
             )
-        
+
         else:
             # Should not reach here (level 1 escalates)
             return ActionResult(
@@ -515,9 +487,7 @@ class DTAutonomyEngine:
                 escalated=True,
             )
 
-    async def _escalate_to_human(
-        self, situation: Situation, decision: Decision
-    ) -> ActionResult:
+    async def _escalate_to_human(self, situation: Situation, decision: Decision) -> ActionResult:
         """Escalate to human."""
         return ActionResult(
             success=False,
@@ -573,13 +543,9 @@ class DTAutonomyEngine:
             ConfidenceScore
         """
         similar_decisions = self.history.find_similar(situation)
-        return self.confidence_calculator.calculate(
-            situation, analysis, similar_decisions
-        )
+        return self.confidence_calculator.calculate(situation, analysis, similar_decisions)
 
-    def assess_risk(
-        self, situation: Situation, analysis: SituationAnalysis
-    ) -> RiskAssessment:
+    def assess_risk(self, situation: Situation, analysis: SituationAnalysis) -> RiskAssessment:
         """
         Assess risk.
 
@@ -613,9 +579,7 @@ class DTAutonomyEngine:
         """
         return self._make_decision(confidence, risk, rules_check, analysis)
 
-    async def execute_autonomously(
-        self, situation: Situation, decision: Decision
-    ) -> ActionResult:
+    async def execute_autonomously(self, situation: Situation, decision: Decision) -> ActionResult:
         """
         Execute autonomous action.
 
@@ -627,7 +591,7 @@ class DTAutonomyEngine:
             ActionResult
         """
         return await self._execute_autonomously(situation, decision)
-    
+
     async def _execute_with_autonomous_loop(
         self,
         task: Task,
@@ -637,15 +601,15 @@ class DTAutonomyEngine:
     ) -> ActionResult:
         """
         Execute task with full autonomous loop.
-        
+
         Used for level 4 (high autonomy).
-        
+
         Args:
             task: Task to execute
             agent_role: Agent role
             max_iterations: Maximum iterations
             strict_validation: Use strict validation
-            
+
         Returns:
             ActionResult
         """
@@ -656,27 +620,27 @@ class DTAutonomyEngine:
                 escalated=True,
                 escalation_reason="DT instance not available",
             )
-        
+
         from agents_army.core.autonomous_executor import AutonomousTaskExecutor
         from agents_army.core.completion import CompletionCriteria, CompletionCriteriaFactory
-        
+
         executor = AutonomousTaskExecutor(
             dt=self.dt,
             max_iterations=max_iterations,
             enable_circuit_breaker=True,
             enable_sessions=True,
         )
-        
+
         completion_criteria = CompletionCriteriaFactory.create_for_task(task, autonomy_level=4)
         completion_criteria.tests_must_pass = strict_validation
         completion_criteria.linter_must_pass = strict_validation
-        
+
         return await executor.execute_until_complete(
             task=task,
             agent_role=agent_role,
             completion_criteria=completion_criteria,
         )
-    
+
     async def _execute_with_validated_loop(
         self,
         task: Task,
@@ -686,15 +650,15 @@ class DTAutonomyEngine:
     ) -> ActionResult:
         """
         Execute task with validated loop.
-        
+
         Used for level 3 (good autonomy).
-        
+
         Args:
             task: Task to execute
             agent_role: Agent role
             max_iterations: Maximum iterations
             validate_each_iteration: Validate on each iteration
-            
+
         Returns:
             ActionResult
         """
@@ -705,10 +669,10 @@ class DTAutonomyEngine:
                 escalated=True,
                 escalation_reason="DT instance not available",
             )
-        
+
         from agents_army.core.autonomous_executor import AutonomousTaskExecutor
         from agents_army.core.completion import CompletionCriteria, CompletionCriteriaFactory
-        
+
         executor = AutonomousTaskExecutor(
             dt=self.dt,
             max_iterations=max_iterations,
@@ -716,19 +680,19 @@ class DTAutonomyEngine:
             enable_sessions=True,
             circuit_breaker_strict=True,  # More strict
         )
-        
+
         completion_criteria = CompletionCriteriaFactory.create_for_task(task, autonomy_level=3)
         completion_criteria.tests_must_pass = True
         completion_criteria.linter_must_pass = True
         completion_criteria.min_completion_indicators = 3  # More strict
-        
+
         return await executor.execute_until_complete(
             task=task,
             agent_role=agent_role,
             completion_criteria=completion_criteria,
             validate_each_iteration=validate_each_iteration,
         )
-    
+
     async def _execute_simple_with_validation(
         self,
         task: Task,
@@ -736,33 +700,33 @@ class DTAutonomyEngine:
     ) -> ActionResult:
         """
         Execute task once with validation.
-        
+
         Used for level 2 (low autonomy).
         If validation fails, escalates (no loop).
-        
+
         Args:
             task: Task to execute
             agent_role: Agent role
-            
+
         Returns:
             ActionResult
         """
         # Execute once
         result = await self._execute_task_once(task, agent_role)
-        
+
         # Validate result
         from agents_army.core.completion import CompletionCriteria
-        
+
         criteria = CompletionCriteria(
             tests_must_pass=True,
             linter_must_pass=False,  # Less strict
             agent_exit_signal=False,
         )
-        
+
         # Check if validation passes (simplified check)
         if result.success and result.error is None:
             return result
-        
+
         # If validation fails, escalate (no loop)
         return ActionResult(
             success=False,
@@ -770,7 +734,7 @@ class DTAutonomyEngine:
             escalated=True,
             escalation_reason="Task validation failed after single execution",
         )
-    
+
     async def _execute_task_once(
         self,
         task: Task,
@@ -778,11 +742,11 @@ class DTAutonomyEngine:
     ) -> ActionResult:
         """
         Execute task once (helper method).
-        
+
         Args:
             task: Task to execute
             agent_role: Agent role
-            
+
         Returns:
             ActionResult
         """
@@ -793,10 +757,10 @@ class DTAutonomyEngine:
                 escalated=True,
                 escalation_reason="DT system not available",
             )
-        
+
         from agents_army.protocol.message import AgentMessage
         from agents_army.protocol.types import MessageType
-        
+
         # Create message for agent
         message = AgentMessage(
             from_role=AgentRole.DT,
@@ -807,7 +771,7 @@ class DTAutonomyEngine:
                 "description": task.description,
             },
         )
-        
+
         try:
             agent = self.dt.system.get_agent(agent_role)
             if agent:
@@ -822,7 +786,7 @@ class DTAutonomyEngine:
                         },
                         escalated=False,
                     )
-            
+
             return ActionResult(
                 success=False,
                 action_taken="executed",
@@ -866,9 +830,7 @@ class LearningEngine:
         )
         self.success_history.append(result.success)
 
-    def adjust_thresholds(
-        self, current_thresholds: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    def adjust_thresholds(self, current_thresholds: Dict[str, Any]) -> Dict[str, Any]:
         """
         Adjust thresholds based on learning.
 
@@ -881,9 +843,7 @@ class LearningEngine:
         if len(self.success_history) < 10:
             return current_thresholds  # Not enough data
 
-        recent_success_rate = sum(self.success_history[-20:]) / len(
-            self.success_history[-20:]
-        )
+        recent_success_rate = sum(self.success_history[-20:]) / len(self.success_history[-20:])
 
         adjusted = current_thresholds.copy()
 

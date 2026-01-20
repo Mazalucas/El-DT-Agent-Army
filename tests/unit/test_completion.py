@@ -16,18 +16,18 @@ class TestCompletionCriteria:
             min_completion_indicators=2,
             min_file_changes=1,
         )
-        
+
         result = TaskResult(
             task_id="test_task",
             status="completed",
         )
-        
+
         agent_output = """
         Task completed successfully.
         EXIT_SIGNAL: true
         All work is done.
         """
-        
+
         assert criteria.is_complete(result, agent_output, ["file1.py"]) is True
 
     def test_is_complete_without_exit_signal(self):
@@ -37,14 +37,14 @@ class TestCompletionCriteria:
             min_completion_indicators=2,
             min_file_changes=1,
         )
-        
+
         result = TaskResult(
             task_id="test_task",
             status="completed",
         )
-        
+
         agent_output = "Task completed successfully."
-        
+
         # Should fail because exit signal required but not present
         assert criteria.is_complete(result, agent_output, ["file1.py"]) is False
 
@@ -55,14 +55,14 @@ class TestCompletionCriteria:
             min_completion_indicators=3,
             min_file_changes=1,
         )
-        
+
         result = TaskResult(
             task_id="test_task",
             status="completed",
         )
-        
+
         agent_output = "Done."
-        
+
         # Should fail because not enough completion indicators
         assert criteria.is_complete(result, agent_output, ["file1.py"]) is False
 
@@ -73,34 +73,34 @@ class TestCompletionCriteria:
             min_completion_indicators=1,
             min_file_changes=2,
         )
-        
+
         result = TaskResult(
             task_id="test_task",
             status="completed",
         )
-        
+
         agent_output = "Task completed successfully."
-        
+
         # Should fail because not enough file changes
         assert criteria.is_complete(result, agent_output, ["file1.py"]) is False
 
     def test_extract_exit_signal_explicit(self):
         """Test extracting explicit exit signal."""
         criteria = CompletionCriteria()
-        
+
         output = "EXIT_SIGNAL: true"
         assert criteria.extract_exit_signal(output) is True
-        
+
         output = "EXIT_SIGNAL: True"
         assert criteria.extract_exit_signal(output) is True
-        
+
         output = "EXIT_SIGNAL: false"
         assert criteria.extract_exit_signal(output) is False
 
     def test_extract_exit_signal_ralph_status(self):
         """Test extracting exit signal from RALPH_STATUS block."""
         criteria = CompletionCriteria()
-        
+
         output = """
         RALPH_STATUS: {
             EXIT_SIGNAL: true
@@ -111,15 +111,15 @@ class TestCompletionCriteria:
     def test_count_completion_indicators(self):
         """Test counting completion indicators."""
         criteria = CompletionCriteria()
-        
+
         output = "Task completed successfully. All done."
         count = criteria.count_completion_indicators(output)
         assert count >= 2  # "completed" and "done"
-        
+
         output = "All tasks complete. Project completed."
         count = criteria.count_completion_indicators(output)
         assert count >= 4  # Strong phrases count as 2 each
-        
+
         output = "Nothing here"
         count = criteria.count_completion_indicators(output)
         assert count == 0
@@ -154,9 +154,9 @@ class TestCompletionCriteriaFactory:
             description="Implement a new REST API endpoint for user authentication",
             tags=["code", "api"],
         )
-        
+
         criteria = CompletionCriteriaFactory.create_for_task(task, autonomy_level=4)
-        
+
         assert criteria.tests_must_pass is True
         assert criteria.linter_must_pass is True
         assert criteria.build_must_succeed is True
@@ -170,9 +170,9 @@ class TestCompletionCriteriaFactory:
             description="Write user guide documentation for the API",
             tags=["documentation"],
         )
-        
+
         criteria = CompletionCriteriaFactory.create_for_task(task, autonomy_level=3)
-        
+
         assert criteria.tests_must_pass is False
         assert criteria.linter_must_pass is True  # Formatting only
         assert criteria.build_must_succeed is False
@@ -185,9 +185,9 @@ class TestCompletionCriteriaFactory:
             description="Research best practices for authentication",
             tags=["research"],
         )
-        
+
         criteria = CompletionCriteriaFactory.create_for_task(task, autonomy_level=2)
-        
+
         assert criteria.tests_must_pass is False
         assert criteria.linter_must_pass is False
         assert criteria.build_must_succeed is False
@@ -200,9 +200,9 @@ class TestCompletionCriteriaFactory:
             description="Do something",
             tags=[],
         )
-        
+
         criteria = CompletionCriteriaFactory.create_for_task(task, autonomy_level=3)
-        
+
         assert criteria.agent_exit_signal is True
         assert criteria.min_completion_indicators == 2
 
@@ -214,7 +214,7 @@ class TestCompletionCriteriaFactory:
             description="Implement a new function for processing data",
             tags=[],
         )
-        
+
         task_type = CompletionCriteriaFactory._detect_task_type(task)
         assert task_type == "code_implementation"
 
@@ -226,7 +226,7 @@ class TestCompletionCriteriaFactory:
             description="Write a guide for users",
             tags=[],
         )
-        
+
         task_type = CompletionCriteriaFactory._detect_task_type(task)
         assert task_type == "documentation"
 
@@ -238,6 +238,6 @@ class TestCompletionCriteriaFactory:
             description="Investigate authentication methods",
             tags=[],
         )
-        
+
         task_type = CompletionCriteriaFactory._detect_task_type(task)
         assert task_type == "research"

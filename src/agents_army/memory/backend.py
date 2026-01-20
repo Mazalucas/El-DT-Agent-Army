@@ -148,9 +148,7 @@ class InMemoryBackend(MemoryBackend):
 
     async def cleanup_expired(self) -> int:
         """Clean up expired memory items."""
-        expired_keys = [
-            key for key, item in self._storage.items() if item.is_expired()
-        ]
+        expired_keys = [key for key, item in self._storage.items() if item.is_expired()]
 
         for key in expired_keys:
             del self._storage[key]
@@ -179,8 +177,7 @@ class SQLiteBackend(MemoryBackend):
     def _init_schema(self) -> None:
         """Initialize database schema."""
         cursor = self.conn.cursor()
-        cursor.execute(
-            """
+        cursor.execute("""
             CREATE TABLE IF NOT EXISTS memories (
                 key TEXT PRIMARY KEY,
                 value TEXT NOT NULL,
@@ -190,23 +187,16 @@ class SQLiteBackend(MemoryBackend):
                 tags TEXT NOT NULL,
                 memory_type TEXT NOT NULL
             )
-            """
-        )
-        cursor.execute(
-            """
+            """)
+        cursor.execute("""
             CREATE INDEX IF NOT EXISTS idx_tags ON memories(tags)
-            """
-        )
-        cursor.execute(
-            """
+            """)
+        cursor.execute("""
             CREATE INDEX IF NOT EXISTS idx_memory_type ON memories(memory_type)
-            """
-        )
-        cursor.execute(
-            """
+            """)
+        cursor.execute("""
             CREATE INDEX IF NOT EXISTS idx_expires_at ON memories(expires_at)
-            """
-        )
+            """)
         self.conn.commit()
 
     async def store(self, item: MemoryItem) -> None:
@@ -251,9 +241,7 @@ class SQLiteBackend(MemoryBackend):
             value=json.loads(row["value"]),
             metadata=json.loads(row["metadata"]),
             created_at=datetime.fromisoformat(row["created_at"]),
-            expires_at=datetime.fromisoformat(row["expires_at"])
-            if row["expires_at"]
-            else None,
+            expires_at=datetime.fromisoformat(row["expires_at"]) if row["expires_at"] else None,
             tags=json.loads(row["tags"]),
             memory_type=row["memory_type"],
         )
@@ -303,9 +291,9 @@ class SQLiteBackend(MemoryBackend):
                     value=json.loads(row["value"]),
                     metadata=json.loads(row["metadata"]),
                     created_at=datetime.fromisoformat(row["created_at"]),
-                    expires_at=datetime.fromisoformat(row["expires_at"])
-                    if row["expires_at"]
-                    else None,
+                    expires_at=(
+                        datetime.fromisoformat(row["expires_at"]) if row["expires_at"] else None
+                    ),
                     tags=json.loads(row["tags"]),
                     memory_type=row["memory_type"],
                 )
@@ -335,12 +323,10 @@ class SQLiteBackend(MemoryBackend):
                 (limit,),
             )
         else:
-            cursor.execute(
-                """
+            cursor.execute("""
                 SELECT * FROM memories 
                 WHERE expires_at IS NULL OR expires_at > datetime('now')
-                """
-            )
+                """)
 
         rows = cursor.fetchall()
         items = []
@@ -352,9 +338,9 @@ class SQLiteBackend(MemoryBackend):
                     value=json.loads(row["value"]),
                     metadata=json.loads(row["metadata"]),
                     created_at=datetime.fromisoformat(row["created_at"]),
-                    expires_at=datetime.fromisoformat(row["expires_at"])
-                    if row["expires_at"]
-                    else None,
+                    expires_at=(
+                        datetime.fromisoformat(row["expires_at"]) if row["expires_at"] else None
+                    ),
                     tags=json.loads(row["tags"]),
                     memory_type=row["memory_type"],
                 )

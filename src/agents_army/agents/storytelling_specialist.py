@@ -55,9 +55,7 @@ class StorytellingSpecialist(Agent):
 
         super().__init__(config, llm_provider)
 
-    async def create_story(
-        self, brief: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def create_story(self, brief: Dict[str, Any]) -> Dict[str, Any]:
         """
         Create a complete narrative.
 
@@ -120,9 +118,7 @@ Provide:
             "storyline": storyline,
         }
 
-    async def create_narrative_arc(
-        self, story_elements: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def create_narrative_arc(self, story_elements: Dict[str, Any]) -> Dict[str, Any]:
         """
         Create structured narrative arc.
 
@@ -150,9 +146,7 @@ Provide:
             "narrative_arc": arc,
         }
 
-    async def _process_message(
-        self, message: AgentMessage
-    ) -> Optional[AgentMessage]:
+    async def _process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """
         Process incoming message.
 

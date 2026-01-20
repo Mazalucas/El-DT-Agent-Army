@@ -6,7 +6,7 @@ from typing import Callable, List, Optional
 class BudgetAlerts:
     """
     Manages budget alerts and notifications.
-    
+
     Triggers alerts when budget thresholds are exceeded.
     """
 

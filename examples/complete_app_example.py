@@ -37,7 +37,7 @@ class MockLLMProvider(LLMProvider):
     async def generate(self, prompt: str, **kwargs: Any) -> str:
         """Generate mock response based on prompt."""
         if "PRD" in prompt or "parse" in prompt.lower():
-            return '''[
+            return """[
   {
     "title": "Research AI agent frameworks",
     "description": "Research existing AI agent frameworks and best practices",
@@ -62,7 +62,7 @@ class MockLLMProvider(LLMProvider):
     "priority": 3,
     "tags": ["testing", "qa"]
   }
-]'''
+]"""
         elif "architecture" in prompt.lower():
             return """Architecture Design:
 Components:
@@ -227,7 +227,10 @@ Build a comprehensive multi-agent framework for project management.
                 }
             elif "test" in task.title.lower():
                 agent_role = AgentRole.QA_TESTER
-                payload = {"feature_spec": {"name": task.title, "description": task.description}, "task_id": task.id}
+                payload = {
+                    "feature_spec": {"name": task.title, "description": task.description},
+                    "task_id": task.id,
+                }
             else:
                 continue
 

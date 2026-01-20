@@ -81,9 +81,7 @@ class OperationsMaintainer(Agent):
             "alerts": [],
         }
 
-    async def handle_incident(
-        self, incident: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def handle_incident(self, incident: Dict[str, Any]) -> Dict[str, Any]:
         """
         Handle system incident.
 
@@ -113,9 +111,7 @@ Provide:
             "steps_taken": [],
         }
 
-    async def optimize_resources(
-        self, resource_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def optimize_resources(self, resource_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Optimize resource usage.
 
@@ -144,9 +140,7 @@ Provide:
             "recommendations": [],
         }
 
-    async def _process_message(
-        self, message: AgentMessage
-    ) -> Optional[AgentMessage]:
+    async def _process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """
         Process incoming message.
 

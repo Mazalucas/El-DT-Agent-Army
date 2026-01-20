@@ -118,7 +118,7 @@ class DT(Agent):
         self.rules_checker: Optional[RulesChecker] = None
         self.system: Optional[AgentSystem] = None
         self.mcp_servers: Dict[str, MCPServer] = {}
-        
+
         # Initialize autonomy engine
         rules_loader = RulesLoader()
         rules = rules_loader.load_all_rules(str(self.project_path))
@@ -127,7 +127,7 @@ class DT(Agent):
             history=DecisionHistory(),
             dt=self,  # Pass reference to DT for execution
         )
-        
+
         # Initialize task decomposer and scheduler
         self.task_decomposer = TaskDecomposer(llm_provider=llm_provider)
         self.task_scheduler = TaskScheduler()
@@ -159,31 +159,35 @@ class DT(Agent):
             project_name: Name of the project (used for project directory name)
             description: Project description
             rules: Optional list of project rules
-            project_base_path: Optional base path for projects (defaults to 'projects' 
+            project_base_path: Optional base path for projects (defaults to 'projects'
                               relative to DT's project_path)
 
         Returns:
             Project instance
         """
         # Sanitize project name for directory
-        safe_project_name = re.sub(r'[^\w\s-]', '', project_name).strip()
-        safe_project_name = re.sub(r'[-\s]+', '_', safe_project_name)
-        
+        safe_project_name = re.sub(r"[^\w\s-]", "", project_name).strip()
+        safe_project_name = re.sub(r"[-\s]+", "_", safe_project_name)
+
         # Determine project-specific directory
         if project_base_path is None:
             # Default: projects/{project_name}/ relative to DT's base path
-            dt_base = self.project_path.parent if self.project_path.name == ".dt" else self.project_path.parent
+            dt_base = (
+                self.project_path.parent
+                if self.project_path.name == ".dt"
+                else self.project_path.parent
+            )
             project_dir = dt_base / "projects" / safe_project_name
         else:
             project_dir = Path(project_base_path) / safe_project_name
-        
+
         # Create DT directory structure (for DT management files)
         (self.project_path / "docs").mkdir(parents=True, exist_ok=True)
         (self.project_path / "tasks").mkdir(parents=True, exist_ok=True)
         (self.project_path / "rules").mkdir(parents=True, exist_ok=True)
         (self.project_path / "config").mkdir(parents=True, exist_ok=True)
         (self.project_path / "templates").mkdir(parents=True, exist_ok=True)
-        
+
         # Create project-specific directory structure
         project_dir.mkdir(parents=True, exist_ok=True)
         (project_dir / "docs").mkdir(parents=True, exist_ok=True)
@@ -191,10 +195,10 @@ class DT(Agent):
         (project_dir / "tests").mkdir(parents=True, exist_ok=True)
         (project_dir / "assets").mkdir(parents=True, exist_ok=True)
         (project_dir / "config").mkdir(parents=True, exist_ok=True)
-        
+
         # Project PRD goes in project directory, not DT directory
         project_prd_path = project_dir / "docs" / "prd.txt"
-        
+
         # Create project metadata file
         project_meta = {
             "name": project_name,
@@ -357,9 +361,7 @@ Return only valid JSON array."""
 
         return ready_tasks[0]
 
-    async def assign_task(
-        self, task: Task, agent_role: AgentRole
-    ) -> TaskAssignment:
+    async def assign_task(self, task: Task, agent_role: AgentRole) -> TaskAssignment:
         """
         Assign a task to an agent and execute autonomously.
 
@@ -379,11 +381,11 @@ Return only valid JSON array."""
         old_status = task.status
         task.assigned_agent = agent_role
         task.update_status("in-progress")
-        
+
         # Move task file first, then save
         if old_status != "in-progress":
             self.task_storage.move_task(task.id, old_status, "in-progress")
-        
+
         self.task_storage.save_task(task)
 
         assignment = TaskAssignment(
@@ -398,12 +400,12 @@ Return only valid JSON array."""
             available_agents=[agent_role] if self.system else [],
             constraints={},
         )
-        
+
         # Decide and execute automatically
         if self.autonomy_engine:
             try:
                 result = await self.autonomy_engine.decide_and_act(situation)
-                
+
                 # Update task status according to result
                 if result.success:
                     await self.update_task_status(task.id, "done")
@@ -503,9 +505,7 @@ Return JSON:
         self.task_storage.save_task(task)
         return task
 
-    async def research(
-        self, query: str, context: Optional[str] = None
-    ) -> Dict[str, Any]:
+    async def research(self, query: str, context: Optional[str] = None) -> Dict[str, Any]:
         """
         Perform research.
 
@@ -543,9 +543,7 @@ Return JSON:
             "sources": [],
         }
 
-    async def synthesize_results(
-        self, task_results: List[TaskResult]
-    ) -> TaskResult:
+    async def synthesize_results(self, task_results: List[TaskResult]) -> TaskResult:
         """
         Synthesize results from multiple agents into a single result.
 
@@ -588,14 +586,8 @@ Return the synthesized result.
         synthesized_text = await self.generate_response(prompt)
 
         # Calculate average quality score
-        quality_scores = [
-            r.quality_score for r in task_results if r.quality_score
-        ]
-        avg_quality = (
-            sum(quality_scores) / len(quality_scores)
-            if quality_scores
-            else None
-        )
+        quality_scores = [r.quality_score for r in task_results if r.quality_score]
+        avg_quality = sum(quality_scores) / len(quality_scores) if quality_scores else None
 
         # Determine overall status
         all_successful = all(r.is_successful() for r in task_results)
@@ -609,9 +601,7 @@ Return the synthesized result.
             agent_id=self.id,
         )
 
-    async def resolve_conflict(
-        self, conflict: AgentConflict
-    ) -> ConflictResolution:
+    async def resolve_conflict(self, conflict: AgentConflict) -> ConflictResolution:
         """
         Resolve conflicts between agents.
 
@@ -667,9 +657,7 @@ Return:
             success=True,
         )
 
-    async def setup_mcp_server(
-        self, server_config: MCPServerConfig
-    ) -> MCPServer:
+    async def setup_mcp_server(self, server_config: MCPServerConfig) -> MCPServer:
         """
         Setup an MCP server for El DT.
 
@@ -780,7 +768,7 @@ Return:
         response = await prd_creator.handle_message(message)
         if response and response.payload.get("status") == "completed":
             return response.payload.get("result", {})
-        
+
         raise RuntimeError("Failed to create PRD")
 
     async def create_srd(
@@ -824,7 +812,7 @@ Return:
         response = await srd_creator.handle_message(message)
         if response and response.payload.get("status") == "completed":
             return response.payload.get("result", {})
-        
+
         raise RuntimeError("Failed to create SRD")
 
     async def create_development_plan(
@@ -868,7 +856,7 @@ Return:
         response = await planner.handle_message(message)
         if response and response.payload.get("status") == "completed":
             return response.payload.get("result", {})
-        
+
         raise RuntimeError("Failed to create development plan")
 
     async def extract_tasks_from_plan(
@@ -909,7 +897,7 @@ Return:
             raise RuntimeError("Failed to extract tasks from plan")
 
         tasks_data = response.payload.get("result", {}).get("tasks", [])
-        
+
         # Convert task data to Task objects
         tasks = []
         for task_data in tasks_data:
@@ -981,7 +969,7 @@ Return only the role name (e.g., BACKEND_ARCHITECT).
             response = await self.generate_response(prompt)
             # Extract role name from response
             response_upper = response.upper().strip()
-            
+
             # Map response to AgentRole
             role_mapping = {
                 "BACKEND_ARCHITECT": AgentRole.BACKEND_ARCHITECT,
@@ -1005,11 +993,15 @@ Return only the role name (e.g., BACKEND_ARCHITECT).
             task_lower = (task.title + " " + task.description).lower()
             if any(word in task_lower for word in ["backend", "api", "database", "server"]):
                 return AgentRole.BACKEND_ARCHITECT
-            elif any(word in task_lower for word in ["frontend", "ui", "ux", "interface", "client"]):
+            elif any(
+                word in task_lower for word in ["frontend", "ui", "ux", "interface", "client"]
+            ):
                 return AgentRole.FRONTEND_DEVELOPER
             elif any(word in task_lower for word in ["test", "qa", "quality"]):
                 return AgentRole.QA_TESTER
-            elif any(word in task_lower for word in ["deploy", "infrastructure", "ci/cd", "devops"]):
+            elif any(
+                word in task_lower for word in ["deploy", "infrastructure", "ci/cd", "devops"]
+            ):
                 return AgentRole.DEVOPS_AUTOMATOR
 
         except Exception:
@@ -1051,9 +1043,7 @@ Return only the role name (e.g., BACKEND_ARCHITECT).
 
         return assignments
 
-    async def _process_message(
-        self, message: AgentMessage
-    ) -> Optional[AgentMessage]:
+    async def _process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """
         Process incoming message.
 

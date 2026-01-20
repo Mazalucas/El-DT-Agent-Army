@@ -37,7 +37,7 @@ class AgentRole(str, Enum):
     MEMORY = "memory"
     TOOL = "tool"
     SUPERVISOR = "supervisor"
-    
+
     # Marketing agents
     MARKETING_STRATEGIST = "marketing_strategist"
     BRAND_GUARDIAN = "brand_guardian"
@@ -45,26 +45,26 @@ class AgentRole(str, Enum):
     STORYTELLING_SPECIALIST = "storytelling_specialist"
     PITCH_SPECIALIST = "pitch_specialist"
     GROWTH_HACKER = "growth_hacker"
-    
+
     # Engineering agents
     BACKEND_ARCHITECT = "backend_architect"
     DEVOPS_AUTOMATOR = "devops_automator"
     FRONTEND_DEVELOPER = "frontend_developer"
-    
+
     # Product agents
     PRODUCT_STRATEGIST = "product_strategist"
     FEEDBACK_SYNTHESIZER = "feedback_synthesizer"
-    
+
     # Design agents
     UX_RESEARCHER = "ux_researcher"
     UI_DESIGNER = "ui_designer"
-    
+
     # Testing agents
     QA_TESTER = "qa_tester"
-    
+
     # Operations agents
     OPERATIONS_MAINTAINER = "operations_maintainer"
-    
+
     # Planning agents
     PRD_CREATOR = "prd_creator"
     SRD_CREATOR = "srd_creator"

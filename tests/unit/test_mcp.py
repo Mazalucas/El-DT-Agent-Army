@@ -63,9 +63,7 @@ class TestMCPServer:
             description="Restricted tool",
         )
 
-        await server.register_tool(
-            tool, accessible_by=[AgentRole.BACKEND_ARCHITECT]
-        )
+        await server.register_tool(tool, accessible_by=[AgentRole.BACKEND_ARCHITECT])
 
         assert tool.accessible_by == [AgentRole.BACKEND_ARCHITECT]
 
@@ -81,9 +79,7 @@ class TestMCPServer:
         )
         await server.register_tool(tool)
 
-        result = await server.execute_tool(
-            "test_tool", {"param": "value"}, AgentRole.DT
-        )
+        result = await server.execute_tool("test_tool", {"param": "value"}, AgentRole.DT)
 
         assert "result" in result
         assert "test_tool" in result["result"]
@@ -98,14 +94,10 @@ class TestMCPServer:
             name="restricted_tool",
             description="Restricted tool",
         )
-        await server.register_tool(
-            tool, accessible_by=[AgentRole.BACKEND_ARCHITECT]
-        )
+        await server.register_tool(tool, accessible_by=[AgentRole.BACKEND_ARCHITECT])
 
         with pytest.raises(ValueError, match="does not have access"):
-            await server.execute_tool(
-                "restricted_tool", {}, AgentRole.FRONTEND_DEVELOPER
-            )
+            await server.execute_tool("restricted_tool", {}, AgentRole.FRONTEND_DEVELOPER)
 
     @pytest.mark.asyncio
     async def test_execute_tool_not_found(self):

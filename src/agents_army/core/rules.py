@@ -99,9 +99,7 @@ class RulesChecker:
         # Default: allow if not explicitly prohibited
         return True
 
-    def get_autonomy_level(
-        self, action: str, context: Dict[str, Any]
-    ) -> str:
+    def get_autonomy_level(self, action: str, context: Dict[str, Any]) -> str:
         """
         Get required autonomy level for an action.
 

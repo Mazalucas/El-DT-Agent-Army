@@ -10,7 +10,7 @@ from agents_army.core.models import Task
 class TaskDecomposer:
     """
     Decomposes complex tasks into smaller, manageable subtasks.
-    
+
     Uses LLM to intelligently break down tasks based on complexity,
     dependencies, and best practices.
     """
@@ -74,7 +74,7 @@ Return only valid JSON array.
             import re
 
             # Extract JSON from response
-            json_match = re.search(r'\[.*\]', response, re.DOTALL)
+            json_match = re.search(r"\[.*\]", response, re.DOTALL)
             if json_match:
                 subtasks_data = json.loads(json_match.group())
             else:
@@ -100,9 +100,7 @@ Return only valid JSON array.
             # Fallback to simple decomposition
             return self._simple_decompose(task, max_subtasks)
 
-    def _simple_decompose(
-        self, task: Task, max_subtasks: int = 5
-    ) -> List[Task]:
+    def _simple_decompose(self, task: Task, max_subtasks: int = 5) -> List[Task]:
         """
         Simple decomposition without LLM.
 

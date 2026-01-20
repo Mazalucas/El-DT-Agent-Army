@@ -97,9 +97,7 @@ class Tool(ABC):
             required = self.parameters_schema.get("required", [])
             for param in required:
                 if param not in params:
-                    raise InvalidParametersError(
-                        f"Missing required parameter: {param}"
-                    )
+                    raise InvalidParametersError(f"Missing required parameter: {param}")
 
     def __call__(self, **kwargs: Any) -> Any:
         """

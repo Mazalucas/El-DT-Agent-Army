@@ -76,9 +76,7 @@ class DocumentParserTool(Tool):
             },
         )
 
-    async def execute(
-        self, document: str, format: str = "plain"
-    ) -> Dict[str, Any]:
+    async def execute(self, document: str, format: str = "plain") -> Dict[str, Any]:
         """
         Parse a document.
 
@@ -285,9 +283,7 @@ class TextAnalyzerTool(Tool):
             category="analysis",
             parameters_schema={
                 "type": "object",
-                "properties": {
-                    "content": {"type": "string", "description": "Content to analyze"}
-                },
+                "properties": {"content": {"type": "string", "description": "Content to analyze"}},
                 "required": ["content"],
             },
         )

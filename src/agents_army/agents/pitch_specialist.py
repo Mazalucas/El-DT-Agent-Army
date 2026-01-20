@@ -55,9 +55,7 @@ class PitchSpecialist(Agent):
 
         super().__init__(config, llm_provider)
 
-    async def create_pitch(
-        self, brief: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def create_pitch(self, brief: Dict[str, Any]) -> Dict[str, Any]:
         """
         Create complete pitch.
 
@@ -88,9 +86,7 @@ Provide:
             "qa_prep": [],
         }
 
-    async def create_presentation(
-        self, pitch: Dict[str, Any], style: str
-    ) -> Dict[str, Any]:
+    async def create_presentation(self, pitch: Dict[str, Any], style: str) -> Dict[str, Any]:
         """
         Create visual presentation from pitch.
 
@@ -120,9 +116,7 @@ Provide:
             "slides": [],
         }
 
-    async def prepare_qa(
-        self, pitch: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def prepare_qa(self, pitch: Dict[str, Any]) -> Dict[str, Any]:
         """
         Prepare Q&A responses.
 
@@ -151,9 +145,7 @@ Provide:
             "answers": [],
         }
 
-    async def _process_message(
-        self, message: AgentMessage
-    ) -> Optional[AgentMessage]:
+    async def _process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """
         Process incoming message.
 

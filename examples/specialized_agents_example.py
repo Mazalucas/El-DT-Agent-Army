@@ -34,7 +34,9 @@ class MockLLMProvider(LLMProvider):
         elif "architecture" in prompt.lower() or "design" in prompt.lower():
             return "Architecture Design:\n- API Layer\n- Business Logic\n- Database Layer"
         elif "marketing" in prompt.lower() or "strategy" in prompt.lower():
-            return "Marketing Strategy:\n- Target: Tech professionals\n- Channels: LinkedIn, Twitter"
+            return (
+                "Marketing Strategy:\n- Target: Tech professionals\n- Channels: LinkedIn, Twitter"
+            )
         elif "test" in prompt.lower() or "qa" in prompt.lower():
             return "Test Plan:\n1. Unit tests\n2. Integration tests\n3. E2E tests"
         return "Mock response"

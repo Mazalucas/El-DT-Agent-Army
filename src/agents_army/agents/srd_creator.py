@@ -14,7 +14,7 @@ class SRDCreator(Agent):
     This agent creates detailed SRDs that translate PRDs into technical specifications,
     including system architecture, APIs, data models, technical constraints, and integration
     requirements.
-    
+
     Department: Planning
     """
 
@@ -262,11 +262,10 @@ Please update the SRD accordingly, maintaining technical consistency and ensurin
     def _get_timestamp(self) -> str:
         """Get current timestamp."""
         from datetime import datetime
+
         return datetime.now().isoformat()
 
-    async def _process_message(
-        self, message: AgentMessage
-    ) -> Optional[AgentMessage]:
+    async def _process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """
         Process incoming message.
 

@@ -65,7 +65,7 @@ async def main():
     # Step 1: Create PRD
     print("2. Creating Product Requirements Document (PRD)...")
     print("-" * 80)
-    
+
     product_idea = """
     A task management application for small teams that allows:
     - Creating and organizing tasks in projects
@@ -74,24 +74,24 @@ async def main():
     - Real-time collaboration
     - Mobile app for iOS and Android
     """
-    
+
     business_objectives = [
         "Increase team productivity by 30%",
         "Reduce project management overhead",
         "Launch MVP within 3 months",
-        "Acquire 1000 users in first 6 months"
+        "Acquire 1000 users in first 6 months",
     ]
-    
+
     target_users = [
         "Small team managers (5-20 people)",
         "Project coordinators",
-        "Team members who need task visibility"
+        "Team members who need task visibility",
     ]
-    
+
     constraints = {
         "budget": "Limited - bootstrap startup",
         "timeline": "3 months for MVP",
-        "team_size": "3 developers + 1 designer"
+        "team_size": "3 developers + 1 designer",
     }
 
     prd = await dt.create_prd(
@@ -100,7 +100,7 @@ async def main():
         target_users=target_users,
         constraints=constraints,
     )
-    
+
     print(f"✓ PRD created (Version: {prd['metadata']['version']})")
     print(f"  Sections: {len(prd['sections'])}")
     print(f"  Preview: {prd['prd_content'][:200]}...")
@@ -109,22 +109,19 @@ async def main():
     # Step 2: Create SRD
     print("3. Creating Software Requirements Document (SRD)...")
     print("-" * 80)
-    
+
     technical_context = {
         "current_stack": "Python, React, PostgreSQL",
         "infrastructure": "Cloud-based (AWS/GCP)",
-        "team_expertise": "Full-stack developers"
+        "team_expertise": "Full-stack developers",
     }
-    
-    existing_systems = [
-        "Authentication service (Auth0)",
-        "Payment processing (Stripe)"
-    ]
-    
+
+    existing_systems = ["Authentication service (Auth0)", "Payment processing (Stripe)"]
+
     technical_constraints = {
         "must_use": "React for frontend, Python for backend",
         "cannot_use": "No proprietary databases",
-        "scalability": "Must support 10,000 concurrent users"
+        "scalability": "Must support 10,000 concurrent users",
     }
 
     srd = await dt.create_srd(
@@ -133,7 +130,7 @@ async def main():
         existing_systems=existing_systems,
         technical_constraints=technical_constraints,
     )
-    
+
     print(f"✓ SRD created (Version: {srd['metadata']['version']})")
     print(f"  Sections: {len(srd['sections'])}")
     print(f"  Preview: {srd['srd_content'][:200]}...")
@@ -142,18 +139,18 @@ async def main():
     # Step 3: Create Development Plan
     print("4. Creating Development Plan...")
     print("-" * 80)
-    
+
     plan_constraints = {
         "timeline": "3 months",
         "team_size": "4 people",
         "budget": "$50,000",
-        "mvp_deadline": "End of month 3"
+        "mvp_deadline": "End of month 3",
     }
-    
+
     preferences = {
         "methodology": "Agile/Scrum",
         "sprints": "2-week sprints",
-        "deployment": "Continuous deployment"
+        "deployment": "Continuous deployment",
     }
 
     development_plan = await dt.create_development_plan(
@@ -162,7 +159,7 @@ async def main():
         constraints=plan_constraints,
         preferences=preferences,
     )
-    
+
     print(f"✓ Development Plan created (Version: {development_plan['metadata']['version']})")
     print(f"  Sections: {len(development_plan['sections'])}")
     print(f"  Preview: {development_plan['plan_content'][:200]}...")
@@ -171,9 +168,9 @@ async def main():
     # Step 4: Extract tasks from plan
     print("5. Extracting tasks from development plan...")
     print("-" * 80)
-    
+
     tasks = await dt.extract_tasks_from_plan(development_plan)
-    
+
     print(f"✓ Extracted {len(tasks)} tasks")
     print()
     print("Sample tasks:")
@@ -187,9 +184,9 @@ async def main():
     # Step 5: Map tasks to agents and assign
     print("6. Mapping tasks to agents and assigning...")
     print("-" * 80)
-    
+
     assignments = await dt.execute_plan(development_plan, auto_assign=True)
-    
+
     print(f"✓ Assigned {len(assignments)} tasks to agents")
     print()
     print("Task assignments:")
@@ -204,11 +201,11 @@ async def main():
     # Step 6: Show task status
     print("7. Current task status...")
     print("-" * 80)
-    
+
     all_tasks = await dt.get_tasks(limit=100)
     pending = [t for t in all_tasks if t.status == "pending"]
     in_progress = [t for t in all_tasks if t.status == "in-progress"]
-    
+
     print(f"Total tasks: {len(all_tasks)}")
     print(f"Pending: {len(pending)}")
     print(f"In Progress: {len(in_progress)}")

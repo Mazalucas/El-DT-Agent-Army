@@ -9,7 +9,7 @@ from typing import Any, Dict, Optional
 class StructuredLogger:
     """
     Structured logger that outputs JSON-formatted logs.
-    
+
     Provides consistent logging format for all agents and system components.
     """
 

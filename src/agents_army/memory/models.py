@@ -87,6 +87,7 @@ class RetentionPolicy:
         Returns:
             RetentionPolicy instance
         """
+
         def parse_duration(duration_str: str) -> timedelta:
             """Parse duration string like '1h', '7d', '30d'."""
             if duration_str.endswith("h"):

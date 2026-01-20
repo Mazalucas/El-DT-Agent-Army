@@ -9,7 +9,7 @@ from agents_army.protocol.types import AgentRole
 class MCPClient:
     """
     MCP Client for connecting to external MCP servers.
-    
+
     Allows agents to connect to and interact with external MCP servers
     that provide tools and resources.
     """
@@ -39,9 +39,7 @@ class MCPClient:
         """Disconnect from the MCP server."""
         self.connected = False
 
-    async def call_tool(
-        self, tool_name: str, params: Dict[str, Any]
-    ) -> Any:
+    async def call_tool(self, tool_name: str, params: Dict[str, Any]) -> Any:
         """
         Call a tool on the remote MCP server.
 

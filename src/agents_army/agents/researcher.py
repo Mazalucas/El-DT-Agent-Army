@@ -55,9 +55,7 @@ class Researcher(Agent):
 
         super().__init__(config, llm_provider)
 
-    async def research(
-        self, query: str, context: Optional[str] = None
-    ) -> Dict[str, Any]:
+    async def research(self, query: str, context: Optional[str] = None) -> Dict[str, Any]:
         """
         Perform research on a topic.
 
@@ -122,9 +120,7 @@ Provide:
             "topics": [],  # Would be extracted by NLP tools
         }
 
-    async def _process_message(
-        self, message: AgentMessage
-    ) -> Optional[AgentMessage]:
+    async def _process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """
         Process incoming message.
 

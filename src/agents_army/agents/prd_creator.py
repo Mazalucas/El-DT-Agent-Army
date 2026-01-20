@@ -13,7 +13,7 @@ class PRDCreator(Agent):
 
     This agent creates detailed PRDs that serve as the foundation for software development,
     including product vision, user stories, features, success metrics, and acceptance criteria.
-    
+
     Department: Planning
     """
 
@@ -240,11 +240,10 @@ Please update the PRD accordingly, maintaining consistency and ensuring all sect
     def _get_timestamp(self) -> str:
         """Get current timestamp."""
         from datetime import datetime
+
         return datetime.now().isoformat()
 
-    async def _process_message(
-        self, message: AgentMessage
-    ) -> Optional[AgentMessage]:
+    async def _process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """
         Process incoming message.
 

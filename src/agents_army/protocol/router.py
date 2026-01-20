@@ -22,9 +22,7 @@ class MessageRouter:
         self._running: bool = False
         self._task: Optional[asyncio.Task] = None
 
-    def register_handler(
-        self, role: AgentRole, handler: Callable[[AgentMessage], None]
-    ) -> None:
+    def register_handler(self, role: AgentRole, handler: Callable[[AgentMessage], None]) -> None:
         """
         Register a message handler for a specific role.
 
@@ -34,9 +32,7 @@ class MessageRouter:
         """
         self._handlers[role].append(handler)
 
-    def unregister_handler(
-        self, role: AgentRole, handler: Callable[[AgentMessage], None]
-    ) -> None:
+    def unregister_handler(self, role: AgentRole, handler: Callable[[AgentMessage], None]) -> None:
         """
         Unregister a message handler.
 
@@ -108,9 +104,7 @@ class MessageRouter:
         """Process messages from the queue."""
         while self._running:
             try:
-                message = await asyncio.wait_for(
-                    self._message_queue.get(), timeout=1.0
-                )
+                message = await asyncio.wait_for(self._message_queue.get(), timeout=1.0)
                 await self.route(message)
             except asyncio.TimeoutError:
                 continue

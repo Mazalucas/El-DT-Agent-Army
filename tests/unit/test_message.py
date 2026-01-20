@@ -108,9 +108,7 @@ class TestAgentMessage:
 
     def test_message_deadline(self):
         """Test message deadline functionality."""
-        future_deadline = datetime.now(timezone.utc).replace(
-            year=2030
-        ).isoformat()
+        future_deadline = datetime.now(timezone.utc).replace(year=2030).isoformat()
 
         message = AgentMessage(
             from_role=AgentRole.DT,

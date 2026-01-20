@@ -23,7 +23,7 @@ class CostRecord:
 class CostTracker:
     """
     Tracks LLM costs and usage.
-    
+
     Records cost per model, agent, and time period.
     """
 
@@ -48,9 +48,7 @@ class CostTracker:
         self.budget = budget
         self.alerts = BudgetAlerts(budget) if budget else None
 
-    def calculate_cost(
-        self, model: str, input_tokens: int, output_tokens: int
-    ) -> float:
+    def calculate_cost(self, model: str, input_tokens: int, output_tokens: int) -> float:
         """
         Calculate cost for LLM call.
 
@@ -141,9 +139,7 @@ class CostTracker:
         breakdown: Dict[str, float] = {}
         for record in self.costs:
             if record.agent_id:
-                breakdown[record.agent_id] = (
-                    breakdown.get(record.agent_id, 0.0) + record.cost
-                )
+                breakdown[record.agent_id] = breakdown.get(record.agent_id, 0.0) + record.cost
         return breakdown
 
     def get_recent_costs(self, hours: int = 24) -> List[CostRecord]:

@@ -128,6 +128,7 @@ class AgentSystem:
         Args:
             agent: Agent to setup routing for
         """
+
         async def agent_handler(message: AgentMessage):
             """Handler that routes messages to agent."""
             if message.get_to_roles() and agent.role in message.get_to_roles():

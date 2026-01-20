@@ -55,9 +55,7 @@ class GrowthHacker(Agent):
 
         super().__init__(config, llm_provider)
 
-    async def design_experiment(
-        self, hypothesis: str
-    ) -> Dict[str, Any]:
+    async def design_experiment(self, hypothesis: str) -> Dict[str, Any]:
         """
         Design growth experiment.
 
@@ -88,9 +86,7 @@ Provide:
             "timeline": {},
         }
 
-    async def analyze_metrics(
-        self, metrics: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def analyze_metrics(self, metrics: Dict[str, Any]) -> Dict[str, Any]:
         """
         Analyze growth metrics.
 
@@ -120,9 +116,7 @@ Provide:
             "opportunities": [],
         }
 
-    async def optimize_funnel(
-        self, funnel_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def optimize_funnel(self, funnel_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Optimize conversion funnel.
 
@@ -151,9 +145,7 @@ Provide:
             "recommendations": [],
         }
 
-    async def _process_message(
-        self, message: AgentMessage
-    ) -> Optional[AgentMessage]:
+    async def _process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """
         Process incoming message.
 

@@ -19,7 +19,7 @@ class DevelopmentPlanner(Agent):
     - Resource requirements
     - Dependencies and critical path
     - Risk mitigation strategies
-    
+
     Department: Planning
     """
 
@@ -98,7 +98,7 @@ class DevelopmentPlanner(Agent):
         # Build context from PRD and SRD
         prd_content = prd.get("prd_content", str(prd)) if prd else "Not provided"
         srd_content = srd.get("srd_content", str(srd)) if srd else "Not provided"
-        
+
         prompt = f"""Create a comprehensive phased development plan based on the following requirements:
 
 ## Product Requirements Document (PRD)
@@ -270,7 +270,9 @@ Please update the plan accordingly, maintaining consistency across all phases an
 
         updated_plan = plan.copy()
         updated_plan["plan_content"] = updated_content
-        updated_plan["metadata"]["version"] = str(float(plan["metadata"].get("version", "1.0")) + 0.1)
+        updated_plan["metadata"]["version"] = str(
+            float(plan["metadata"].get("version", "1.0")) + 0.1
+        )
         updated_plan["metadata"]["updated_at"] = self._get_timestamp()
 
         return updated_plan
@@ -327,7 +329,9 @@ Format the output as a structured list that can be used by a task management sys
                 "acceptance_criteria": [],
                 "deliverables": [],
             }
-            for i, task_content in enumerate(tasks_content.split("\n") if isinstance(tasks_content, str) else [])
+            for i, task_content in enumerate(
+                tasks_content.split("\n") if isinstance(tasks_content, str) else []
+            )
             if task_content.strip()
         ]
 
@@ -336,11 +340,10 @@ Format the output as a structured list that can be used by a task management sys
     def _get_timestamp(self) -> str:
         """Get current timestamp."""
         from datetime import datetime
+
         return datetime.now().isoformat()
 
-    async def _process_message(
-        self, message: AgentMessage
-    ) -> Optional[AgentMessage]:
+    async def _process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """
         Process incoming message.
 

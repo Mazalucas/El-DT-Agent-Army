@@ -56,9 +56,7 @@ class UIDesigner(Agent):
 
         super().__init__(config, llm_provider)
 
-    async def create_design(
-        self, requirements: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def create_design(self, requirements: Dict[str, Any]) -> Dict[str, Any]:
         """
         Create interface design.
 
@@ -89,9 +87,7 @@ Provide:
             "layout": {},
         }
 
-    async def generate_specs(
-        self, design: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def generate_specs(self, design: Dict[str, Any]) -> Dict[str, Any]:
         """
         Generate technical design specifications.
 
@@ -122,9 +118,7 @@ Provide:
             "spacing": {},
         }
 
-    async def _process_message(
-        self, message: AgentMessage
-    ) -> Optional[AgentMessage]:
+    async def _process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """
         Process incoming message.
 

@@ -55,9 +55,7 @@ class DevOpsAutomator(Agent):
 
         super().__init__(config, llm_provider)
 
-    async def create_cicd_pipeline(
-        self, project_config: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def create_cicd_pipeline(self, project_config: Dict[str, Any]) -> Dict[str, Any]:
         """
         Create CI/CD pipeline configuration.
 
@@ -89,9 +87,7 @@ Provide:
             "environments": [],
         }
 
-    async def setup_infrastructure(
-        self, requirements: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def setup_infrastructure(self, requirements: Dict[str, Any]) -> Dict[str, Any]:
         """
         Setup infrastructure configuration.
 
@@ -122,9 +118,7 @@ Provide:
             "scaling": {},
         }
 
-    async def _process_message(
-        self, message: AgentMessage
-    ) -> Optional[AgentMessage]:
+    async def _process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """
         Process incoming message.
 

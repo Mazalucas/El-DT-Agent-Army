@@ -90,9 +90,7 @@ Provide:
             "framework": "RICE",
         }
 
-    async def create_roadmap(
-        self, goals: List[str], timeline: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def create_roadmap(self, goals: List[str], timeline: Dict[str, Any]) -> Dict[str, Any]:
         """
         Create product roadmap.
 
@@ -125,9 +123,7 @@ Provide:
             "milestones": [],
         }
 
-    async def _process_message(
-        self, message: AgentMessage
-    ) -> Optional[AgentMessage]:
+    async def _process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """
         Process incoming message.
 

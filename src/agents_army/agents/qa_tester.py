@@ -54,9 +54,7 @@ class QATester(Agent):
 
         super().__init__(config, llm_provider)
 
-    async def create_test_plan(
-        self, feature_spec: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def create_test_plan(self, feature_spec: Dict[str, Any]) -> Dict[str, Any]:
         """
         Create a test plan for a feature.
 
@@ -125,9 +123,7 @@ Expected Output: {expected}
             "issues": [],
         }
 
-    async def report_bug(
-        self, bug_info: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def report_bug(self, bug_info: Dict[str, Any]) -> Dict[str, Any]:
         """
         Report a bug with details.
 
@@ -158,9 +154,7 @@ Provide:
             "severity": "medium",  # Would be determined by analysis
         }
 
-    async def _process_message(
-        self, message: AgentMessage
-    ) -> Optional[AgentMessage]:
+    async def _process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """
         Process incoming message.
 

@@ -56,9 +56,7 @@ class FrontendDeveloper(Agent):
 
         super().__init__(config, llm_provider)
 
-    async def implement_ui(
-        self, design_spec: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def implement_ui(self, design_spec: Dict[str, Any]) -> Dict[str, Any]:
         """
         Implement UI according to design specification.
 
@@ -89,9 +87,7 @@ Provide:
             "accessibility_score": 0.0,
         }
 
-    async def ensure_accessibility(
-        self, code: str
-    ) -> Dict[str, Any]:
+    async def ensure_accessibility(self, code: str) -> Dict[str, Any]:
         """
         Verify and improve accessibility.
 
@@ -122,9 +118,7 @@ Provide:
             "improved_code": "",
         }
 
-    async def _process_message(
-        self, message: AgentMessage
-    ) -> Optional[AgentMessage]:
+    async def _process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """
         Process incoming message.
 

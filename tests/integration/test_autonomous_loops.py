@@ -36,7 +36,7 @@ class TestAutonomousLoopsE2E:
         system.register_agent(dt)
         dt.set_system(system)
         await system.start()
-        
+
         # Create task
         task = Task(
             id="test_task",
@@ -44,7 +44,7 @@ class TestAutonomousLoopsE2E:
             description="Implement a simple function",
             assigned_agent=AgentRole.BACKEND_ARCHITECT,
         )
-        
+
         # Mock agent
         mock_agent = AsyncMock()
         mock_response = MagicMock()
@@ -56,14 +56,14 @@ class TestAutonomousLoopsE2E:
         mock_agent.handle_message.return_value = mock_response
         mock_agent.id = "agent_123"
         system.register_agent(mock_agent)
-        
+
         # Assign task - should trigger autonomous execution
         assignment = await dt.assign_task(task, AgentRole.BACKEND_ARCHITECT)
-        
+
         assert assignment.task_id == task.id
         # Task should be executed (mock should be called)
         # Note: Actual execution depends on autonomy level decision
-        
+
         await system.stop()
 
     @pytest.mark.asyncio
@@ -72,29 +72,27 @@ class TestAutonomousLoopsE2E:
         system.register_agent(dt)
         dt.set_system(system)
         await system.start()
-        
+
         task = Task(
             id="test_task",
             title="Test task",
             description="Simple task",
         )
-        
+
         # Mock successful execution
-        with patch.object(
-            dt.autonomy_engine, "decide_and_act"
-        ) as mock_decide:
+        with patch.object(dt.autonomy_engine, "decide_and_act") as mock_decide:
             mock_decide.return_value = MagicMock(
                 success=True,
                 escalated=False,
             )
-            
+
             await dt.assign_task(task, AgentRole.BACKEND_ARCHITECT)
-            
+
             # Task status should be updated
             updated_task = dt.task_storage.load_task(task.id)
             # Status depends on execution result
             assert updated_task is not None
-        
+
         await system.stop()
 
     @pytest.mark.asyncio
@@ -103,27 +101,25 @@ class TestAutonomousLoopsE2E:
         system.register_agent(dt)
         dt.set_system(system)
         await system.start()
-        
+
         task = Task(
             id="test_task",
             title="Test task",
             description="Complex task requiring human",
         )
-        
+
         # Mock escalation
-        with patch.object(
-            dt.autonomy_engine, "decide_and_act"
-        ) as mock_decide:
+        with patch.object(dt.autonomy_engine, "decide_and_act") as mock_decide:
             mock_decide.return_value = MagicMock(
                 success=False,
                 escalated=True,
                 escalation_reason="Low confidence",
             )
-            
+
             await dt.assign_task(task, AgentRole.BACKEND_ARCHITECT)
-            
+
             # Task should be blocked
             updated_task = dt.task_storage.load_task(task.id)
             assert updated_task.status == "blocked"
-        
+
         await system.stop()

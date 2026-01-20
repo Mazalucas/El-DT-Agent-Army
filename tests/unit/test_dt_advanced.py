@@ -23,10 +23,10 @@ class MockLLMProvider(LLMProvider):
         elif "resolve" in prompt.lower() or "conflict" in prompt.lower():
             return "Resolution: Choose approach A as it aligns best with project goals"
         elif "decompose" in prompt.lower():
-            return '''[
+            return """[
                 {"title": "Subtask 1", "description": "First part", "priority": 5, "tags": ["tag1"], "dependencies": []},
                 {"title": "Subtask 2", "description": "Second part", "priority": 4, "tags": ["tag2"], "dependencies": ["Subtask 1"]}
-            ]'''
+            ]"""
         return "Mock response"
 
 

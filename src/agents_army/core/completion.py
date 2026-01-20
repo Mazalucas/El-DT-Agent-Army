@@ -304,12 +304,15 @@ class CompletionCriteriaFactory:
         # Look for documentation context first
         doc_keywords = ["documentation", "document", "write", "readme", "guide", "tutorial", "docs"]
         doc_contexts = ["write", "create", "draft", "prepare"]
-        
+
         # If description contains doc keywords AND doc contexts, it's documentation
         has_doc_keyword = any(keyword in desc_lower for keyword in doc_keywords)
         has_doc_context = any(context in desc_lower for context in doc_contexts)
-        
-        if has_doc_keyword or (has_doc_context and ("guide" in desc_lower or "readme" in desc_lower or "tutorial" in desc_lower)):
+
+        if has_doc_keyword or (
+            has_doc_context
+            and ("guide" in desc_lower or "readme" in desc_lower or "tutorial" in desc_lower)
+        ):
             return "documentation"
 
         # Check for research keywords
@@ -325,7 +328,10 @@ class CompletionCriteriaFactory:
             if "documentation" in desc_lower or "document" in desc_lower or "guide" in desc_lower:
                 return "documentation"
             # Otherwise, if it has implementation keywords, it's code
-            if any(keyword in desc_lower for keyword in ["implement", "code", "function", "class", "endpoint"]):
+            if any(
+                keyword in desc_lower
+                for keyword in ["implement", "code", "function", "class", "endpoint"]
+            ):
                 return "code_implementation"
         elif any(keyword in desc_lower for keyword in code_keywords):
             return "code_implementation"

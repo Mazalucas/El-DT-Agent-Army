@@ -56,9 +56,7 @@ class BrandGuardian(Agent):
 
         super().__init__(config, llm_provider)
 
-    async def review_brand_compliance(
-        self, content: Any, content_type: str
-    ) -> Dict[str, Any]:
+    async def review_brand_compliance(self, content: Any, content_type: str) -> Dict[str, Any]:
         """
         Review content for brand compliance.
 
@@ -160,9 +158,7 @@ Provide:
             "report": report,
         }
 
-    async def _process_message(
-        self, message: AgentMessage
-    ) -> Optional[AgentMessage]:
+    async def _process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """
         Process incoming message.
 

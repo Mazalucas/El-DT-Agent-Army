@@ -8,7 +8,7 @@ from agents_army.cost.tracker import CostTracker
 class CostEstimator:
     """
     Estimates costs for planned LLM usage.
-    
+
     Helps predict costs before execution.
     """
 
@@ -61,9 +61,7 @@ class CostEstimator:
         for task in tasks:
             input_tokens = task.get("input_tokens", 0)
             output_tokens = task.get("output_tokens", 0)
-            total_cost += self.cost_tracker.calculate_cost(
-                model, input_tokens, output_tokens
-            )
+            total_cost += self.cost_tracker.calculate_cost(model, input_tokens, output_tokens)
         return total_cost
 
     def estimate_project_cost(
@@ -85,9 +83,7 @@ class CostEstimator:
         Returns:
             Dictionary with cost breakdown
         """
-        cost_per_task = self.cost_tracker.calculate_cost(
-            model, avg_input_tokens, avg_output_tokens
-        )
+        cost_per_task = self.cost_tracker.calculate_cost(model, avg_input_tokens, avg_output_tokens)
         total_cost = cost_per_task * num_tasks
 
         return {
@@ -118,9 +114,7 @@ class CostEstimator:
         best_cost = float("inf")
 
         for model in CostTracker.MODEL_PRICING.keys():
-            cost = self.cost_tracker.calculate_cost(
-                model, input_tokens, output_tokens
-            )
+            cost = self.cost_tracker.calculate_cost(model, input_tokens, output_tokens)
 
             if budget and cost > budget:
                 continue

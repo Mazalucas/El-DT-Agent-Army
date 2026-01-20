@@ -45,7 +45,7 @@ class EmbeddingProvider(ABC):
 class MockEmbeddings(EmbeddingProvider):
     """
     Mock embedding provider for testing and development.
-    
+
     Generates simple hash-based embeddings without external dependencies.
     """
 
@@ -110,7 +110,7 @@ class MockEmbeddings(EmbeddingProvider):
 class OpenAIEmbeddings(EmbeddingProvider):
     """
     OpenAI embedding provider.
-    
+
     Requires openai package and OPENAI_API_KEY environment variable.
     """
 
@@ -160,9 +160,7 @@ class OpenAIEmbeddings(EmbeddingProvider):
             return response.data[0].embedding
 
         except ImportError:
-            raise ImportError(
-                "openai package required. Install with: pip install openai"
-            )
+            raise ImportError("openai package required. Install with: pip install openai")
 
     async def embed_batch(self, texts: List[str]) -> List[List[float]]:
         """

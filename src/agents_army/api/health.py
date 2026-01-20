@@ -24,9 +24,7 @@ def create_app() -> "FastAPI":
         ImportError: If FastAPI is not installed
     """
     if not FASTAPI_AVAILABLE:
-        raise ImportError(
-            "FastAPI not installed. Install with: pip install fastapi uvicorn"
-        )
+        raise ImportError("FastAPI not installed. Install with: pip install fastapi uvicorn")
 
     app = FastAPI(title="Agents_Army API", version="1.0.0")
 

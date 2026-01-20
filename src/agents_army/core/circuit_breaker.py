@@ -192,9 +192,7 @@ class TaskCircuitBreaker:
 
         return (False, "")
 
-    def record_iteration(
-        self, task_id: str, has_progress: bool, errors: List[str]
-    ) -> None:
+    def record_iteration(self, task_id: str, has_progress: bool, errors: List[str]) -> None:
         """
         Record an iteration for circuit breaker tracking.
 

@@ -56,9 +56,7 @@ class FeedbackSynthesizer(Agent):
 
         super().__init__(config, llm_provider)
 
-    async def collect_feedback(
-        self, sources: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+    async def collect_feedback(self, sources: List[Dict[str, Any]]) -> Dict[str, Any]:
         """
         Collect feedback from multiple sources.
 
@@ -88,9 +86,7 @@ Provide:
             "sentiment": "neutral",
         }
 
-    async def synthesize(
-        self, feedback: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def synthesize(self, feedback: Dict[str, Any]) -> Dict[str, Any]:
         """
         Synthesize feedback into actionable insights.
 
@@ -121,9 +117,7 @@ Provide:
             "recommendations": [],
         }
 
-    async def _process_message(
-        self, message: AgentMessage
-    ) -> Optional[AgentMessage]:
+    async def _process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """
         Process incoming message.
 

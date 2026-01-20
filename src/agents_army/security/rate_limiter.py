@@ -8,7 +8,7 @@ from typing import Dict, Optional
 class RateLimiter:
     """
     Rate limiter for API and agent actions.
-    
+
     Prevents abuse by limiting requests per time window.
     """
 
@@ -71,9 +71,7 @@ class RateLimiter:
         # Clean old requests
         cutoff = now - window
         self.requests[identifier] = [
-            req_time
-            for req_time in self.requests[identifier]
-            if req_time > cutoff
+            req_time for req_time in self.requests[identifier] if req_time > cutoff
         ]
 
         # Check limit
@@ -103,9 +101,7 @@ class RateLimiter:
         # Clean old requests
         cutoff = now - window
         self.requests[identifier] = [
-            req_time
-            for req_time in self.requests[identifier]
-            if req_time > cutoff
+            req_time for req_time in self.requests[identifier] if req_time > cutoff
         ]
 
         return max(0, limit - len(self.requests[identifier]))

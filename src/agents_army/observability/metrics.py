@@ -8,7 +8,7 @@ from typing import Any, Dict, List, Optional
 class MetricsCollector:
     """
     Collects and aggregates metrics from agents and system.
-    
+
     Tracks LLM calls, task execution, agent performance, and system health.
     """
 
@@ -138,12 +138,10 @@ class MetricsCollector:
         if time_window:
             cutoff = datetime.now() - time_window
             filtered_llm = [
-                c for c in self.llm_calls
-                if datetime.fromisoformat(c["timestamp"]) >= cutoff
+                c for c in self.llm_calls if datetime.fromisoformat(c["timestamp"]) >= cutoff
             ]
             filtered_tasks = [
-                t for t in self.task_events
-                if datetime.fromisoformat(t["timestamp"]) >= cutoff
+                t for t in self.task_events if datetime.fromisoformat(t["timestamp"]) >= cutoff
             ]
         else:
             filtered_llm = self.llm_calls
@@ -160,9 +158,7 @@ class MetricsCollector:
         )
 
         total_tasks = len(filtered_tasks)
-        completed_tasks = sum(
-            1 for t in filtered_tasks if t.get("event") == "completed"
-        )
+        completed_tasks = sum(1 for t in filtered_tasks if t.get("event") == "completed")
 
         return {
             "uptime_seconds": (datetime.now() - self.start_time).total_seconds(),
@@ -176,9 +172,7 @@ class MetricsCollector:
             "tasks": {
                 "total": total_tasks,
                 "completed": completed_tasks,
-                "completion_rate": (
-                    completed_tasks / total_tasks if total_tasks > 0 else 0
-                ),
+                "completion_rate": (completed_tasks / total_tasks if total_tasks > 0 else 0),
             },
             "agent_actions": {
                 "total": len(self.agent_actions),
@@ -197,12 +191,8 @@ class MetricsCollector:
             Agent-specific metrics
         """
         agent_llm_calls = [c for c in self.llm_calls if c["agent_id"] == agent_id]
-        agent_tasks = [
-            t for t in self.task_events if t.get("agent_id") == agent_id
-        ]
-        agent_actions = [
-            a for a in self.agent_actions if a["agent_id"] == agent_id
-        ]
+        agent_tasks = [t for t in self.task_events if t.get("agent_id") == agent_id]
+        agent_actions = [a for a in self.agent_actions if a["agent_id"] == agent_id]
 
         return {
             "agent_id": agent_id,

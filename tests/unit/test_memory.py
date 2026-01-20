@@ -269,9 +269,7 @@ class TestMemorySystem:
         system = MemorySystem(backend)
 
         # Store with short TTL
-        await system.store(
-            "expired", "value", memory_type="session", ttl=timedelta(seconds=-1)
-        )
+        await system.store("expired", "value", memory_type="session", ttl=timedelta(seconds=-1))
         await system.store("valid", "value", memory_type="task")
 
         deleted = await system.cleanup_expired()

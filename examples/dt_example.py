@@ -21,7 +21,7 @@ class MockLLMProvider(LLMProvider):
     async def generate(self, prompt: str, **kwargs: Any) -> str:
         """Generate mock response."""
         if "PRD" in prompt or "parse" in prompt.lower():
-            return '''[
+            return """[
   {
     "title": "Implement User Authentication",
     "description": "Create login and registration system",
@@ -40,7 +40,7 @@ class MockLLMProvider(LLMProvider):
     "priority": 3,
     "tags": ["documentation"]
   }
-]'''
+]"""
         return "Mock response"
 
 

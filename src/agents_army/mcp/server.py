@@ -9,7 +9,7 @@ from agents_army.protocol.types import AgentRole
 class MCPServer:
     """
     MCP Server for registering and managing MCP tools and resources.
-    
+
     Allows El DT to register tools and resources that can be accessed
     by specific agents via the MCP protocol.
     """
@@ -89,15 +89,11 @@ class MCPServer:
 
         # Check access permissions
         if tool.accessible_by and agent_role not in tool.accessible_by:
-            raise ValueError(
-                f"Agent {agent_role.value} does not have access to tool {tool_name}"
-            )
+            raise ValueError(f"Agent {agent_role.value} does not have access to tool {tool_name}")
 
         return await tool.execute(params)
 
-    async def read_resource(
-        self, resource_uri: str, agent_role: AgentRole
-    ) -> Any:
+    async def read_resource(self, resource_uri: str, agent_role: AgentRole) -> Any:
         """
         Read an MCP resource.
 
@@ -143,9 +139,7 @@ class MCPServer:
             if not tool.accessible_by or agent_role in tool.accessible_by
         ]
 
-    def get_resources(
-        self, agent_role: Optional[AgentRole] = None
-    ) -> List[MCPResource]:
+    def get_resources(self, agent_role: Optional[AgentRole] = None) -> List[MCPResource]:
         """
         Get available resources for an agent.
 

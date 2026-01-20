@@ -47,11 +47,9 @@ class TestTaskCircuitBreaker:
             agent_output="",
             errors=[],
         )
-        
-        result = circuit_breaker.check_should_continue(
-            "test_task", 2, progress_tracker
-        )
-        
+
+        result = circuit_breaker.check_should_continue("test_task", 2, progress_tracker)
+
         assert result.should_continue is True
         assert result.state == CircuitState.CLOSED.value
 
@@ -67,11 +65,9 @@ class TestTaskCircuitBreaker:
                 agent_output="",
                 errors=[],
             )
-        
-        result = circuit_breaker.check_should_continue(
-            "test_task", 4, progress_tracker
-        )
-        
+
+        result = circuit_breaker.check_should_continue("test_task", 4, progress_tracker)
+
         assert result.should_continue is False
         assert result.state == CircuitState.OPEN.value
         assert "no progress" in result.reason.lower()
@@ -88,18 +84,16 @@ class TestTaskCircuitBreaker:
                 agent_output="",
                 errors=["Same error"],
             )
-        
-        result = circuit_breaker.check_should_continue(
-            "test_task", 6, progress_tracker
-        )
-        
+
+        result = circuit_breaker.check_should_continue("test_task", 6, progress_tracker)
+
         # Should open due to repeated errors
         assert result.should_continue is False
 
     def test_is_open(self, circuit_breaker, progress_tracker):
         """Test checking if circuit is open."""
         assert circuit_breaker.is_open("test_task") is False
-        
+
         # Open circuit
         for i in range(1, 4):
             progress_tracker.record_iteration(
@@ -110,9 +104,9 @@ class TestTaskCircuitBreaker:
                 agent_output="",
                 errors=[],
             )
-        
+
         circuit_breaker.check_should_continue("test_task", 4, progress_tracker)
-        
+
         assert circuit_breaker.is_open("test_task") is True
 
     def test_reset(self, circuit_breaker, progress_tracker):
@@ -127,10 +121,10 @@ class TestTaskCircuitBreaker:
                 agent_output="",
                 errors=[],
             )
-        
+
         circuit_breaker.check_should_continue("test_task", 4, progress_tracker)
         assert circuit_breaker.is_open("test_task") is True
-        
+
         # Reset
         circuit_breaker.reset("test_task")
         assert circuit_breaker.is_open("test_task") is False
@@ -139,7 +133,7 @@ class TestTaskCircuitBreaker:
         """Test strict mode uses stricter thresholds."""
         normal_breaker = TaskCircuitBreaker(strict_mode=False)
         strict_breaker = TaskCircuitBreaker(strict_mode=True)
-        
+
         # Strict mode should have lower thresholds
         assert strict_breaker.no_progress_threshold <= normal_breaker.no_progress_threshold
         assert strict_breaker.same_error_threshold <= normal_breaker.same_error_threshold
@@ -151,6 +145,6 @@ class TestTaskCircuitBreaker:
             has_progress=True,
             errors=[],
         )
-        
+
         # Should not raise exception
         assert True

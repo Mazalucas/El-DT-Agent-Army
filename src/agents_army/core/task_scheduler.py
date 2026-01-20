@@ -9,7 +9,7 @@ from agents_army.core.models import Task
 class TaskScheduler:
     """
     Intelligent task scheduler that optimizes task execution order.
-    
+
     Considers dependencies, priorities, resource availability,
     and deadlines to create optimal execution schedules.
     """
@@ -53,16 +53,11 @@ class TaskScheduler:
 
                 # Check if any dependent tasks are now ready
                 for other_task in tasks:
-                    if (
-                        task.id in other_task.dependencies
-                        and other_task.id not in scheduled_ids
-                    ):
+                    if task.id in other_task.dependencies and other_task.id not in scheduled_ids:
                         other_task.remove_dependency(task.id)
                         if other_task.is_ready():
                             ready_tasks.append(other_task)
-                            ready_tasks.sort(
-                                key=lambda t: t.priority, reverse=True
-                            )
+                            ready_tasks.sort(key=lambda t: t.priority, reverse=True)
 
         # Add any remaining tasks (may have circular dependencies)
         for task in tasks:
